@@ -34,19 +34,6 @@ for (var i = 0; i < NUM_IMAGES; i++) {
     DATA.push({id: util.getRandomId(), title: "Item " + i, image_url: `https://i.picsum.photos/id/${i+1}/200/300.jpg`});
 }
 
-// const [selected, setSelected] = React.useState(new Map());
-
-/*
-const onSelect = React.useCallback(
-    id => {
-	const newSelected = new Map(selected);
-	newSelected.set(id, !selected.get(id));
-	setSelected(newSelected);
-    },
-    [selected],
-);
-*/
-
 const fetchImages = () => {
     const urls = [
 	"https://source.unsplash.com/random/100x100/",
@@ -63,7 +50,6 @@ const fetchImages = () => {
 };
 
 const Item = ({ id, title, image_url, selected, onSelect }) => {
-    
     return (
       <View style={{flex: 1, flexDirection: 'row', width: 360}}>
         <Image
@@ -87,7 +73,6 @@ const Item = ({ id, title, image_url, selected, onSelect }) => {
 };
 
 const Landing = ({ navigation }) => {
-    // fetchImages().then(responses => console.log("URLS: ", responses));
     const [selected, setSelected] = React.useState(new Map());
 
     const onSelect = React.useCallback(
@@ -101,7 +86,6 @@ const Landing = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
-	<Text style={styles.header}>FlatList Test</Text>
         <View style = {{flexDirection: 'row'}}>
           {getAvailableRoutes(navigation).map(route => (
 	  <TouchableOpacity
@@ -148,16 +132,6 @@ const styles = StyleSheet.create({
     },
     title: {
 	fontSize: 16,
-    },
-    header: {
-	fontFamily: 'Verdana',
-	color: 'black',
-	alignSelf: 'stretch',
-	textAlign: 'center',
-	padding: 5,
-	marginBottom: 5,
-	fontSize: 20,
-	backgroundColor: "#ffa"
     },
     flatlist: {
 	alignItems: 'stretch',
