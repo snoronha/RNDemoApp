@@ -11,6 +11,7 @@ import Example from "./screens/Example";
 import Landing from "./screens/Landing";
 import NativeList from "./screens/NativeList";
 import WebViewExample from "./screens/WebViewExample";
+import InfiniteScrollExample from "./screens/InfiniteScrollExample";
 
 const FlatListStack = createStackNavigator({
     Landing: {
@@ -20,6 +21,16 @@ const FlatListStack = createStackNavigator({
 	}
     },
 });
+
+const InfiniteScrollStack = createStackNavigator({
+    InfiniteScroll: {
+	screen: InfiniteScrollExample,
+	navigationOptions: {
+	    headerTitle: "Infinite Scroll Example"
+	}
+    },
+});
+
 
 const WebViewStack = createStackNavigator({
     WebView: {
@@ -90,12 +101,15 @@ const App = createSwitchNavigator({
     FlatList: {
 	    screen: FlatListStack
     },
+    InfiniteScroll: {
+	screen: InfiniteScrollStack
+    },
     App: {
 	screen: AppModalStack
     },
     WebView: {
 	screen: WebViewStack
-    }
+    },
 });
 
 export default createAppContainer(App);
