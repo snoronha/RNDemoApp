@@ -86,22 +86,6 @@ const Landing = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
-        <View style = {{flexDirection: 'row'}}>
-          {getAvailableRoutes(navigation).map(route => (
-	  <TouchableOpacity
-	    onPress = {() => navigation.navigate(route)}
-	    key     = {route}
-	    style   = {{
-              backgroundColor: "#fff",
-              padding: 10,
-              margin: 10,
-              borderRadius: 10,
-	    }}
-	    >
-	    <Text style = {{alignSelf: "center"}}>{route}</Text>
-	  </TouchableOpacity>
-          ))}
-	</View>
 	<FlatList
           styles     = {styles.flatlist}
           data       = {DATA}

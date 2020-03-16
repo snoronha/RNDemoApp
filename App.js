@@ -48,12 +48,30 @@ const FeedStack = createStackNavigator({
 	    headerTitle: "Feed"
 	}
     },
-    RNMap: {
+    MapView: {
 	screen: NativeList,
 	navigationOptions: {
 	    headerTitle: "Map Native Module"
 	}
-    }
+    },
+    FlatList: {
+	screen: Landing,
+	navigationOptions: {
+	    headerTitle: "FlatList"
+	}
+    },
+    InfiniteScroll: {
+	screen: InfiniteScrollExample,
+	navigationOptions: {
+	    headerTitle: "Infinite Scroll"
+	}
+    },
+    WebView: {
+	screen: WebViewExample,
+	navigationOptions: {
+	    headerTitle: "WebView Example"
+	}
+    },
 });
 
 const SearchStack = createStackNavigator({
@@ -98,18 +116,22 @@ const App = createSwitchNavigator({
     Loading: {
 	screen: Example
     },
+    /*
     FlatList: {
 	    screen: FlatListStack
     },
     InfiniteScroll: {
 	screen: InfiniteScrollStack
     },
+    */
     App: {
 	screen: AppModalStack
     },
+    /*
     WebView: {
 	screen: WebViewStack
     },
+    */
 });
 
 export default createAppContainer(App);

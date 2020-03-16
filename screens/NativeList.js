@@ -20,8 +20,8 @@ const NativeList = ({ navigation }) => {
 	}
     });
     var region = {
-	latitude: 37.39,
-	longitude: -122.16,
+	latitude: 37.36,
+	longitude: -122.05,
 	latitudeDelta: 0.0922,
 	longitudeDelta: 0.0421,
     };

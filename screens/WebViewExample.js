@@ -10,22 +10,6 @@ import {
 import { WebView } from 'react-native-webview';
 import util from "../util/util.js";
 
-const getAvailableRoutes = navigation => {
-    let availableRoutes = [];
-    if (!navigation) return availableRoutes;
-    const parent = navigation.dangerouslyGetParent();
-    if (parent) {
-	if (parent.router && parent.router.childRouters) {
-	    availableRoutes = [...availableRoutes, ...Object.keys(parent.router.childRouters)];
-	}
-	availableRoutes = [...availableRoutes, ...getAvailableRoutes(parent)];
-    }
-    // De-dupe the list and then remove the current route from the list
-    return [...new Set(availableRoutes)].filter(
-	route => route !== navigation.state.routeName
-    );
-};
-
 const WebViewExample = ({ navigation }) => {
     // hook to set url
     let webview = null;
@@ -38,18 +22,7 @@ const WebViewExample = ({ navigation }) => {
 
     return (
       <View style={styles.container}>
-        <View style = {{flexDirection: 'row'}}>
-          {getAvailableRoutes(navigation).map(route => (
-	  <TouchableOpacity
-	    onPress = {() => navigation.navigate(route)}
-	    key     = {route}
-	    style   = {styles.nav_pill}
-	    >
-	    <Text style = {{alignSelf: "center"}}>{route}</Text>
-	  </TouchableOpacity>
-          ))}
-	</View>
-	<View style = {{flexDirection: 'row'}}>
+        <View style = {{flexDirection: 'row', marginTop: 8}}>
 	  <TextInput
             style = {[
             styles.text_input,

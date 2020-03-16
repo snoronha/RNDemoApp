@@ -11,24 +11,6 @@ import {
 } from 'react-native'
 var randomWords = require('random-words');
 
-const getAvailableRoutes = navigation => {
-    let availableRoutes = []
-    if (!navigation) return availableRoutes
-    const parent = navigation.dangerouslyGetParent()
-    if (parent) {
-	if (parent.router && parent.router.childRouters) {
-	    // Grab all the routes the parent defines and add it the list
-	    availableRoutes = [...availableRoutes, ...Object.keys(parent.router.childRouters)]
-	}
-	// Recursively work up the tree until there are none left
-	availableRoutes = [...availableRoutes, ...getAvailableRoutes(parent)]
-    }
-    // De-dupe the list and then remove the current route from the list
-    return [...new Set(availableRoutes)].filter(
-	route => route !== navigation.state.routeName
-    ) 
-}
-
 const useInfiniteScroll = load => {
     const [isFetching, setIsFetching] = useState(true)
     const [data, setData] = useState([])
@@ -98,50 +80,31 @@ const InfiniteScrollExample = ({ navigation }) => {
 
     return (
       <SafeAreaView style={styles.container}>
-	<View style = {{flexDirection: 'row'}}>
-          {getAvailableRoutes(navigation).map(route => (
-          <TouchableOpacity
-            onPress = {() => navigation.navigate(route)}
-            key     = {route}
-            style   = {{
-              backgroundColor: "#fff",
-              padding: 6,
-              margin: 6,
-              borderRadius: 10,
-	      borderColor: '#aaa',
-	      borderWidth: 1,
-            }}
-            >
-            <Text style = {{alignSelf: "center"}}>{route}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <View style={styles.blueBox}>
-        <Text style={styles.bigWhiteBoldText}>
-          {`${data.length} Items Loaded`}
-        </Text>
-      </View>
-      <FlatList
-        onEndReachedThreshold={3}
-        onEndReached={() => {
-          if (!isFetching) {
-            setIsFetching(true)
-          }
-        }}
-        data={data}
-        keyExtractor = {item => item.id}
-        renderItem={({ item }) => {
-          return <Item item={item} />
-        }}
-      />
-      {isFetching && (
         <View style={styles.blueBox}>
-          <Text style={styles.bigWhiteBoldText}>(Fetching More)</Text>
+          <Text style={styles.bigWhiteBoldText}>
+            {`${data.length} Items Loaded`}
+          </Text>
         </View>
-      )}
-    </SafeAreaView>
-  )
+        <FlatList
+          onEndReachedThreshold={3}
+          onEndReached={() => {
+            if (!isFetching) {
+              setIsFetching(true)
+            }
+          }}
+          data={data}
+          keyExtractor = {item => item.id}
+          renderItem={({ item }) => {
+            return <Item item={item} />
+          }}
+        />
+        {isFetching && (
+          <View style={styles.blueBox}>
+            <Text style={styles.bigWhiteBoldText}>(Fetching More)</Text>
+          </View>
+        )}
+      </SafeAreaView>
+    )
 }
 
 class Item extends React.PureComponent {
