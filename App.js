@@ -7,93 +7,50 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createDrawerNavigator } from "react-navigation-drawer";
 
-import Example from "./screens/Example";
-import Landing from "./screens/Landing";
-import NativeList from "./screens/NativeList";
-import WebViewExample from "./screens/WebViewExample";
-import InfiniteScrollExample from "./screens/InfiniteScrollExample";
+import MenuScreen from "./screens/MenuScreen";
+import FlatListScreen from "./screens/FlatListScreen";
+import MapViewScreen from "./screens/MapViewScreen";
+import WebViewScreen from "./screens/WebViewScreen";
+import InfiniteScrollScreen from "./screens/InfiniteScrollScreen";
 
-const FlatListStack = createStackNavigator({
-    Landing: {
-	screen: Landing,
+const FeedStack = createStackNavigator({
+    Menu: {
+	screen: MenuScreen,
 	navigationOptions: {
-	    headerTitle: "Landing"
+	    headerTitle: "Menu"
 	}
     },
-});
-
-const InfiniteScrollStack = createStackNavigator({
+    MapView: {
+	screen: MapViewScreen,
+	navigationOptions: {
+	    headerTitle: "MapView Example"
+	}
+    },
+    FlatList: {
+	screen: FlatListScreen,
+	navigationOptions: {
+	    headerTitle: "FlatList Example"
+	}
+    },
     InfiniteScroll: {
-	screen: InfiniteScrollExample,
+	screen: InfiniteScrollScreen,
 	navigationOptions: {
 	    headerTitle: "Infinite Scroll Example"
 	}
     },
-});
-
-
-const WebViewStack = createStackNavigator({
     WebView: {
-	screen: WebViewExample,
+	screen: WebViewScreen,
 	navigationOptions: {
 	    headerTitle: "WebView Example"
 	}
     },
-});
-
-const FeedStack = createStackNavigator({
-    Feed: {
-	screen: Example,
-	navigationOptions: {
-	    headerTitle: "Feed"
-	}
-    },
-    MapView: {
-	screen: NativeList,
-	navigationOptions: {
-	    headerTitle: "Map Native Module"
-	}
-    },
-    FlatList: {
-	screen: Landing,
-	navigationOptions: {
-	    headerTitle: "FlatList"
-	}
-    },
-    InfiniteScroll: {
-	screen: InfiniteScrollExample,
-	navigationOptions: {
-	    headerTitle: "Infinite Scroll"
-	}
-    },
-    WebView: {
-	screen: WebViewExample,
-	navigationOptions: {
-	    headerTitle: "WebView Example"
-	}
-    },
-});
-
-const SearchStack = createStackNavigator({
-    Search: {
-	screen: Example,
-	navigationOptions: {
-	    headerTitle: "Search"
-	}
-    },
-    Details: {
-	screen: Example,
-	navigationOptions: {
-	    headerTitle: "Details"
-	}
-    }
 });
 
 const MainTabs = createBottomTabNavigator({
-    Feed: {
+    Main: {
 	screen: FeedStack,
 	navigationOptions: {
-	    tabBarLabel: "Feed"
+	    tabBarLabel: "Main"
 	}
     },
 });
@@ -102,9 +59,9 @@ const MainDrawer = createDrawerNavigator({
     MainTabs: MainTabs,
 });
 
-const AppModalStack = createStackNavigator(
+const StartModalStack = createStackNavigator(
     {
-	App: MainDrawer,
+	Start: MainDrawer,
     },
     {
 	mode: "modal",
@@ -113,25 +70,12 @@ const AppModalStack = createStackNavigator(
 );
 
 const App = createSwitchNavigator({
-    Loading: {
-	screen: Example
+    Back: {
+	screen: MenuScreen
     },
-    /*
-    FlatList: {
-	    screen: FlatListStack
+    Start: {
+	screen: StartModalStack
     },
-    InfiniteScroll: {
-	screen: InfiniteScrollStack
-    },
-    */
-    App: {
-	screen: AppModalStack
-    },
-    /*
-    WebView: {
-	screen: WebViewStack
-    },
-    */
 });
 
 export default createAppContainer(App);

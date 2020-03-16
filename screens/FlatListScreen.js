@@ -10,44 +10,11 @@ import {
 } from "react-native";
 import util from "../util/util.js";
 
-const getAvailableRoutes = navigation => {
-    let availableRoutes = [];
-    if (!navigation) return availableRoutes;
-    const parent = navigation.dangerouslyGetParent();
-    if (parent) {
-	if (parent.router && parent.router.childRouters) {
-	    // Grab all the routes the parent defines and add it the list
-	    availableRoutes = [...availableRoutes, ...Object.keys(parent.router.childRouters)];
-	}
-	// Recursively work up the tree until there are none left
-	availableRoutes = [...availableRoutes, ...getAvailableRoutes(parent)];
-    }
-    // De-dupe the list and then remove the current route from the list
-    return [...new Set(availableRoutes)].filter(
-	route => route !== navigation.state.routeName
-    );
-};
-
 const NUM_IMAGES = 50;
 const DATA = [];
 for (var i = 0; i < NUM_IMAGES; i++) {
     DATA.push({id: util.getRandomId(), title: "Item " + i, image_url: `https://i.picsum.photos/id/${i+1}/100/100.jpg`});
 }
-
-const fetchImages = () => {
-    const urls = [
-	"https://source.unsplash.com/random/100x100/",
-	"https://source.unsplash.com/user/erondu/100x100",
-	"https://source.unsplash.com/collection/190727/100x100",
-	"https://i.picsum.photos/id/1/100/100",
-	"https://i.picsum.photos/id/5/100/100",
-	"https://i.picsum.photos/id/10/100/100",
-    ];
-    const allRequests = urls.map(
-	url => fetch(url).then(response => response.url)
-    );
-    return Promise.all(allRequests);
-};
 
 const Item = ({ id, title, image_url, selected, onSelect }) => {
     return (
@@ -72,7 +39,7 @@ const Item = ({ id, title, image_url, selected, onSelect }) => {
     );
 };
 
-const Landing = ({ navigation }) => {
+const FlatListScreen = ({ navigation }) => {
     const [selected, setSelected] = React.useState(new Map());
 
     const onSelect = React.useCallback(
@@ -156,4 +123,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Landing;
+export default FlatListScreen;

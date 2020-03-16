@@ -26,7 +26,7 @@ const getAvailableRoutes = navigation => {
   );
 };
 
-const Example = ({ navigation }) => {
+const MenuScreen = ({ navigation }) => {
   var randColor =  util.getRandomColor();
   return (
     <View
@@ -55,4 +55,4 @@ const Example = ({ navigation }) => {
   );
 };
 
-export default Example;
+export default MenuScreen;

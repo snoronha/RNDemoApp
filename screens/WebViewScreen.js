@@ -10,7 +10,7 @@ import {
 import { WebView } from 'react-native-webview';
 import util from "../util/util.js";
 
-const WebViewExample = ({ navigation }) => {
+const WebViewScreen = ({ navigation }) => {
     // hook to set url
     let webview = null;
     const [url, setUrl] = useState('');
@@ -92,4 +92,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default WebViewExample;
+export default WebViewScreen;

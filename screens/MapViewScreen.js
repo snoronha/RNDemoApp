@@ -8,7 +8,7 @@ import {
 import MapView from "react-native-maps";
 import util from "../util/util.js";
 
-const NativeList = ({ navigation }) => {
+const MapViewScreen = ({ navigation }) => {
     var CalendarManager = NativeModules.CalendarManager;
     // CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey');
     CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey', (new Date()).getTime());
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default NativeList;
+export default MapViewScreen;
