@@ -9,7 +9,7 @@ import {
     Text,
     Dimensions
 } from 'react-native'
-var randomWords = require('random-words');
+import randomWords from 'random-words';
 
 const useInfiniteScroll = load => {
     const [isFetching, setIsFetching] = useState(true)

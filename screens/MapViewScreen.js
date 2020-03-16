@@ -3,7 +3,8 @@ import {
     View,
     StyleSheet,
     Text,
-    NativeModules
+    NativeModules,
+    Dimensions
 } from "react-native";
 import MapView from "react-native-maps";
 import util from "../util/util.js";
@@ -27,10 +28,10 @@ const MapViewScreen = ({ navigation }) => {
     };
     return (
       <View style={styles.container}>
-        <MapView 
+        <MapView
           region={region}
           zoomEnabled={true}
-          style={{ borderColor: "#f80", borderRadius: 10, borderWidth: 2, marginTop: 10, width: 360, height: 400}}
+          style = {styles.map}
           onRegionChange={this.onRegionChange}
           />
       </View>
@@ -58,19 +59,14 @@ const styles = StyleSheet.create({
 	fontSize: 20,
 	backgroundColor: "#ffa"
     },
-    flatlist: {
-	width: 360,
-	alignItems: 'stretch',
-    },
-    item_text: {
-	fontFamily: 'Verdana',
-	color: 'black',
-	textAlign: 'left',
-	padding: 5,
-	marginBottom: 1,
-	fontSize: 14,
-	backgroundColor: "#ddd"
-    },
+    map: {
+	borderColor: "#f80",
+	borderRadius: 10,
+	borderWidth: 2,
+	marginTop: 10,
+	width: Dimensions.get('window').width * 0.960,
+	height: Dimensions.get('window').height * 0.700,
+    }
 });
 
 export default MapViewScreen;
