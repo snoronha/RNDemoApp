@@ -5150,6 +5150,11 @@ query-string@^6.11.0:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
+random-words@^1.1.0:
+  version "1.1.0"
+  resolved "https://npme.walmart.com/random-words/-/random-words-1.1.0.tgz#d42f9775d14ef5c58fd255968158303e1daa0a22"
+  integrity sha512-GyV8PlSmQE08S/RSCjG9Uh0uQaUC7iRpA18PWk9OSnvNCzKQ+B2NxqqN/cYBej4t7dfBWxh10KFBYSiNcg1jlg==
+
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://npme.walmart.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"

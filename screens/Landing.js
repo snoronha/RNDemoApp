@@ -31,7 +31,7 @@ const getAvailableRoutes = navigation => {
 const NUM_IMAGES = 50;
 const DATA = [];
 for (var i = 0; i < NUM_IMAGES; i++) {
-    DATA.push({id: util.getRandomId(), title: "Item " + i, image_url: `https://i.picsum.photos/id/${i+1}/200/300.jpg`});
+    DATA.push({id: util.getRandomId(), title: "Item " + i, image_url: `https://i.picsum.photos/id/${i+1}/100/100.jpg`});
 }
 
 const fetchImages = () => {
