@@ -1,6 +1,7 @@
 import React from "react";
 import { 
     View,
+    SafeAreaView,
     StyleSheet,
     Text,
     NativeModules,
@@ -27,14 +28,16 @@ const MapViewScreen = ({ navigation }) => {
 	longitudeDelta: 0.0421,
     };
     return (
-      <View style={styles.container}>
-        <MapView
-          region={region}
-          zoomEnabled={true}
-          style = {styles.map}
-          onRegionChange={this.onRegionChange}
-          />
-      </View>
+      <SafeAreaView style={styles.container}>	
+        <View>
+          <MapView
+            region={region}
+            zoomEnabled={true}
+            style = {styles.map}
+            onRegionChange={this.onRegionChange}
+            />
+        </View>
+      </SafeAreaView>
     );
 };
 

@@ -52,24 +52,26 @@ const FlatListScreen = ({ navigation }) => {
     );
 
     return (
-      <View style={styles.container}>
-	<FlatList
-          styles     = {styles.flatlist}
-          data       = {DATA}
-          numColumns = {1}
-          renderItem = {({ item }) => (
-            <Item
-              id        = {item.id}
-              title     = {item.title}
-              image_url = {item.image_url}
-              selected  = {!!selected.get(item.id)}
-	      onSelect  = {onSelect}
-             />
-          )}
-          keyExtractor = {item => item.id}
-          extraData={false}
-	  />
-      </View>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={styles.container}>
+          <FlatList
+            styles     = {styles.flatlist}
+            data       = {DATA}
+            numColumns = {1}
+            renderItem = {({ item }) => (
+              <Item
+                id        = {item.id}
+                title     = {item.title}
+                image_url = {item.image_url}
+                selected  = {!!selected.get(item.id)}
+                onSelect  = {onSelect}
+               />
+            )}
+            keyExtractor = {item => item.id}
+            extraData={false}
+          />
+        </View>
+      </SafeAreaView>	    
     );
 };
 

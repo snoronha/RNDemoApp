@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
-    SafeAreaView,
     View,
+    SafeAreaView,
     FlatList,
     TouchableOpacity,
     StyleSheet,

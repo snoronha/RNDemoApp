@@ -6,6 +6,7 @@ import {
     Text,
     TextInput,
     View,
+    SafeAreaView,
 } from "react-native";
 import { WebView } from 'react-native-webview';
 import util from "../util/util.js";
@@ -21,7 +22,7 @@ const WebViewScreen = ({ navigation }) => {
     }
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style = {{flexDirection: 'row', marginTop: 8}}>
 	  <TextInput
             style = {[
@@ -54,7 +55,7 @@ const WebViewScreen = ({ navigation }) => {
             source = {{ uri: 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359' }} 
             />
 	</View>
-      </View>
+      </SafeAreaView>
     );
 };
 
