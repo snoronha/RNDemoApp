@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import MenuScreen from "./screens/MenuScreen";
+import HomeScreen from "./screens/HomeScreen";
 import FlatListScreen from "./screens/FlatListScreen";
 import MapViewScreen from "./screens/MapViewScreen";
 import WebViewScreen from "./screens/WebViewScreen";
@@ -22,7 +23,7 @@ function App() {
 	    screenOptions={({ route }) => ({
 		tabBarIcon: ({ focused, color, size }) => {
 		    let iconName;
-		    if (route.name === 'Menu') {
+		    if (route.name === 'Home') {
 			iconName = focused ? 'home' : 'home';
 		    } else if (route.name === 'FlatList') {
 			iconName = focused ? 'heart' : 'heart-o';
@@ -42,7 +43,7 @@ function App() {
 	      tabStyle: { borderRightColor: "#eee", borderRightWidth: 1}
             }}
 	    >
-            <Tab.Screen name="Menu" component={MenuScreen} />
+            <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="FlatList" component={FlatListScreen} />
             <Tab.Screen name="IScroll" component={InfiniteScrollScreen} />
             <Tab.Screen name="MapView" component={MapViewScreen} />
