@@ -45,7 +45,7 @@ const useInfiniteScroll = load => {
 const INITIAL_LOAD = 25
 const PAGE_SIZE = 25
 
-const InfiniteScrollScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation }) => {
     /**
      * Right now, I'm mandating that whatever this method is accepts as a
      * parameter an object containing the objects `lastIndex` and `lastObject`
@@ -64,10 +64,14 @@ const InfiniteScrollScreen = ({ navigation }) => {
 			n => {
 			    n = n + lastIndex
 			    var randInt = 1 + Math.floor(Math.random() * 1000)
+			    var isHearted = Math.floor(Math.random() * 5) == 0;
+			    var randWords = randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${n})`;
 			    return {
 				number: n.toString(),
 				id: n.toString(),
+				description: randWords,
 				image_url: "https://i.picsum.photos/id/" + randInt + "/100/100.jpg",
+				favorite: isHearted,
 			    }
 			}
 		    )
@@ -89,6 +93,7 @@ const InfiniteScrollScreen = ({ navigation }) => {
         </View>
         <FlatList
           onEndReachedThreshold={3}
+	  numColumns={2}
           onEndReached={() => {
             if (!isFetching) {
               setIsFetching(true)
@@ -115,7 +120,6 @@ const styles = StyleSheet.create({
     },
     blueBox: {
 	height: 40,
-	/* backgroundColor: '#08f', */
 	opacity: 0.5,
 	justifyContent: 'center',
 	alignItems: 'center'
@@ -127,4 +131,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default InfiniteScrollScreen;
+export default SearchScreen;

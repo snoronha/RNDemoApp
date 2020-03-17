@@ -1,13 +1,12 @@
 import React, { PureComponent, Component } from 'react'
 import {
-    Dimensions,
     Image,
     StyleSheet,
     Text,
     TouchableOpacity,
     View,
 } from 'react-native'
-import randomWords from 'random-words';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 class QuantityPicker extends React.PureComponent {
@@ -39,18 +38,35 @@ class QuantityPicker extends React.PureComponent {
     }
 }
 
-class ItemTile extends PureComponent {    
-    render() {    
-	var randWords = randomWords({min: 5, max: 15, join: ' '}) + ` (id: ${this.props.item.id})`;
+class ItemTile extends PureComponent {
+    state = {
+	favorite: this.props.item.favorite
+    }
+
+    toggleHeart = () => {
+	this.setState(state => ({ favorite: !state.favorite }))
+    }
+
+    render() {
 	return (
           <View style={styles.item_row}>
-            <Image
-              style = {styles.item_image}
-              source={{uri: this.props.item.image_url}}
-             />
-            <Text style={styles.item_description}>{randWords}</Text>
-              <QuantityPicker/>
-            </View>
+	    <View style={{width: '80%', flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Image
+		style = {styles.item_image}
+		source={{uri: this.props.item.image_url}}
+		/>
+              <Icon
+		name = {this.state.favorite ? 'heart' : 'heart-o'}
+		color = {'tomato'}
+		size = {18}
+		style = {styles.heart}
+		onPress = {this.toggleHeart}/>
+	    </View>
+	    <Text style={styles.item_description}>
+	      {this.props.item.description}
+	    </Text>
+            <QuantityPicker/>
+          </View>
 	)
     }
 }
@@ -61,38 +77,42 @@ const styles = StyleSheet.create({
     item_row: {
 	flex: 1,
 	backgroundColor: '#fff',
-	alignItems: 'center',
-	flexDirection: 'row',
-	justifyContent: 'space-between',
-	height: Dimensions.get('window').height * 0.12,
+	alignItems: 'flex-start',
+	flexDirection: 'column',
+	justifyContent: 'flex-start',
 	marginHorizontal: 4,
-	borderBottomColor: "#ddd",
+	borderBottomColor: "#eee",
 	borderBottomWidth: 1,
     },
     item_image: {
-	width: 60,
-	height: 60,
+	width: 72,
+	height: 72,
+	marginTop: 16,
 	marginHorizontal: 8,
 	borderRadius: 4,
 	justifyContent: 'center',
     },
+    heart: {
+	alignSelf: 'flex-start',
+	marginTop: 16
+    },
     item_description: {
-	height: 60,
 	fontSize: 12,
-	flexBasis: Dimensions.get('window').width * 0.50,
+	marginHorizontal: 8,
+	marginVertical: 8,
+	justifyContent: 'center',
     },
     item_picker: {
 	flex: 1,
-	height: 60,
 	fontSize: 14,
-	marginRight: 8,
-	flexBasis: Dimensions.get('window').width * 0.20,
+	marginBottom: 16,
+	marginHorizontal: 8,
 	justifyContent: 'flex-end',
     },
     item_touchable_center: {
 	alignItems: 'center',
-	height: 24,
-	width: 40,
+	height: 30,
+	width: 60,
 	borderTopColor: "#aaa",
 	borderBottomColor: "#aaa",
 	borderTopWidth: 1,
@@ -101,20 +121,20 @@ const styles = StyleSheet.create({
     },
     item_touchable_left: {
 	alignItems: 'center',
-	height: 24,
-	width: 20,
-	borderTopLeftRadius: 10,
-	borderBottomLeftRadius: 10,
+	height: 30,
+	width: 30,
+	borderTopLeftRadius: 14,
+	borderBottomLeftRadius: 14,
 	borderColor: "#aaa",
 	borderWidth: 1,
 	justifyContent: 'center',
     },
     item_touchable_right: {
 	alignItems: 'center',
-	height: 24,
-	width: 20,
-	borderTopRightRadius: 10,
-	borderBottomRightRadius: 10,
+	height: 30,
+	width: 30,
+	borderTopRightRadius: 14,
+	borderBottomRightRadius: 14,
 	borderColor: "#aaa",
 	borderWidth: 1,
 	justifyContent: 'center',

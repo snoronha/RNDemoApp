@@ -11,7 +11,7 @@ import HomeScreen from "./screens/HomeScreen";
 import FlatListScreen from "./screens/FlatListScreen";
 import MapViewScreen from "./screens/MapViewScreen";
 import WebViewScreen from "./screens/WebViewScreen";
-import InfiniteScrollScreen from "./screens/InfiniteScrollScreen";
+import SearchScreen from "./screens/SearchScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,7 +27,7 @@ function App() {
 			iconName = focused ? 'home' : 'home';
 		    } else if (route.name === 'FlatList') {
 			iconName = focused ? 'heart' : 'heart-o';
-		    } else if (route.name === 'IScroll') {
+		    } else if (route.name === 'Search') {
 			iconName = focused ? 'search' : 'search';
 		    } else if (route.name === 'MapView') {
 			iconName = focused ? 'map-marker' : 'map-marker';
@@ -45,7 +45,7 @@ function App() {
 	    >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="FlatList" component={FlatListScreen} />
-            <Tab.Screen name="IScroll" component={InfiniteScrollScreen} />
+            <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="MapView" component={MapViewScreen} />
             <Tab.Screen name="WebView" component={WebViewScreen} />
 	  </Tab.Navigator>
