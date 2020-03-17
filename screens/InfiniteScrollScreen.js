@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import {
-    View,
-    SafeAreaView,
+    ActivityIndicator,
+    Dimensions,
     FlatList,
-    TouchableOpacity,
-    StyleSheet,
     Image,
+    SafeAreaView,
+    StyleSheet,
     Text,
-    Dimensions
+    TouchableOpacity,
+    View,
 } from 'react-native'
 import randomWords from 'random-words';
 
@@ -40,8 +41,8 @@ const useInfiniteScroll = load => {
     return [data, isFetching, setIsFetching]
 }
 
-const INITIAL_LOAD = 30
-const PAGE_SIZE = 20
+const INITIAL_LOAD = 25
+const PAGE_SIZE = 25
 
 const InfiniteScrollScreen = ({ navigation }) => {
     /**
@@ -53,7 +54,7 @@ const InfiniteScrollScreen = ({ navigation }) => {
      * @returns {Promise<R>}
      */
     const fetchMoreListItems = ({ lastIndex }) => {
-	// Simulate fetch of next 20 items (30 if initial load)
+	// Simulate fetch of next 25 items (25 if initial load)
 	return new Promise(resolve => {
 	    setTimeout(() => {
 		resolve([
@@ -70,7 +71,7 @@ const InfiniteScrollScreen = ({ navigation }) => {
 			}
 		    )
 		])
-	    }, 2000)
+	    }, 400)
 	})
     }
 
@@ -99,9 +100,7 @@ const InfiniteScrollScreen = ({ navigation }) => {
           }}
         />
         {isFetching && (
-          <View style={styles.blueBox}>
-            <Text style={styles.bigWhiteBoldText}>(Fetching More)</Text>
-          </View>
+          <ActivityIndicator size="large" color="#444" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', padding: 0}} />
         )}
       </SafeAreaView>
     )
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
     container: {
 	flex: 1,
 	marginTop: 0,
-	backgroundColor: '#fa0'
+	backgroundColor: '#fff'
     },
     item_row: {
 	flex: 1,
@@ -165,8 +164,9 @@ const styles = StyleSheet.create({
 	flexDirection: 'row',
 	justifyContent: 'space-between',
 	height: Dimensions.get('window').height * 0.12,
-	marginVertical: 2,
-	marginHorizontal: 8
+	marginHorizontal: 4,
+	borderBottomColor: "#ddd",
+	borderBottomWidth: 1,
     },
     item_image: {
 	width: 60,
@@ -221,13 +221,13 @@ const styles = StyleSheet.create({
 
     blueBox: {
 	height: 40,
-	backgroundColor: '#08f',
+	/* backgroundColor: '#08f', */
 	opacity: 0.5,
 	justifyContent: 'center',
 	alignItems: 'center'
     },
     bigWhiteBoldText: {
-	color: 'white',
+	color: '#aaa',
 	fontSize: 14,
 	fontWeight: 'bold'
     }

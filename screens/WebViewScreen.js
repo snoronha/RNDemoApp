@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
     Alert,
+    Dimensions,
     TouchableOpacity, 
     StyleSheet,
     Text,
@@ -22,38 +23,44 @@ const WebViewScreen = ({ navigation }) => {
     }
 
     return (
-      <SafeAreaView style={styles.container}>
-        <View style = {{flexDirection: 'row', marginTop: 8}}>
-	  <TextInput
-            style = {[
-            styles.text_input,
-              { width: 300, height: 35, marginRight: 8}
-            ]}
-	    placeholder = "Enter URL"
-	    placeholderTextColor = "#aaa"
-            maxLength = {40}
-	    autoCapitalize = 'none'
-            onChangeText = {(txt) => setUrl(txt)}
-	    value = {url}
-	    />
-          <TouchableOpacity
-            onPress={() => _onGotoURL("GO!")}
-            style={[
-              styles.item_touchable,
-              {width: 40, backgroundColor: "#0d0"}
-	    ]}
-	    >
-            <Text>Go!</Text>
-          </TouchableOpacity>
-
-	</View>
-	<View style = {{width: 360, height: 500}}>
-	  <WebView
-	    ref = {(ref) => (webview = ref)}
-            originWhitelist = {['*']}
-            style = {{marginTop: 10}}
-            source = {{ uri: 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359' }} 
-            />
+      <SafeAreaView>
+	<View style={styles.container}>
+          <View style = {{flexDirection: 'row', marginTop: 8, }}>
+            <TextInput
+              style = {[
+                styles.text_input,
+                { width: Dimensions.get('window').width * 0.8, height: 35, marginRight: 8}
+              ]}
+              placeholder = "Enter URL"
+              placeholderTextColor = "#aaa"
+              maxLength = {40}
+              autoCapitalize = 'none'
+              onChangeText = {(txt) => setUrl(txt)}
+              value = {url}
+              />
+            <TouchableOpacity
+              onPress={() => _onGotoURL("GO!")}
+              style={[
+                styles.item_touchable,
+                {width: 40, backgroundColor: "#0d0"}
+              ]}
+              >
+              <Text>Go!</Text>
+            </TouchableOpacity>
+          </View>
+          <View style = {{
+	    width: Dimensions.get('window').width * 0.980,
+	    height: Dimensions.get('window').height * 0.80,
+            marginTop: 8, borderTopColor: "#ddd", borderTopWidth: 1,
+            borderRadiusBottom: 10,
+            }}>
+            <WebView
+              ref = {(ref) => (webview = ref)}
+              originWhitelist = {['*']}
+              style = {{marginTop: 10}}
+              source = {{ uri: 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359' }} 
+              />
+          </View>
 	</View>
       </SafeAreaView>
     );
@@ -61,16 +68,13 @@ const WebViewScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
 	flexDirection: "column",
 	alignItems: "center",
-	backgroundColor: "#f80", // util.getRandomColor()
-    },
-    nav_pill: {
-        backgroundColor: "#fff",
-        padding: 10,
-        margin: 10,
-        borderRadius: 10,
+	backgroundColor: "#fff", // util.getRandomColor()
+	borderColor: "#ccc",
+	borderWidth: 1,
+	borderRadius: 4,
+	margin: 2, 
     },
     text_input: {
 	borderColor: 'gray',

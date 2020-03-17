@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 	flexDirection: "column",
 	alignItems: "center",
 	justifyContent: "flex-start",
-	backgroundColor: util.getRandomColor()
+	backgroundColor: "#fff",
     },
     title: {
 	fontSize: 16,
@@ -63,12 +63,12 @@ const styles = StyleSheet.create({
 	backgroundColor: "#ffa"
     },
     map: {
-	borderColor: "#f80",
+	borderColor: "#ddd",
 	borderRadius: 10,
-	borderWidth: 2,
+	borderWidth: 1,
 	marginTop: 10,
 	width: Dimensions.get('window').width * 0.960,
-	height: Dimensions.get('window').height * 0.700,
+	height: Dimensions.get('window').height * 0.80,
     }
 });
 

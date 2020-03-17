@@ -12,14 +12,6 @@ import MapViewScreen from "./screens/MapViewScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import InfiniteScrollScreen from "./screens/InfiniteScrollScreen";
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
 const Tab = createBottomTabNavigator();
 
 function App() {
@@ -47,6 +39,7 @@ function App() {
             tabBarOptions={{
               activeTintColor: 'tomato',
               inactiveTintColor: 'black',
+	      tabStyle: { borderRightColor: "#eee", borderRightWidth: 1}
             }}
 	    >
             <Tab.Screen name="Menu" component={MenuScreen} />
