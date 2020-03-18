@@ -18,9 +18,9 @@ const Tab = createBottomTabNavigator();
 function App() {
     return (
       <SafeAreaProvider>
-	<NavigationContainer>
+ 	<NavigationContainer>
 	  <Tab.Navigator
-	    screenOptions={({ route }) => ({
+            screenOptions={({ route }) => ({
 		tabBarIcon: ({ focused, color, size }) => {
 		    let iconName;
 		    if (route.name === 'Home') {
@@ -38,9 +38,9 @@ function App() {
 		},
             })}
             tabBarOptions={{
-              activeTintColor: 'tomato',
-              inactiveTintColor: 'black',
-	      tabStyle: { borderRightColor: "#eee", borderRightWidth: 1}
+		activeTintColor: 'tomato',
+		inactiveTintColor: 'black',
+		tabStyle: { borderRightColor: "#eee", borderRightWidth: 1}
             }}
 	    >
             <Tab.Screen name="Home" component={HomeScreen} />

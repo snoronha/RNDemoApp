@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { PureComponent, useState, useEffect } from 'react'
 import {
     ActivityIndicator,
+    Animated,
     Dimensions,
     FlatList,
     Image,
     SafeAreaView,
     StyleSheet,
     Text,
+    TouchableHighlight,
     TouchableOpacity,
     View,
 } from 'react-native'
@@ -44,6 +46,59 @@ const useInfiniteScroll = load => {
 
 const INITIAL_LOAD = 25
 const PAGE_SIZE = 25
+var isHidden = true
+
+class SortFilterFlyout extends PureComponent {
+    state = {
+	bounceValue: new Animated.Value(400),  //This is the initial position of the subview
+	buttonText: "Sort & Filter"
+    }
+
+    _toggleSubview() {    
+	this.setState({
+	    buttonText: !isHidden ? "Sort & Filter" : "Hide Sort"
+	});
+	
+	var toValue = 400;
+	
+	if (isHidden) {
+	    toValue = 0;
+	}
+
+	// This will animate the transalteY of the subview between 0 & 100 depending on its current state
+	// 100 comes from the style below, which is the height of the subview.
+	Animated.spring(
+	    this.state.bounceValue,
+	    {
+		toValue: toValue,
+		velocity: 5,
+		tension: 2,
+		friction: 5,
+	    }).start();
+	
+	isHidden = !isHidden;
+    }
+
+    render() {
+    return (
+      <View style={{right: 8, top: 40, height: 30, zIndex: 1}}>
+        <TouchableHighlight
+          style={{alignSelf: 'flex-end'}}
+          onPress={()=> {this._toggleSubview()}}>
+          <Text style={styles.buttonText}>{this.state.buttonText}</Text>
+        </TouchableHighlight>
+        <View style={styles.sort_filter_flyout}>
+          <Animated.View
+            style={[styles.subView,
+                   {transform: [{translateX: this.state.bounceValue}]}]}
+            >
+          </Animated.View>
+	</View>
+      </View>
+    );
+  }
+    
+}
 
 const SearchScreen = ({ navigation }) => {
     /**
@@ -84,8 +139,13 @@ const SearchScreen = ({ navigation }) => {
 	fetchMoreListItems
     )
 
+    onPressSortFilter = () => {
+	console.log("Pressed")
+    }
+    
     return (
       <SafeAreaView style={styles.container}>
+        {/* <SortFilterFlyout /> */}
         <View style={styles.blueBox}>
           <Text style={styles.bigWhiteBoldText}>
             {`${data.length} Items Loaded`}
@@ -93,7 +153,7 @@ const SearchScreen = ({ navigation }) => {
         </View>
         <FlatList
           onEndReachedThreshold={3}
-	  numColumns={2}
+         numColumns={2}
           onEndReached={() => {
             if (!isFetching) {
               setIsFetching(true)
@@ -106,7 +166,7 @@ const SearchScreen = ({ navigation }) => {
           }}
         />
         {isFetching && (
-          <ActivityIndicator size="large" color="#444" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', padding: 0}} />
+		<ActivityIndicator size="large" color="#444" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'center', alignItems: 'center', padding: 0}} />
         )}
       </SafeAreaView>
     )
@@ -119,15 +179,40 @@ const styles = StyleSheet.create({
 	backgroundColor: '#fff'
     },
     blueBox: {
+	flexDirection: 'row',
 	height: 40,
-	opacity: 0.5,
 	justifyContent: 'center',
 	alignItems: 'center'
     },
     bigWhiteBoldText: {
 	color: '#aaa',
 	fontSize: 14,
-	fontWeight: 'bold'
+	fontWeight: 'bold',
+    },
+    sort_filter_flyout: {
+	position: 'absolute',
+	top: 20,
+	/* zIndex: 1, */
+	left: Dimensions.get('window').width * 0.2,
+	width: Dimensions.get('window').width,
+	height: Dimensions.get('window').height,
+    },
+
+    buttonText: {
+	fontSize: 12,
+	color: "#007AFF"
+    },
+    subView: {
+	position: "absolute",
+	top: 0,
+	left: 0,
+	right: 50,
+	opacity: 0.5,
+	height: Dimensions.get('window').height - 50,
+	backgroundColor: "#faa",
+	borderColor: "#aaa",
+	borderWidth: 1,
+	borderRadius: 20,
     }
 })
 
