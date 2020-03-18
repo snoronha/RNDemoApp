@@ -13,7 +13,7 @@ import {
     View,
 } from 'react-native'
 import randomWords from 'random-words';
-import ItemTile from "../components/ItemTile.js";
+import { ItemTile } from "../components/ItemTile.js";
 
 const useInfiniteScroll = load => {
     const [isFetching, setIsFetching] = useState(true)
@@ -50,7 +50,7 @@ var isHidden = true
 
 class SortFilterFlyout extends PureComponent {
     state = {
-	bounceValue: new Animated.Value(400),  //This is the initial position of the subview
+	bounceValue: new Animated.Value(400),  // This is the initial position of the subview
 	buttonText: "Sort & Filter"
     }
 
@@ -153,7 +153,7 @@ const SearchScreen = ({ navigation }) => {
         </View>
         <FlatList
           onEndReachedThreshold={3}
-         numColumns={2}
+          numColumns={2}
           onEndReached={() => {
             if (!isFetching) {
               setIsFetching(true)

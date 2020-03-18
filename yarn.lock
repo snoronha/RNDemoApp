@@ -996,9 +996,9 @@
     use-subscription "^1.4.0"
 
 "@react-navigation/native@^5.0.10":
-  version "5.0.10"
-  resolved "https://npme.walmart.com/@react-navigation/native/-/native-5.0.10.tgz#bbb128cd963138d90f8327519088ae896fb22b4d"
-  integrity sha512-VoVKuiwOwYh8u+Y1rfLQ4mGXzBgjWVHFD1exhOIMIAymbEBV5rFZkS0D5SHbDpL+SVW6wovv4jK85Gdutd8mEg==
+  version "5.1.0"
+  resolved "https://npme.walmart.com/@react-navigation/native/-/native-5.1.0.tgz#60aba3efe1cacaaba77a455f9cefd9a6bf4bf658"
+  integrity sha512-GW1HCEUOg+IBHoLQfQ73N6HMUtqPFp+9PIdH/479P1AWzD2DSZB4u9qs5WlXlbad3Z1Lw8l3Zo8Ct9sZfjh2Ug==
   dependencies:
     "@react-navigation/core" "^5.2.2"
 
@@ -1010,9 +1010,9 @@
     shortid "^2.2.15"
 
 "@react-navigation/stack@^5.2.0":
-  version "5.2.0"
-  resolved "https://npme.walmart.com/@react-navigation/stack/-/stack-5.2.0.tgz#e16138cd23b457594e790999552ab3d72e8e2707"
-  integrity sha512-lFTVV1S9YEPsIxzLUPY95Y2lqmday79uOadOopQkjq3JWmZTXBJDMW9jgV8B+F5EfUh0VabQ2zX06OfjxrvtUw==
+  version "5.2.1"
+  resolved "https://npme.walmart.com/@react-navigation/stack/-/stack-5.2.1.tgz#47339ecc8e96a7565b636b9115956f4aae9eae34"
+  integrity sha512-iEP3QnSPcvKju8jRYa4c/GrtIYVAcsRScSqHl/M/Vh+73HgbhbJNMomiZNW0CZa9FZfYgpo8fBs29Q8rhn4q6A==
   dependencies:
     color "^3.1.2"
     react-native-iphone-x-helper "^1.2.1"
@@ -5597,9 +5597,9 @@ promise@^7.1.1:
     asap "~2.0.3"
 
 prompts@^2.0.1, prompts@^2.3.0:
-  version "2.3.1"
-  resolved "https://npme.walmart.com/prompts/-/prompts-2.3.1.tgz#b63a9ce2809f106fa9ae1277c275b167af46ea05"
-  integrity sha512-qIP2lQyCwYbdzcqHIUi2HAxiWixhoM9OdLCWf8txXsapC/X9YdsCoeyRIXE/GP+Q0J37Q7+XN/MFqbUa7IzXNA==
+  version "2.3.2"
+  resolved "https://npme.walmart.com/prompts/-/prompts-2.3.2.tgz#480572d89ecf39566d2bd3fe2c9fccb7c4c0b068"
+  integrity sha512-Q06uKs2CkNYVID0VqwfAl9mipo99zkBv/n2JtWY89Yxa3ZabWSrs0e2KTudKVa3peLUvYXMefDqIleLPVUBZMA==
   dependencies:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
@@ -5820,10 +5820,10 @@ react-test-renderer@16.9.0:
     react-is "^16.9.0"
     scheduler "^0.15.0"
 
-react@16.9.0:
-  version "16.9.0"
-  resolved "https://npme.walmart.com/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
-  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
+react@^16.9.0:
+  version "16.13.0"
+  resolved "https://npme.walmart.com/react/-/react-16.13.0.tgz#d046eabcdf64e457bbeed1e792e235e1b9934cf7"
+  integrity sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -6338,9 +6338,9 @@ simple-swizzle@^0.2.2:
     is-arrayish "^0.3.1"
 
 sisteransi@^1.0.4:
-  version "1.0.4"
-  resolved "https://npme.walmart.com/sisteransi/-/sisteransi-1.0.4.tgz#386713f1ef688c7c0304dc4c0632898941cad2e3"
-  integrity sha512-/ekMoM4NJ59ivGSfKapeG+FWtrmWvA1p6FBZwXrqojw90vJu8lBmrTxCMuBCydKtkaUe2zt4PlxeTKpjwMbyig==
+  version "1.0.5"
+  resolved "https://npme.walmart.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
+  integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
 slash@^2.0.0:
   version "2.0.0"
