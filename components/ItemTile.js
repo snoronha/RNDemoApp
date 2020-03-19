@@ -7,6 +7,9 @@ import {
     View,
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
+
+import WebViewScreen from "../screens/WebViewScreen";
 
 
 class QuantityPicker extends React.PureComponent {
@@ -41,21 +44,30 @@ class QuantityPicker extends React.PureComponent {
 // export ItemTile as a function (not a class)
 export function ItemTile(props) {    
 
+    const navigation = useNavigation()
+    
     // Set favorite in state to props.item.favorite
     const [favorite, setFavorite] = useState(props.item.favorite)
 
     toggleHeart = () => {
 	// toggle the value of state variable favorite
-	setFavorite(!favorite);
+	setFavorite(!favorite)
+    }
+
+    navigateToItemPage = () => {
+	console.log("Pressed Image", props)
+	navigation.navigate('WebView')
     }
 
     return (
       <View style={[styles.item_row, {width: props.item.width}]}>
 	<View style={{width: "80%", flexDirection: 'row', justifyContent: 'space-between'}}>
+          <TouchableOpacity onPress = {this.navigateToItemPage}>
           <Image
 	    style = {styles.item_image}
 	    source={{uri: props.item.image_url}}
 	    />
+          </TouchableOpacity>
           <Icon
 	    name = {favorite ? 'heart' : 'heart-o'}
 	    color = {'tomato'}

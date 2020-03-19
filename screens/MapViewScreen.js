@@ -11,8 +11,9 @@ import MapView from "react-native-maps";
 import util from "../util/util.js";
 
 const MapViewScreen = ({ navigation }) => {
+    // Example of Native Module talking to Calendar API. Commenting for now
+    /*
     var CalendarManager = NativeModules.CalendarManager;
-    // CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey');
     CalendarManager.addEvent('Birthday Party', '4 Privet Drive, Surrey', (new Date()).getTime());
     CalendarManager.findEvents((error, events) => {
 	if (error) {
@@ -21,6 +22,7 @@ const MapViewScreen = ({ navigation }) => {
 	    console.log("EVENTS: ", events);
 	}
     });
+    */
     var region = {
 	latitude: 37.36,
 	longitude: -122.05,

@@ -13,7 +13,20 @@ import MapViewScreen from "./screens/MapViewScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import SearchScreen from "./screens/SearchScreen";
 
-const Tab = createBottomTabNavigator();
+// Hack to ensure FontAwesome loads
+Icon.loadFont();
+
+const Stack = createStackNavigator()
+const Tab   = createBottomTabNavigator();
+
+function Home({navigation}) {
+    return (
+      <Stack.Navigator>
+   	<Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="WebView" component={WebViewScreen} />
+      </Stack.Navigator>
+    )
+}
 
 function App() {
     return (
@@ -43,7 +56,7 @@ function App() {
 		tabStyle: { borderRightColor: "#eee", borderRightWidth: 1}
             }}
 	    >
-            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="FlatList" component={FlatListScreen} />
             <Tab.Screen name="Search" component={SearchScreen} />
             <Tab.Screen name="MapView" component={MapViewScreen} />
