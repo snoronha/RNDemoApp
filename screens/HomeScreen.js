@@ -1,5 +1,6 @@
 import React, { PureComponent, useState, useEffect } from 'react'
 import {
+    Dimensions,
     SafeAreaView,
     ScrollView, 
     StyleSheet,
@@ -29,7 +30,14 @@ const HomeScreen = ({ navigation }) => {
 		var image_url = "https://i.picsum.photos/id/" + randInt + "/100/100.jpg"
 		var key = keyCount.toString()
 		var randDescr = randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${key})`
-		const item = <ItemTile item={{id: key, favorite: isHearted, image_url: image_url, description: randDescr}} key={key} />
+		var width     = Dimensions.get('window').width * 0.4
+		const item    = <ItemTile item={{
+		    id: key,
+		    favorite: isHearted,
+		    image_url: image_url,
+		    description: randDescr,
+		    width: width,
+		}} key={key} />
                 carousel.push(item)
 		keyCount++
 	    }

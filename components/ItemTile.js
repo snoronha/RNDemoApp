@@ -50,8 +50,8 @@ export function ItemTile(props) {
     }
 
     return (
-      <View style={styles.item_row}>
-	<View style={{width: '80%', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={[styles.item_row, {width: props.item.width}]}>
+	<View style={{width: "80%", flexDirection: 'row', justifyContent: 'space-between'}}>
           <Image
 	    style = {styles.item_image}
 	    source={{uri: props.item.image_url}}
@@ -74,7 +74,6 @@ export function ItemTile(props) {
 const styles = StyleSheet.create({
     item_row: {
 	flex: 1,
-	width: 160,
 	backgroundColor: '#fff',
 	alignItems: 'flex-start',
 	flexDirection: 'column',
