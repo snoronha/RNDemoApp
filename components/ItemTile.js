@@ -10,35 +10,42 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 import WebViewScreen from "../screens/WebViewScreen";
+import { HeaderCartLink } from "../components/Header";
 
-
-class QuantityPicker extends React.PureComponent {
-    render() {
-	return (
-	  <View style={styles.item_picker}>
-	    <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity 
-		style = {styles.item_touchable_left}
-		hitSlop = {{top: 10, left: 10, bottom: 10, right: 0}}
-		>
-		<Text style = {styles.title}> - </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-		style={styles.item_touchable_center}
-		hitSlop = {{top: 10, left: 0, bottom: 10, right: 0}}
-		>
-		<Text style = {styles.title}>1</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-		style = {styles.item_touchable_right}
-		hitSlop = {{top: 10, left: 0, bottom: 10, right: 10}}
-		>
-		<Text style={styles.title}>+</Text>
-              </TouchableOpacity>
-	    </View>
-          </View>		
-        )
+export function QuantityPicker(props) {
+    decrementItemCount = () => {
+	CART[0]--
+	console.log("CART: ", CART[0])
     }
+
+    incrementItemCount = () => {
+	CART[0]++
+	console.log("CART: ", CART[0])
+    }
+
+    return (
+      <View style={styles.item_picker}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity 
+            style = {styles.item_touchable_left}
+            hitSlop = {{top: 10, left: 10, bottom: 10, right: 0}}
+            onPress = {this.decrementItemCount} >
+            <Text style = {styles.title}> - </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.item_touchable_center}
+            hitSlop = {{top: 10, left: 0, bottom: 10, right: 0}} >
+            <Text style = {styles.title}>1</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style = {styles.item_touchable_right}
+            hitSlop = {{top: 10, left: 0, bottom: 10, right: 10}}
+            onPress = {this.incrementItemCount} >
+            <Text style={styles.title}>+</Text>
+          </TouchableOpacity>
+        </View>
+      </View>		
+      )
 }
 
 // export ItemTile as a function (not a class)

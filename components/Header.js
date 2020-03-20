@@ -1,4 +1,4 @@
-import React, { useState, PureComponent, Component } from 'react'
+import React, { useState, useEffect, useRef, PureComponent, Component } from 'react'
 import {
     Dimensions,
     Image,
@@ -67,14 +67,24 @@ export function HeaderCartLink() {
     goToCart = () => {
 	navigation.navigate('Cart')
     }
-
+    const [cartCount, setCartCount] = useState(CART[0])
+    useEffect(() => {
+	setCartCount(CART[0])
+	console.log("CART VALUE, COUNT: ", CART[0], cartCount)
+    }, [])
+    
     return (
-      <TouchableOpacity
-        style = {styles.cart}
-        hitSlop = {{top: 10, left: 10, bottom: 10, right: 10}}
-        onPress = {this.goToCart}>
-        <Icon name={'shopping-cart'} size={30} color={'#888'}/>
-      </TouchableOpacity>
+      <View>
+	<View style = {styles.cart_badge_container}>
+          <Text style = {styles.cart_badge}>{cartCount}</Text>
+	</View>
+        <TouchableOpacity
+          style = {styles.cart}
+          hitSlop = {{top: 10, left: 10, bottom: 10, right: 10}}
+          onPress = {this.goToCart}>
+          <Icon name={'shopping-cart'} size={30} color={'#888'}/>
+        </TouchableOpacity>
+      </View>
     )
 }
 
@@ -94,10 +104,32 @@ const styles = StyleSheet.create({
     },
     title: {
 	
-      },
-      cart: {
+    },
+    cart: {
 	alignSelf: 'center',
-	marginRight: 12
-      },
+	marginRight: 12,
+	zIndex: 0,
+    },
+    cart_badge_container: {
+	position: 'absolute',
+	alignItems: 'center',
+	justifyContent: 'center',
+	top: -4,
+	right: 4,
+	zIndex: 1,
+	width: 16,
+	height: 16,
+	borderRadius: 8,
+	backgroundColor: '#ff0',
+	borderColor: '#aaa',
+	borderWidth: 1
+    },
+    cart_badge: {
+	fontSize: 12,
+	fontWeight: 'bold',
+	color: '#888',
+	alignSelf: 'center',
+	justifyContent: 'center',
+    },
 
 })

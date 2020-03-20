@@ -17,6 +17,10 @@ import CartScreen from "./screens/CartScreen";
 
 import { Header, HeaderBackLink, HeaderCartLink } from "./components/Header";
 
+//---------- GLOBAL VARIABLES START ----------//
+global.PRODUCTS = []
+global.CART     = [0]
+//----------- GLOBAL VARIABLES END -----------//
 
 // Hack to ensure FontAwesome loads
 Icon.loadFont();
@@ -26,29 +30,34 @@ const SearchStack = createStackNavigator()
 const Tab         = createBottomTabNavigator();
 
 function Home({navigation}) {
-    // console.log("NAV: ", navigation.dangerouslyGetState())
-    const header = {
-	headerTitle: "Hello",
-	headerLeft: () => { return <HeaderBackLink /> },
-	headerRight: () => { return <HeaderCartLink /> },
-    }
-    // options={{ headerBackTitle: "", headerTitle: props => <Header {...props} /> }}
     return (
       <HomeStack.Navigator>
         <HomeStack.Screen
           name="Home"
           component={HomeScreen}
-          options={header}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Home'
+	  }}
 	  />
         <HomeStack.Screen
 	  name="ItemPage"
           component={ItemPageScreen}
-	  options={header}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Item Page'
+	  }}
 	  />
         <HomeStack.Screen
 	  name="Cart"
           component={CartScreen}
-	  options={header}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Cart'
+	  }}
 	  />
       </HomeStack.Navigator>
     )
@@ -57,9 +66,33 @@ function Home({navigation}) {
 function Search({navigation}) {
     return (
       <SearchStack.Navigator>
-   	<SearchStack.Screen name="Search" component={SearchScreen} />
-        <SearchStack.Screen name="ItemPage" component={ItemPageScreen} />
-        <SearchStack.Screen name="Cart" component={CartScreen} />
+   	<SearchStack.Screen
+	  name="Search"
+          component={SearchScreen}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Home'
+	  }}
+	  />
+        <SearchStack.Screen
+	  name="ItemPage"
+	  component={ItemPageScreen}
+	  options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Item Page'
+	  }}
+	  />
+        <SearchStack.Screen
+	  name="Cart"
+	  component={CartScreen}
+	  options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Item Page'
+	  }}
+	  />
       </SearchStack.Navigator>
     )
 }
