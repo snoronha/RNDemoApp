@@ -45,7 +45,7 @@ class QuantityPicker extends React.PureComponent {
 export function ItemTile(props) {    
 
     const navigation = useNavigation()
-    
+
     // Set favorite in state to props.item.favorite
     const [favorite, setFavorite] = useState(props.item.favorite)
 
@@ -55,8 +55,7 @@ export function ItemTile(props) {
     }
 
     navigateToItemPage = () => {
-	console.log("Pressed Image", props)
-	navigation.navigate('WebView')
+	navigation.navigate('ItemPage')
     }
 
     return (

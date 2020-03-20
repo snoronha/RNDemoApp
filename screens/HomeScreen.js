@@ -1,6 +1,7 @@
 import React, { PureComponent, useState, useEffect } from 'react'
 import {
     Dimensions,
+    Image,
     SafeAreaView,
     ScrollView, 
     StyleSheet,
@@ -48,8 +49,11 @@ const HomeScreen = ({ navigation }) => {
     getHomePageData()
 
     return (
+
       <SafeAreaView style={styles.container}>
 	<ScrollView>
+	  <Image style = {styles.banner_image}
+		 source={{uri: 'https://image.shutterstock.com/z/stock-photo-tucson-az-july-walmart-store-building-sign-1465828520.jpg'}} />
 	  {HPDATA.map((carousel, carouselIndex) => (
             <ScrollView horizontal>
 	      {carousel}
@@ -65,6 +69,12 @@ const styles = StyleSheet.create({
 	flex: 1,
 	marginTop: 0,
 	backgroundColor: '#fff'
+    },
+    banner_image: {
+	alignSelf: 'center',
+	margin: 0,
+	width: Dimensions.get('window').width,
+	height: Dimensions.get('window').height * 0.3
     },
     blueBox: {
 	flexDirection: 'row',

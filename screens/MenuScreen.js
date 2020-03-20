@@ -1,5 +1,9 @@
 import React from "react";
-import { View, TouchableOpacity, Text } from "react-native";
+import {
+    View,
+    TouchableOpacity,
+    Text
+} from "react-native";
 import util from "../util/util.js";
 
 const getAvailableRoutes = navigation => {

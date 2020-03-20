@@ -9,7 +9,6 @@ import {
     StyleSheet,
     Text,
     TouchableHighlight,
-    TouchableOpacity,
     View,
 } from 'react-native'
 import randomWords from 'random-words';
