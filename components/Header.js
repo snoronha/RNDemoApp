@@ -71,7 +71,7 @@ export function HeaderCartLink() {
     useEffect(() => {
 	setCartCount(CART[0])
 	console.log("CART VALUE, COUNT: ", CART[0], cartCount)
-    }, [])
+    }, [cartCount])
     
     return (
       <View>

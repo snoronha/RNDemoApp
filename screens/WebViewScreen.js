@@ -13,6 +13,9 @@ import { WebView } from 'react-native-webview';
 import util from "../util/util.js";
 
 const WebViewScreen = ({ navigation }) => {
+    // const startUrl = 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359'
+    const startUrl = 'https://www.walmart.com/order-ahead/cake#!/browse'
+
     // hook to set url
     let webview = null;
     const [url, setUrl] = useState('');
@@ -58,7 +61,7 @@ const WebViewScreen = ({ navigation }) => {
               ref = {(ref) => (webview = ref)}
               originWhitelist = {['*']}
               style = {{marginTop: 10}}
-              source = {{ uri: 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359' }} 
+              source = {{ uri: startUrl }}
               />
           </View>
 	</View>

@@ -10,6 +10,7 @@ import MenuScreen from "./screens/MenuScreen";
 import HomeScreen from "./screens/HomeScreen";
 import FlatListScreen from "./screens/FlatListScreen";
 import MapViewScreen from "./screens/MapViewScreen";
+import MoreScreen from "./screens/MoreScreen";
 import WebViewScreen from "./screens/WebViewScreen";
 import SearchScreen from "./screens/SearchScreen";
 import ItemPageScreen from "./screens/ItemPageScreen";
@@ -27,6 +28,7 @@ Icon.loadFont();
 
 const HomeStack   = createStackNavigator()
 const SearchStack = createStackNavigator()
+const MoreStack   = createStackNavigator()
 const Tab         = createBottomTabNavigator();
 
 function Home({navigation}) {
@@ -97,6 +99,31 @@ function Search({navigation}) {
     )
 }
 
+function More({navigation}) {
+    return (
+      <MoreStack.Navigator>
+        <MoreStack.Screen
+          name="More"
+          component={MoreScreen}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'More'
+	  }}
+	  />
+        <MoreStack.Screen
+	  name="WebView"
+          component={WebViewScreen}
+          options = {{
+	    headerLeft: () => { return <HeaderBackLink /> },
+            headerRight: () => { return <HeaderCartLink /> },
+            headerTitle: 'Simple Browser'
+	  }}
+	  />
+      </MoreStack.Navigator>
+    )
+}
+
 function App() {
     return (
       <SafeAreaProvider>
@@ -113,8 +140,8 @@ function App() {
 			iconName = focused ? 'heart' : 'heart-o';
 		    } else if (route.name === 'MapView') {
 			iconName = focused ? 'map-marker' : 'map-marker';
-		    } else if (route.name === 'WebView') {
-			iconName = focused ? 'chrome' : 'firefox';
+		    } else if (route.name === 'NEW!') {
+			iconName = focused ? 'ellipsis-h' : 'ellipsis-h';
 		    }
 		    return <Icon name={iconName} size={size} color={color} />;
 		},
@@ -129,7 +156,7 @@ function App() {
             <Tab.Screen name="Search" component={Search} />
             <Tab.Screen name="Favorites" component={FlatListScreen} />
             <Tab.Screen name="MapView" component={MapViewScreen} />
-            <Tab.Screen name="WebView" component={WebViewScreen} />
+            <Tab.Screen name="NEW!" component={More} />
 	  </Tab.Navigator>
 	</NavigationContainer>
       </SafeAreaProvider>
