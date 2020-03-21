@@ -12,10 +12,12 @@ import {
 import { WebView } from 'react-native-webview';
 import util from "../util/util.js";
 
-const WebViewScreen = ({ navigation }) => {
-    // const startUrl = 'http://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359'
-    const startUrl = 'https://www.walmart.com/order-ahead/cake#!/browse'
-
+const WebViewScreen = ({ route, navigation }) => {
+    const startUrl = route.params.url
+    const showUrlBar = route.params.showUrlBar
+    const headerTitle = route.params.headerTitle
+    navigation.setOptions({'headerTitle': headerTitle})
+    
     // hook to set url
     let webview = null;
     const [url, setUrl] = useState('');
@@ -28,29 +30,31 @@ const WebViewScreen = ({ navigation }) => {
     return (
       <SafeAreaView>
 	<View style={styles.container}>
-          <View style = {{flexDirection: 'row', marginTop: 8, }}>
-            <TextInput
-              style = {[
-                styles.text_input,
-                { width: Dimensions.get('window').width * 0.8, height: 35, marginRight: 8}
-              ]}
-              placeholder = "Enter URL"
-              placeholderTextColor = "#aaa"
-              maxLength = {40}
-              autoCapitalize = 'none'
-              onChangeText = {(txt) => setUrl(txt)}
-              value = {url}
-              />
-            <TouchableOpacity
-              onPress={() => _onGotoURL("GO!")}
-              style={[
-                styles.item_touchable,
-                {width: 40, backgroundColor: "#0d0"}
-              ]}
-              >
-              <Text>Go!</Text>
-            </TouchableOpacity>
-          </View>
+	  {showUrlBar &&
+            <View style = {{flexDirection: 'row', marginTop: 8, }}>
+              <TextInput
+                style = {[
+                  styles.text_input,
+                  { width: Dimensions.get('window').width * 0.8, height: 35, marginRight: 8}
+                ]}
+                placeholder = "Enter URL"
+                placeholderTextColor = "#aaa"
+                maxLength = {40}
+                autoCapitalize = 'none'
+                onChangeText = {(txt) => setUrl(txt)}
+                value = {url}
+                />
+              <TouchableOpacity
+                onPress={() => _onGotoURL("GO!")}
+                style={[
+                  styles.item_touchable,
+                  {width: 40, backgroundColor: "#0d0"}
+                ]}
+                >
+                <Text>Go!</Text>
+              </TouchableOpacity>
+            </View>
+          }
           <View style = {{
 	    width: Dimensions.get('window').width * 0.980,
 	    height: Dimensions.get('window').height * 0.80,

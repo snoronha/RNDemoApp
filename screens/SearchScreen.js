@@ -4,7 +4,6 @@ import {
     Animated,
     Dimensions,
     FlatList,
-    Image,
     SafeAreaView,
     StyleSheet,
     Text,

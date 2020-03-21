@@ -107,7 +107,6 @@ function More({navigation}) {
           component={MoreScreen}
           options = {{
 	    headerLeft: () => { return <HeaderBackLink /> },
-            headerRight: () => { return <HeaderCartLink /> },
             headerTitle: 'More'
 	  }}
 	  />
@@ -116,8 +115,7 @@ function More({navigation}) {
           component={WebViewScreen}
           options = {{
 	    headerLeft: () => { return <HeaderBackLink /> },
-            headerRight: () => { return <HeaderCartLink /> },
-            headerTitle: 'Simple Browser'
+            headerTitle: 'WebView'
 	  }}
 	  />
       </MoreStack.Navigator>
