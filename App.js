@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import HomeScreen from './screens/HomeScreen';
-import FlatListScreen from './screens/FlatListScreen';
+import FavoritesScreen from './screens/FavoritesScreen';
 import MapViewScreen from './screens/MapViewScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
@@ -25,6 +25,7 @@ Icon.loadFont();
 
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
+const FavoritesStack = createStackNavigator();
 const MoreStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -74,7 +75,7 @@ function Home() {
   );
 }
 
-function Search({navigation}) {
+function Search() {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
@@ -87,7 +88,7 @@ function Search({navigation}) {
           headerRight: () => {
             return <HeaderCartLink />;
           },
-          headerTitle: 'Home',
+          headerTitle: 'Search',
         }}
       />
       <SearchStack.Screen
@@ -120,7 +121,53 @@ function Search({navigation}) {
   );
 }
 
-function More({navigation}) {
+function Favorites() {
+  return (
+    <FavoritesStack.Navigator>
+      <FavoritesStack.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{
+          headerLeft: () => {
+            return <HeaderBackLink />;
+          },
+          headerRight: () => {
+            return <HeaderCartLink />;
+          },
+          headerTitle: 'Favorites',
+        }}
+      />
+      <FavoritesStack.Screen
+        name="ItemPage"
+        component={ItemPageScreen}
+        options={{
+          headerLeft: () => {
+            return <HeaderBackLink />;
+          },
+          headerRight: () => {
+            return <HeaderCartLink />;
+          },
+          headerTitle: 'Item Page',
+        }}
+      />
+      <FavoritesStack.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{
+          headerLeft: () => {
+            return <HeaderBackLink />;
+          },
+          headerRight: () => {
+            return <HeaderCartLink />;
+          },
+          headerTitle: 'Item Page',
+        }}
+      />
+    </FavoritesStack.Navigator>
+  );
+}
+
+function More() {
   return (
     <MoreStack.Navigator>
       <MoreStack.Screen
@@ -177,7 +224,7 @@ function App() {
             }}>
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Search" component={Search} />
-            <Tab.Screen name="Favorites" component={FlatListScreen} />
+            <Tab.Screen name="Favorites" component={Favorites} />
             <Tab.Screen name="MapView" component={MapViewScreen} />
             <Tab.Screen name="NEW!" component={More} />
           </Tab.Navigator>
