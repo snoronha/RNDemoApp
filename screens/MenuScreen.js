@@ -1,10 +1,6 @@
-import React from "react";
-import {
-    View,
-    TouchableOpacity,
-    Text
-} from "react-native";
-import util from "../util/util.js";
+import React from 'react';
+import {View, TouchableOpacity, Text} from 'react-native';
+import util from '../util/util.js';
 
 const getAvailableRoutes = navigation => {
   let availableRoutes = [];
@@ -16,7 +12,7 @@ const getAvailableRoutes = navigation => {
       // Grab all the routes the parent defines and add it the list
       availableRoutes = [
         ...availableRoutes,
-        ...Object.keys(parent.router.childRouters)
+        ...Object.keys(parent.router.childRouters),
       ];
     }
 
@@ -26,32 +22,30 @@ const getAvailableRoutes = navigation => {
 
   // De-dupe the list and then remove the current route from the list
   return [...new Set(availableRoutes)].filter(
-    route => route !== navigation.state.routeName
+    route => route !== navigation.state.routeName,
   );
 };
 
-const MenuScreen = ({ navigation }) => {
-  var randColor =  util.getRandomColor();
+const MenuScreen = ({navigation}) => {
+  var randColor = util.getRandomColor();
   return (
     <View
       style={{
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: randColor
-      }}
-    >
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: randColor,
+      }}>
       {getAvailableRoutes(navigation).map(route => (
         <TouchableOpacity
           onPress={() => navigation.navigate(route)}
           key={route}
           style={{
-            backgroundColor: "#fff",
+            backgroundColor: '#fff',
             padding: 10,
             margin: 10,
             borderRadius: 10,
-          }}
-        >
+          }}>
           <Text>{route}</Text>
         </TouchableOpacity>
       ))}
