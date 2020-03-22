@@ -61,7 +61,7 @@ export function ItemTile(props) {
     <View style={[styles.item_row, {width: props.item.width}]}>
       <View
         style={{
-          width: '80%',
+          width: props.item.width,
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
@@ -79,7 +79,9 @@ export function ItemTile(props) {
           onPress={this.toggleHeart}
         />
       </View>
-      <Text style={styles.item_description}>{props.item.description}</Text>
+      <Text style={[styles.item_description, {width: props.item.width}]}>
+        {props.item.description}
+      </Text>
       <QuantityPicker
         onIncrement={props.onIncrement}
         onDecrement={props.onDecrement}
