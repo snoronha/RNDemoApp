@@ -22,29 +22,44 @@ export function QuantityPicker(props) {
     dispatch({type: 'INCREMENT'});
   };
 
-  return (
-    <View style={styles.item_picker}>
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity
-          style={styles.item_touchable_left}
-          hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
-          onPress={this.decrementItemCount}>
-          <Text style={styles.title}> - </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.item_touchable_center}
-          hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-          <Text style={styles.title}>{quantity}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.item_touchable_right}
-          hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
-          onPress={this.incrementItemCount}>
-          <Text style={styles.title}>+</Text>
-        </TouchableOpacity>
+  if (quantity > 0) {
+    return (
+      <View style={styles.item_picker}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.item_touchable_left}
+            hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
+            onPress={this.decrementItemCount}>
+            <Text style={styles.title}> - </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.item_touchable_center}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
+            <Text style={styles.title}>{quantity}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.item_touchable_right}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
+            onPress={this.incrementItemCount}>
+            <Text style={styles.title}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={styles.item_picker}>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.item_touchable_center_atc}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
+            onPress={this.incrementItemCount}>
+            <Text style={styles.title}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 }
 
 // export ItemTile as a function (not a class)
@@ -128,6 +143,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginHorizontal: 8,
     justifyContent: 'flex-end',
+  },
+  item_touchable_center_atc: {
+    alignItems: 'center',
+    height: 30,
+    width: 60,
+    borderColor: '#aaa',
+    borderWidth: 1,
+    borderRadius: 14,
+    justifyContent: 'center',
   },
   item_touchable_center: {
     alignItems: 'center',
