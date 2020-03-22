@@ -20,6 +20,9 @@ import {HeaderBackLink, HeaderCartLink} from './components/Header';
 import {Provider} from 'react-redux';
 import store from './stores/store';
 
+//--- GLOBAL CART till figure out Redux further ----//
+global.CART = [];
+
 // Hack to ensure FontAwesome loads
 Icon.loadFont();
 

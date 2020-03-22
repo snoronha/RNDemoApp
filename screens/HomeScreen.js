@@ -76,7 +76,7 @@ const HomeScreen = () => {
           style={styles.banner_image}
           source={{
             uri:
-              'https://techcrunch.com/wp-content/uploads/2018/01/gettyimages-903923942.jpeg?w=1390&crop=1',
+              'https://s.yimg.com/ny/api/res/1.2/mdknwWiRXB9ISzYWSMqIbg--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9ODAw/https://media.zenfs.com/en-US/scary_mommy_602/681ccac5b578857a330cde82ea2f08e7',
           }}
         />
         {HPDATA.map((carousel, carouselIndex) => (

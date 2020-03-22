@@ -13,8 +13,8 @@ export function QuantityPicker(props) {
   decrementItemCount = () => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
+      dispatch({type: 'DECREMENT'});
     }
-    dispatch({type: 'DECREMENT'});
   };
 
   incrementItemCount = () => {
@@ -30,18 +30,18 @@ export function QuantityPicker(props) {
             style={styles.item_touchable_left}
             hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
             onPress={this.decrementItemCount}>
-            <Text style={styles.title}> - </Text>
+            <Text style={styles.item_text}> - </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.item_touchable_center}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-            <Text style={styles.title}>{quantity}</Text>
+            <Text style={styles.item_text}>{quantity}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.item_touchable_right}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
             onPress={this.incrementItemCount}>
-            <Text style={styles.title}>+</Text>
+            <Text style={styles.item_text}>+</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -54,7 +54,7 @@ export function QuantityPicker(props) {
             style={styles.item_touchable_center_atc}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={this.incrementItemCount}>
-            <Text style={styles.title}>Add</Text>
+            <Text style={styles.item_text}>Add</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -75,7 +75,7 @@ export function ItemTile(props) {
   };
 
   navigateToItemPage = () => {
-    navigation.navigate('ItemPage');
+    navigation.navigate('ItemPage', {item: props.item});
   };
 
   return (
@@ -103,7 +103,7 @@ export function ItemTile(props) {
       <Text style={[styles.item_description, {width: props.item.width}]}>
         {props.item.description}
       </Text>
-      <QuantityPicker quantity={0} />
+      <QuantityPicker quantity={0} item={props.item} />
     </View>
   );
 }
@@ -143,6 +143,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginHorizontal: 8,
     justifyContent: 'flex-end',
+  },
+  item_text: {
+    fontSize: 14,
   },
   item_touchable_center_atc: {
     alignItems: 'center',
