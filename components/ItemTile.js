@@ -24,39 +24,35 @@ export function QuantityPicker(props) {
 
   if (quantity > 0) {
     return (
-      <View style={styles.item_picker}>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={styles.item_touchable_left}
-            hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
-            onPress={this.decrementItemCount}>
-            <Text style={styles.item_text}> - </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.item_touchable_center}
-            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-            <Text style={styles.item_text}>{quantity}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.item_touchable_right}
-            hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
-            onPress={this.incrementItemCount}>
-            <Text style={styles.item_text}>+</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity
+          style={styles.item_touchable_left}
+          hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
+          onPress={this.decrementItemCount}>
+          <Text style={styles.item_text}> - </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item_touchable_center}
+          hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
+          <Text style={styles.item_text}>{quantity}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.item_touchable_right}
+          hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
+          onPress={this.incrementItemCount}>
+          <Text style={styles.item_text}>+</Text>
+        </TouchableOpacity>
       </View>
     );
   } else {
     return (
-      <View style={styles.item_picker}>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={styles.item_touchable_center_atc}
-            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
-            onPress={this.incrementItemCount}>
-            <Text style={styles.item_text}>Add</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity
+          style={styles.item_touchable_center_atc}
+          hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
+          onPress={this.incrementItemCount}>
+          <Text style={styles.item_text}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -103,7 +99,9 @@ export function ItemTile(props) {
       <Text style={[styles.item_description, {width: props.item.width}]}>
         {props.item.description}
       </Text>
-      <QuantityPicker quantity={0} item={props.item} />
+      <View style={styles.item_picker}>
+        <QuantityPicker quantity={0} item={props.item} />
+      </View>
     </View>
   );
 }

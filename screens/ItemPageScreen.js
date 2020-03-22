@@ -36,11 +36,7 @@ const ItemPageScreen = ({route}) => {
         />
       </View>
       <Text style={[styles.item_description]}>{item.description}</Text>
-      <View
-        style={{
-          width: Dimensions.get('window').width,
-          height: 60,
-        }}>
+      <View style={styles.quantity_picker}>
         <QuantityPicker quantity={0} item={item} />
       </View>
     </SafeAreaView>
@@ -75,11 +71,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   item_picker: {
-    flex: 1,
-    fontSize: 14,
-    marginBottom: 16,
     marginHorizontal: 8,
-    justifyContent: 'flex-end',
+    alignSelf: 'center',
   },
   item_text: {
     fontSize: 14,
