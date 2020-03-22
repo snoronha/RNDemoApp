@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -11,9 +11,6 @@ import {
 } from 'react-native';
 import randomWords from 'random-words';
 import {ItemTile} from '../components/ItemTile.js';
-
-const INITIAL_LOAD = 20;
-const PAGE_SIZE = 0;
 
 const FavoritesScreen = () => {
   /**
@@ -124,8 +121,9 @@ const styles = StyleSheet.create({
   blueBox: {
     flexDirection: 'row',
     height: 40,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    marginLeft: 8,
   },
   bigWhiteBoldText: {
     color: '#444',

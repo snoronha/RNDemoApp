@@ -6,13 +6,19 @@ import {useNavigation} from '@react-navigation/native';
 //-------- REDUX -------//
 import {useDispatch} from 'react-redux';
 
-export function QuantityPicker() {
+export function QuantityPicker(props) {
+  // Set quantity in state to props.item.quantity || 0
+  const [quantity, setQuantity] = useState(props.quantity);
   const dispatch = useDispatch();
   decrementItemCount = () => {
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+    }
     dispatch({type: 'DECREMENT'});
   };
 
   incrementItemCount = () => {
+    setQuantity(quantity + 1);
     dispatch({type: 'INCREMENT'});
   };
 
@@ -28,7 +34,7 @@ export function QuantityPicker() {
         <TouchableOpacity
           style={styles.item_touchable_center}
           hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-          <Text style={styles.title}>1</Text>
+          <Text style={styles.title}>{quantity}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.item_touchable_right}
@@ -82,10 +88,7 @@ export function ItemTile(props) {
       <Text style={[styles.item_description, {width: props.item.width}]}>
         {props.item.description}
       </Text>
-      <QuantityPicker
-        onIncrement={props.onIncrement}
-        onDecrement={props.onDecrement}
-      />
+      <QuantityPicker quantity={0} />
     </View>
   );
 }

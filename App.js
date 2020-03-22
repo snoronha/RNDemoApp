@@ -18,7 +18,7 @@ import {HeaderBackLink, HeaderCartLink} from './components/Header';
 
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
-import store from './store';
+import store from './stores/store';
 
 // Hack to ensure FontAwesome loads
 Icon.loadFont();

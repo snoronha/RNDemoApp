@@ -1,13 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  PureComponent,
-  Component,
-} from 'react';
+import React from 'react';
 import {
   Dimensions,
-  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -83,6 +76,7 @@ export function HeaderCartLink() {
   };
 
   const cartCount = useSelector(state => state);
+
   return (
     <View>
       <View style={styles.cart_badge_container}>
