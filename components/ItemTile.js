@@ -93,6 +93,8 @@ export function ItemTile(props) {
   // Set favorite in state to props.item.favorite
   const [favorite, setFavorite] = useState(props.item.favorite);
 
+  const [imageLoaded, setImageLoaded] = useState(true);
+
   toggleHeart = () => {
     // toggle the value of state variable favorite
     setFavorite(!favorite);
@@ -100,6 +102,10 @@ export function ItemTile(props) {
 
   navigateToItemPage = () => {
     navigation.navigate('ItemPage', {item: props.item});
+  };
+
+  displayFallBackImage = () => {
+    setImageLoaded(false);
   };
 
   return (
@@ -113,7 +119,12 @@ export function ItemTile(props) {
         <TouchableOpacity onPress={this.navigateToItemPage}>
           <Image
             style={styles.item_image}
-            source={{uri: props.item.image_url}}
+            source={
+              imageLoaded
+                ? {uri: props.item.image_url}
+                : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
+            }
+            onError={this.displayFallBackImage}
           />
         </TouchableOpacity>
         <Icon

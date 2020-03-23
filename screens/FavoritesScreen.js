@@ -68,6 +68,7 @@ const FavoritesScreen = () => {
           image_url: image_url,
           description: randDescr,
           width: width,
+          quantity: 0,
         };
         departmentData.push(item);
         keyCount++;
