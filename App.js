@@ -7,7 +7,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import HomeScreen from './screens/HomeScreen';
 import FavoritesScreen from './screens/FavoritesScreen';
-import MapViewScreen from './screens/MapViewScreen';
+import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
 import SearchScreen from './screens/SearchScreen';
@@ -30,6 +30,7 @@ const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
 const FavoritesStack = createStackNavigator();
 const MoreStack = createStackNavigator();
+const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Home() {
@@ -197,6 +198,23 @@ function More() {
   );
 }
 
+function StoreFinder() {
+  return (
+    <StoreFinderStack.Navigator>
+      <StoreFinderStack.Screen
+        name="More"
+        component={StoreFinderScreen}
+        options={{
+          headerLeft: () => {
+            return <HeaderBackLink />;
+          },
+          headerTitle: 'Store Finder',
+        }}
+      />
+    </StoreFinderStack.Navigator>
+  );
+}
+
 function App() {
   return (
     <Provider store={store}>
@@ -212,7 +230,7 @@ function App() {
                   iconName = focused ? 'search' : 'search';
                 } else if (route.name === 'Favorites') {
                   iconName = focused ? 'heart' : 'heart-o';
-                } else if (route.name === 'MapView') {
+                } else if (route.name === 'StoreFinder') {
                   iconName = focused ? 'map-marker' : 'map-marker';
                 } else if (route.name === 'NEW!') {
                   iconName = focused ? 'ellipsis-h' : 'ellipsis-h';
@@ -228,7 +246,7 @@ function App() {
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Search" component={Search} />
             <Tab.Screen name="Favorites" component={Favorites} />
-            <Tab.Screen name="MapView" component={MapViewScreen} />
+            <Tab.Screen name="StoreFinder" component={StoreFinder} />
             <Tab.Screen name="NEW!" component={More} />
           </Tab.Navigator>
         </NavigationContainer>
