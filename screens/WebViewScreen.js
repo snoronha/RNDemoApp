@@ -29,7 +29,7 @@ const WebViewScreen = ({route, navigation}) => {
     <SafeAreaView>
       <View style={styles.container}>
         {showUrlBar && (
-          <View style={{flexDirection: 'row', marginTop: 8}}>
+          <View style={{flexDirection: 'row', marginTop: 0}}>
             <TextInput
               style={[
                 styles.text_input,
@@ -58,12 +58,9 @@ const WebViewScreen = ({route, navigation}) => {
         )}
         <View
           style={{
-            width: Dimensions.get('window').width * 0.98,
+            width: Dimensions.get('window').width,
             height: Dimensions.get('window').height * 0.8,
-            marginTop: 8,
-            borderTopColor: '#ddd',
-            borderTopWidth: 1,
-            borderRadiusBottom: 10,
+            marginTop: 0,
           }}>
           <WebView
             ref={ref => (webview = ref)}
@@ -82,10 +79,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#fff', // util.getRandomColor()
-    borderColor: '#ccc',
-    borderWidth: 1,
     borderRadius: 4,
-    margin: 2,
+    margin: 0,
   },
   text_input: {
     borderColor: 'gray',

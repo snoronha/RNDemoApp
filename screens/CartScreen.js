@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   list: {
-    borderWidth: 1,
     height: Dimensions.get('window').height,
   },
   item_row: {

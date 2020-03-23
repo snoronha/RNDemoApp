@@ -14,7 +14,8 @@ import SearchScreen from './screens/SearchScreen';
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
 
-import {HeaderBackLink, HeaderCartLink} from './components/Header';
+import {HeaderBackLink} from './components/header/HeaderBackLink';
+import {HeaderCartLink} from './components/header/HeaderCartLink';
 
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';

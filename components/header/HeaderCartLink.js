@@ -12,63 +12,6 @@ import {useNavigation} from '@react-navigation/native';
 //-------- REDUX -------//
 import {connect, useSelector} from 'react-redux';
 
-export function Header() {
-  const navigation = useNavigation();
-  navigateToPage = pageName => {
-    navigation.navigate(pageName);
-  };
-  goBack = () => {
-    if (navigation.canGoBack()) navigation.goBack();
-  };
-
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.back_button}
-        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-        onPress={this.goBack}>
-        {navigation.canGoBack() ? (
-          <Icon name={'arrow-left'} size={24} color={'#888'} />
-        ) : (
-          <Icon name={'arrow-left'} size={24} color={'#fff'} />
-        )}
-      </TouchableOpacity>
-
-      <Icon
-        name={'heart'}
-        color={'tomato'}
-        size={18}
-        style={{borderWidth: 1}}
-      />
-      <TouchableOpacity
-        style={styles.cart}
-        hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}>
-        <Icon name={'shopping-cart'} size={30} color={'#888'} />
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-export function HeaderBackLink() {
-  const navigation = useNavigation();
-  goBack = () => {
-    if (navigation.canGoBack()) navigation.goBack();
-  };
-
-  return (
-    <TouchableOpacity
-      style={styles.back_button}
-      hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-      onPress={this.goBack}>
-      {navigation.canGoBack() ? (
-        <Icon name={'arrow-left'} size={24} color={'#888'} />
-      ) : (
-        <Icon name={'arrow-left'} size={24} color={'#fff'} />
-      )}
-    </TouchableOpacity>
-  );
-}
-
 export function HeaderCartLink() {
   const navigation = useNavigation();
   goToCart = () => {
@@ -101,11 +44,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  back_button: {
-    alignSelf: 'center',
-    marginLeft: 8,
-  },
-  title: {},
   cart: {
     alignSelf: 'center',
     marginRight: 12,
