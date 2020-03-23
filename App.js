@@ -21,7 +21,7 @@ import {Provider} from 'react-redux';
 import store from './stores/store';
 
 //--- GLOBAL CART till figure out Redux further ----//
-global.CART = [];
+global.CART = {itemIds: {}, items: []};
 
 // Hack to ensure FontAwesome loads
 Icon.loadFont();

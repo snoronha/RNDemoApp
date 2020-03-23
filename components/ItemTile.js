@@ -8,18 +8,46 @@ import {useDispatch} from 'react-redux';
 
 export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
+  var item = props.item;
+  if (!item.quantity) {
+    item.quantity = 0;
+  }
   const [quantity, setQuantity] = useState(props.quantity);
   const dispatch = useDispatch();
   decrementItemCount = () => {
     if (quantity > 0) {
       setQuantity(quantity - 1);
       dispatch({type: 'DECREMENT'});
+      if (
+        global.CART.itemIds[item.id] !== undefined &&
+        global.CART.itemIds[item.id] !== null
+      ) {
+        const index = global.CART.itemIds[item.id];
+        if (quantity == 1) {
+          global.CART.items.splice(index, 1);
+          delete global.CART.itemIds[item.id];
+        } else {
+          global.CART.items[index].quantity -= 1;
+        }
+      }
     }
   };
 
   incrementItemCount = () => {
     setQuantity(quantity + 1);
     dispatch({type: 'INCREMENT'});
+    // Add to/Update global.CART
+    if (
+      global.CART.itemIds[item.id] !== undefined &&
+      global.CART.itemIds[item.id] !== null
+    ) {
+      const index = global.CART.itemIds[item.id];
+      global.CART.items[index].quantity += 1;
+    } else {
+      item.quantity += 1;
+      global.CART.items.push(item);
+      global.CART.itemIds[item.id] = global.CART.items.length - 1;
+    }
   };
 
   if (quantity > 0) {
