@@ -63,7 +63,7 @@ const StoreFinderScreen = () => {
             }}
             centerOffset={{x: -18, y: -60}}
             anchor={{x: 0.69, y: 1}}>
-            <Icon name={'cart-plus'} size={18} color={'tomato'} />
+            <Icon name={'shopping-cart'} size={18} color={'red'} />
             <Callout style={styles.plainView}>
               <View>
                 <Text style={{fontSize: 12}}>San Jose Market</Text>

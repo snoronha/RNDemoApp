@@ -47,6 +47,7 @@ function Home() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Home',
         }}
       />
@@ -60,6 +61,7 @@ function Home() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Item Page',
         }}
       />
@@ -73,6 +75,7 @@ function Home() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Cart',
         }}
       />
@@ -93,6 +96,7 @@ function Search() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Search',
         }}
       />
@@ -106,6 +110,7 @@ function Search() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Item Page',
         }}
       />
@@ -119,6 +124,7 @@ function Search() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Item Page',
         }}
       />
@@ -139,6 +145,7 @@ function Favorites() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Favorites',
         }}
       />
@@ -152,6 +159,7 @@ function Favorites() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Item Page',
         }}
       />
@@ -165,6 +173,7 @@ function Favorites() {
           headerRight: () => {
             return <HeaderCartLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'Item Page',
         }}
       />
@@ -182,6 +191,7 @@ function More() {
           headerLeft: () => {
             return <HeaderBackLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'New!',
         }}
       />
@@ -192,6 +202,7 @@ function More() {
           headerLeft: () => {
             return <HeaderBackLink />;
           },
+          headerTitleAlign: 'center',
           headerTitle: 'WebView',
         }}
       />
