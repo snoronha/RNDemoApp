@@ -13,14 +13,6 @@ import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const FavoritesScreen = () => {
-  /**
-   * Right now, I'm mandating that whatever this method is accepts as a
-   * parameter an object containing the objects `lastIndex` and `lastObject`
-   * respectively. I believe this should suffice for effective paging.
-   *
-   * @param lastIndex
-   * @returns {Promise<R>}
-   */
   var FAVDATA = [];
   const departmentTitles = [
     'Fruits & Vegetables',
@@ -63,7 +55,7 @@ const FavoritesScreen = () => {
           randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${key})`;
         var width = Dimensions.get('window').width * 0.4;
         const item = {
-          id: key,
+          id: '' + key,
           favorite: true,
           image_url: image_url,
           description: randDescr,
@@ -74,6 +66,7 @@ const FavoritesScreen = () => {
         keyCount++;
       }
       FAVDATA.push({
+        id: i + 1,
         title: departmentTitles[i],
         data: departmentData,
       });
@@ -82,33 +75,37 @@ const FavoritesScreen = () => {
 
   getFavoritesData();
 
+  const Department = departmentHash => {
+    var deptKey = 'D' + (1 + Math.floor(Math.random() * 1000));
+    const department = departmentHash.department;
+    return (
+      <FlatList
+        numColumns={2}
+        data={department}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => {
+          return <ItemTile item={item} />;
+        }}
+      />
+    );
+  };
+
+  const testData = [{id: 1, title: 'Test Me'}];
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{flex: 1}}>
-        {FAVDATA.map((department, departmentIndex) => (
-          <View key={departmentIndex}>
-            <View style={styles.blueBox}>
-              <Text style={styles.bigWhiteBoldText}>
-                {`${department.title} (${department.data.length})`}
-              </Text>
-            </View>
-            <FlatList
-              onEndReachedThreshold={10}
-              numColumns={2}
-              onEndReached={() => {
-                // if (!isFetching) {
-                // setIsFetching(true);
-                // }
-              }}
-              data={department.data}
-              keyExtractor={item => item.id}
-              renderItem={({item}) => {
-                return <ItemTile item={item} />;
-              }}
-            />
+      <FlatList
+        showsVerticalScrollIndicator={true}
+        numColumns={1}
+        data={FAVDATA}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({item}) => (
+          <View key={item.id.toString()}>
+            <Text style={styles.bigWhiteBoldText}>
+              {item.title} ({item.data.length})
+            </Text>
+            <Department department={item.data} />
           </View>
-        ))}
-      </ScrollView>
+        )}></FlatList>
     </SafeAreaView>
   );
 };
