@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {QuantityPicker} from '../components/ItemTile';
+import {QuantityPicker} from '../components/item_tile/QuantityPicker';
 
 const ItemPageScreen = ({route}) => {
   const item = route.params.item;

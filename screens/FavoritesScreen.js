@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import randomWords from 'random-words';
-import {ItemTile} from '../components/ItemTile.js';
+import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const FavoritesScreen = () => {
   /**

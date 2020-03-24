@@ -8,7 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {QuantityPicker} from '../components/ItemTile.js';
+import {QuantityPicker} from '../components/item_tile/QuantityPicker.js';
 
 const CartItemTile = itemHash => {
   const item = itemHash.item;
