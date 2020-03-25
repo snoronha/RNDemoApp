@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
-  Button,
   ActivityIndicator,
-  Animated,
   Dimensions,
   FlatList,
   SafeAreaView,
@@ -60,7 +58,7 @@ export default SearchWithSortFilter = () => {
   );
 };
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
   /**
    * Right now, I'm mandating that whatever this method is accepts as a
    * parameter an object containing the objects `lastIndex` and `lastObject`
@@ -103,13 +101,17 @@ const SearchScreen = () => {
     fetchMoreListItems,
   );
 
+  const toggleDrawer = () => {
+    navigation.toggleDrawer();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.blueBox}>
         <Text style={styles.bigWhiteBoldText}>
           {`${data.length} Items Loaded`}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={toggleDrawer}>
           <Text>Sort & Filter</Text>
         </TouchableOpacity>
       </View>
