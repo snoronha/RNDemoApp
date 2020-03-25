@@ -45,7 +45,7 @@ const FavoritesScreen = () => {
     for (var i = 0; i < departmentTitles.length; i++) {
       // Populate each department with a FlatList
       var departmentData = [];
-      var randCount = 1 + Math.floor(Math.random() * 5);
+      var randCount = 1 + Math.floor(Math.random() * 10);
       for (var j = 0; j < randCount; j++) {
         var randInt = 1 + Math.floor(Math.random() * 1000);
         var image_url =

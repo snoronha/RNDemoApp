@@ -10,7 +10,8 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
-import SearchScreen from './screens/SearchScreen';
+import SearchWithSortFilter from './screens/SearchScreen';
+
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
 
@@ -34,7 +35,7 @@ const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function Home() {
+const Home = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -81,14 +82,14 @@ function Home() {
       />
     </HomeStack.Navigator>
   );
-}
+};
 
-function Search() {
+const Search = () => {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={SearchScreen}
+        component={SearchWithSortFilter}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;
@@ -130,9 +131,9 @@ function Search() {
       />
     </SearchStack.Navigator>
   );
-}
+};
 
-function Favorites() {
+const Favorites = () => {
   return (
     <FavoritesStack.Navigator>
       <FavoritesStack.Screen
@@ -179,9 +180,9 @@ function Favorites() {
       />
     </FavoritesStack.Navigator>
   );
-}
+};
 
-function More() {
+const More = () => {
   return (
     <MoreStack.Navigator>
       <MoreStack.Screen
@@ -208,9 +209,9 @@ function More() {
       />
     </MoreStack.Navigator>
   );
-}
+};
 
-function StoreFinder() {
+const StoreFinder = () => {
   return (
     <StoreFinderStack.Navigator>
       <StoreFinderStack.Screen
@@ -225,9 +226,9 @@ function StoreFinder() {
       />
     </StoreFinderStack.Navigator>
   );
-}
+};
 
-function App() {
+export default App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -265,6 +266,4 @@ function App() {
       </SafeAreaProvider>
     </Provider>
   );
-}
-
-export default App;
+};

@@ -1,5 +1,6 @@
-import React, {PureComponent, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
+  Button,
   ActivityIndicator,
   Animated,
   Dimensions,
@@ -7,11 +8,13 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
 } from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
+import SortFilterScreen from './SortFilterScreen';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const useInfiniteScroll = load => {
   const [isFetching, setIsFetching] = useState(true);
@@ -44,60 +47,20 @@ const useInfiniteScroll = load => {
 
 const INITIAL_LOAD = 25;
 const PAGE_SIZE = 25;
-var isHidden = true;
+const Drawer = createDrawerNavigator();
 
-class SortFilterFlyout extends PureComponent {
-  state = {
-    bounceValue: new Animated.Value(400), // This is the initial position of the subview
-    buttonText: 'Sort & Filter',
-  };
+export default SearchWithSortFilter = () => {
+  return (
+    <Drawer.Navigator
+      drawerPosition={'right'}
+      drawerContent={() => <SortFilterScreen />}>
+      <Drawer.Screen name="Search" component={SearchScreen} />
+      <Drawer.Screen name="Sort & Filter" component={SortFilterScreen} />
+    </Drawer.Navigator>
+  );
+};
 
-  _toggleSubview() {
-    this.setState({
-      buttonText: !isHidden ? 'Sort & Filter' : 'Hide Sort',
-    });
-
-    var toValue = 400;
-
-    if (isHidden) {
-      toValue = 0;
-    }
-
-    // This will animate the transalteY of the subview between 0 & 100 depending on its current state
-    // 100 comes from the style below, which is the height of the subview.
-    Animated.spring(this.state.bounceValue, {
-      toValue: toValue,
-      velocity: 5,
-      tension: 2,
-      friction: 5,
-    }).start();
-
-    isHidden = !isHidden;
-  }
-
-  render() {
-    return (
-      <View style={{right: 8, top: 40, height: 30, zIndex: 1}}>
-        <TouchableHighlight
-          style={{alignSelf: 'flex-end'}}
-          onPress={() => {
-            this._toggleSubview();
-          }}>
-          <Text style={styles.buttonText}>{this.state.buttonText}</Text>
-        </TouchableHighlight>
-        <View style={styles.sort_filter_flyout}>
-          <Animated.View
-            style={[
-              styles.subView,
-              {transform: [{translateX: this.state.bounceValue}]},
-            ]}></Animated.View>
-        </View>
-      </View>
-    );
-  }
-}
-
-const SearchScreen = ({navigation}) => {
+const SearchScreen = () => {
   /**
    * Right now, I'm mandating that whatever this method is accepts as a
    * parameter an object containing the objects `lastIndex` and `lastObject`
@@ -140,17 +103,15 @@ const SearchScreen = ({navigation}) => {
     fetchMoreListItems,
   );
 
-  onPressSortFilter = () => {
-    console.log('Pressed');
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      {/* <SortFilterFlyout /> */}
       <View style={styles.blueBox}>
         <Text style={styles.bigWhiteBoldText}>
           {`${data.length} Items Loaded`}
         </Text>
+        <TouchableOpacity>
+          <Text>Sort & Filter</Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         onEndReachedThreshold={3}
@@ -195,23 +156,14 @@ const styles = StyleSheet.create({
   blueBox: {
     flexDirection: 'row',
     height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
+    margin: 8,
+    justifyContent: 'space-between',
   },
   bigWhiteBoldText: {
     color: '#aaa',
     fontSize: 14,
     fontWeight: 'bold',
   },
-  sort_filter_flyout: {
-    position: 'absolute',
-    top: 20,
-    /* zIndex: 1, */
-    left: Dimensions.get('window').width * 0.2,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-
   buttonText: {
     fontSize: 12,
     color: '#007AFF',
@@ -229,5 +181,3 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
 });
-
-export default SearchScreen;
