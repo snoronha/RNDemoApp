@@ -1,7 +1,10 @@
-import * as React from 'react';
+import React, {Component} from 'react';
+import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -10,7 +13,8 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
-import SearchScreen from './screens/SearchScreen';
+// import SearchScreen from './screens/SearchScreen';
+import QuickLookScreen from './screens/SearchScreen';
 
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
@@ -22,6 +26,7 @@ import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
 import store from './stores/store';
+import SortFilterScreen from './screens/SortFilterScreen';
 
 //--- GLOBAL CART till figure out Redux further ----//
 global.CART = {itemIds: {}, items: []};
@@ -36,7 +41,7 @@ const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -44,7 +49,7 @@ const Home = () => {
         component={HomeScreen}
         options={{
           headerLeft: () => {
-            return <HamburgerMenu />;
+            return <HamburgerMenu navigationProps={navigation} />;
           },
           headerRight: () => {
             return <HeaderCartLink />;
@@ -90,7 +95,7 @@ const Search = () => {
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={SearchScreen}
+        component={QuickLookScreen}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;

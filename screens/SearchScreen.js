@@ -45,16 +45,28 @@ const useInfiniteScroll = load => {
 
 const INITIAL_LOAD = 25;
 const PAGE_SIZE = 25;
-const Drawer = createDrawerNavigator();
+const SortDrawer = createDrawerNavigator();
+const QuickLookDrawer = createDrawerNavigator();
 
-export default SearchScreen = () => {
+export default QuickLookScreen = () => {
   return (
-    <Drawer.Navigator
+    <QuickLookDrawer.Navigator
+      initialRouteName="RightDrawer"
+      drawerPosition="left"
+      drawerType="back">
+      <QuickLookDrawer.Screen name="Search" component={SearchScreen} />
+    </QuickLookDrawer.Navigator>
+  );
+};
+
+const SearchScreen = () => {
+  return (
+    <SortDrawer.Navigator
       drawerPosition={'right'}
       drawerContent={() => <SortFilterScreen />}>
-      <Drawer.Screen name="Search" component={SearchBaseScreen} />
-      <Drawer.Screen name="Sort & Filter" component={SortFilterScreen} />
-    </Drawer.Navigator>
+      <SortDrawer.Screen name="Search" component={SearchBaseScreen} />
+      <SortDrawer.Screen name="Sort & Filter" component={SortFilterScreen} />
+    </SortDrawer.Navigator>
   );
 };
 
