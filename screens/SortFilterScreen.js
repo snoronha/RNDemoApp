@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-  ColorPropType,
-} from 'react-native';
+import {Dimensions, StyleSheet, Switch, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 

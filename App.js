@@ -10,13 +10,14 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
-import SearchWithSortFilter from './screens/SearchScreen';
+import SearchScreen from './screens/SearchScreen';
 
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
 
 import {HeaderBackLink} from './components/header/HeaderBackLink';
 import {HeaderCartLink} from './components/header/HeaderCartLink';
+import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
@@ -43,7 +44,7 @@ const Home = () => {
         component={HomeScreen}
         options={{
           headerLeft: () => {
-            return <HeaderBackLink />;
+            return <HamburgerMenu />;
           },
           headerRight: () => {
             return <HeaderCartLink />;
@@ -89,7 +90,7 @@ const Search = () => {
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={SearchWithSortFilter}
+        component={SearchScreen}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;

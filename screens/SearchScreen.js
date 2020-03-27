@@ -9,10 +9,10 @@ import {
   View,
 } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
-import SortFilterScreen from './SortFilterScreen';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import randomWords from 'random-words';
+import SortFilterScreen from './SortFilterScreen';
 
 const useInfiniteScroll = load => {
   const [isFetching, setIsFetching] = useState(true);
@@ -47,18 +47,18 @@ const INITIAL_LOAD = 25;
 const PAGE_SIZE = 25;
 const Drawer = createDrawerNavigator();
 
-export default SearchWithSortFilter = () => {
+export default SearchScreen = () => {
   return (
     <Drawer.Navigator
       drawerPosition={'right'}
       drawerContent={() => <SortFilterScreen />}>
-      <Drawer.Screen name="Search" component={SearchScreen} />
+      <Drawer.Screen name="Search" component={SearchBaseScreen} />
       <Drawer.Screen name="Sort & Filter" component={SortFilterScreen} />
     </Drawer.Navigator>
   );
 };
 
-const SearchScreen = ({navigation}) => {
+const SearchBaseScreen = ({navigation}) => {
   /**
    * Right now, I'm mandating that whatever this method is accepts as a
    * parameter an object containing the objects `lastIndex` and `lastObject`
