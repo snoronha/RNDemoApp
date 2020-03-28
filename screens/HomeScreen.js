@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -28,6 +28,17 @@ const HomeScreen = () => {
     'Frozen Meat & Seafood',
   ];
 
+  // Quick Look Item Modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalItem, setModalItem] = useState({});
+  const showQuickLookModal = itemHash => {
+    setModalItem(itemHash.item);
+    setModalVisible(true);
+  };
+  const hideQuickLookModal = () => {
+    setModalVisible(false);
+  };
+
   // Populate HomePage data here
   var keyCount = 1;
   const getHomePageData = () => {
@@ -54,6 +65,7 @@ const HomeScreen = () => {
               width: width,
             }}
             key={key}
+            showQuickLookModal={showQuickLookModal}
           />
         );
         carouselData.push(item);
@@ -70,6 +82,13 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <QuickLookModal
+        visible={modalVisible}
+        props={{
+          item: modalItem,
+          hideQuickLookModal: hideQuickLookModal,
+        }}
+      />
       <ScrollView>
         <Image
           style={styles.banner_image}

@@ -27,14 +27,11 @@ export function ItemTile(props) {
     setImageLoaded(false);
   };
 
-  return (
-    <View style={[styles.item_row, {width: props.item.width}]}>
-      <View
-        style={{
-          width: props.item.width,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
+  // Pick alternate tiles to show ItemPageModal + ItemPageScreen
+  // Real use case: variants show (Quick Look) modal first
+  const modalOrScreen = () => {
+    if (props.item && props.item.id % 2 == 0) {
+      return (
         <TouchableOpacity onPress={this.navigateToItemPage}>
           <Image
             style={styles.item_image}
@@ -46,6 +43,34 @@ export function ItemTile(props) {
             onError={this.displayFallBackImage}
           />
         </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity
+          onPress={() => props.showQuickLookModal({item: props.item})}>
+          <Image
+            style={styles.item_image}
+            source={
+              imageLoaded
+                ? {uri: props.item.image_url}
+                : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
+            }
+            onError={this.displayFallBackImage}
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  return (
+    <View style={[styles.item_row, {width: props.item.width}]}>
+      <View
+        style={{
+          width: props.item.width,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
+        {modalOrScreen()}
         <Icon
           name={favorite ? 'heart' : 'heart-o'}
           color={'tomato'}

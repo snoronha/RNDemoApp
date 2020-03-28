@@ -7,25 +7,6 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-
-/*
-const Drawer = createDrawerNavigator();
-
-export default HamburgerScreen = () => {
-  return (
-    <Drawer.Navigator
-      drawerPosition={'right'}
-      drawerContent={() => (
-        <View>
-          <Text>Hamburger Stuff</Text>
-        </View>
-      )}>
-      <Drawer.Screen name="HamburgerMenu" component={HamburgerMenu} />
-    </Drawer.Navigator>
-  );
-};
-*/
 
 export default HamburgerMenu = () => {
   const toggleDrawer = () => {

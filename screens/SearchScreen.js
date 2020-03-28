@@ -3,16 +3,23 @@ import {
   ActivityIndicator,
   Dimensions,
   FlatList,
+  Modal,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {ItemTile} from '../components/item_tile/ItemTile.js';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TouchableHighlight,
+} from 'react-native-gesture-handler';
 import randomWords from 'random-words';
+import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
+import ItemPageQuickLook from '../components/item_page/ItemPageQuickLook';
+import QuickLookModal from '../components/item_page/QuickLookModal';
 
 const useInfiniteScroll = load => {
   const [isFetching, setIsFetching] = useState(true);
@@ -46,16 +53,16 @@ const useInfiniteScroll = load => {
 const INITIAL_LOAD = 25;
 const PAGE_SIZE = 25;
 const SortDrawer = createDrawerNavigator();
-const QuickLookDrawer = createDrawerNavigator();
+const LeftNavDrawer = createDrawerNavigator();
 
 export default QuickLookScreen = () => {
   return (
-    <QuickLookDrawer.Navigator
+    <LeftNavDrawer.Navigator
       initialRouteName="RightDrawer"
       drawerPosition="left"
       drawerType="back">
-      <QuickLookDrawer.Screen name="Search" component={SearchScreen} />
-    </QuickLookDrawer.Navigator>
+      <LeftNavDrawer.Screen name="Search" component={SearchScreen} />
+    </LeftNavDrawer.Navigator>
   );
 };
 
@@ -109,9 +116,20 @@ const SearchBaseScreen = ({navigation}) => {
     });
   };
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalItem, setModalItem] = useState({});
   const [data, isFetching, setIsFetching] = useInfiniteScroll(
     fetchMoreListItems,
   );
+
+  const showQuickLookModal = itemHash => {
+    setModalItem(itemHash.item);
+    setModalVisible(true);
+  };
+
+  const hideQuickLookModal = () => {
+    setModalVisible(false);
+  };
 
   const toggleDrawer = () => {
     navigation.toggleDrawer();
@@ -119,6 +137,13 @@ const SearchBaseScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <QuickLookModal
+        visible={modalVisible}
+        props={{
+          item: modalItem,
+          hideQuickLookModal: hideQuickLookModal,
+        }}
+      />
       <View style={styles.blueBox}>
         <Text style={styles.bigWhiteBoldText}>
           {`${data.length} Items Loaded`}
@@ -138,7 +163,9 @@ const SearchBaseScreen = ({navigation}) => {
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return <ItemTile item={item} />;
+          return (
+            <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
+          );
         }}
       />
       {isFetching && (
