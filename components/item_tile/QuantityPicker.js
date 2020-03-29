@@ -1,37 +1,39 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
 //-------- REDUX -------//
 import {useDispatch} from 'react-redux';
 
+const getQuantity = (item, cart) => {
+  const itemId = item.id;
+  var qty = 0;
+  for (var idx in cart) {
+    if (cart[idx].id === itemId) {
+      qty = cart[idx].qty;
+    }
+  }
+  return qty;
+};
+
 export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
   var item = props.item;
-  if (!item.quantity) {
-    item.quantity = 0;
-  }
-  const [quantity, setQuantity] = useState(props.quantity);
+  const qty = useSelector(state => {
+    if (item.id == 1) {
+      console.log('CART: ', state.cart);
+    }
+    return getQuantity(item, state.cart);
+  });
+  const [quantity, setQuantity] = useState(qty);
   const dispatch = useDispatch();
   decrementItemCount = () => {
-    if (quantity > 0) {
+    if (qty > 0) {
       dispatch({
         type: 'REMOVE_FROM_CART',
-        payload: {item: item, qty: quantity - 1},
+        payload: {item: item, qty: qty - 1},
       });
-      setQuantity(quantity - 1);
-      // Remove from global.CART
-      if (
-        global.CART.itemIds[item.id] !== undefined &&
-        global.CART.itemIds[item.id] !== null
-      ) {
-        const index = global.CART.itemIds[item.id];
-        if (quantity == 1) {
-          global.CART.items.splice(index, 1);
-          delete global.CART.itemIds[item.id];
-        } else {
-          global.CART.items[index].quantity -= 1;
-        }
-      }
+      setQuantity(qty - 1);
     } else {
       dispatch({type: 'REMOVE_FROM_CART', payload: {item: item, qty: 0}});
       setQuantity(0);
@@ -39,25 +41,11 @@ export function QuantityPicker(props) {
   };
 
   incrementItemCount = () => {
-    // dispatch({type: 'INCREMENT'});
-    dispatch({type: 'ADD_TO_CART', payload: {item: item, qty: quantity + 1}});
-    setQuantity(quantity + 1);
-
-    // Add to/Update global.CART
-    if (
-      global.CART.itemIds[item.id] !== undefined &&
-      global.CART.itemIds[item.id] !== null
-    ) {
-      const index = global.CART.itemIds[item.id];
-      global.CART.items[index].quantity += 1;
-    } else {
-      item.quantity += 1;
-      global.CART.items.push(item);
-      global.CART.itemIds[item.id] = global.CART.items.length - 1;
-    }
+    dispatch({type: 'ADD_TO_CART', payload: {item: item, qty: qty + 1}});
+    setQuantity(qty + 1);
   };
 
-  if (quantity > 0) {
+  if (qty > 0) {
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableOpacity
@@ -69,7 +57,7 @@ export function QuantityPicker(props) {
         <TouchableOpacity
           style={styles.item_touchable_center}
           hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-          <Text style={styles.item_text}>{quantity}</Text>
+          <Text style={styles.item_text}>{qty}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.item_touchable_right}

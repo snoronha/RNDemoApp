@@ -15,7 +15,6 @@ const addToCart = (state, action) => {
         newCart[idx].qty = action.payload.qty;
       }
     }
-    console.log('EXISTS: ', newCart);
     return {
       items: state.items,
       cart: newCart,
@@ -26,7 +25,6 @@ const addToCart = (state, action) => {
     newCart.push({id: itemId, qty: 1});
     let newItems = deepCopyObject(state.items);
     newItems[itemId] = action.payload.item; // update state.items
-    console.log('NEW:    ', newCart);
     return {
       items: newItems,
       cart: newCart,
@@ -62,7 +60,6 @@ const removeFromCart = (state, action) => {
       } else {
         // update quantity
         newCart[idx].qty = action.payload.qty;
-        console.log('DECR:   ', newCart);
         return {
           items: state.items,
           cart: newCart,
