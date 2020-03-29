@@ -11,9 +11,9 @@ export default QuickLookModal = ({visible, props}) => {
     <View>
       <Modal
         animationType="slide"
-        transparent={false}
+        transparent={true}
         visible={visible}
-        presentationStyle={'formSheet'}
+        presentationStyle={'overFullScreen'}
         onRequestClose={() => {
           Alert.alert('Modal has been closed.');
         }}>
@@ -22,6 +22,7 @@ export default QuickLookModal = ({visible, props}) => {
             flex: 1,
             marginVertical: 30,
             marginHorizontal: 10,
+            backgroundColor: '#fff',
             borderRadius: 20,
             borderColor: '#aaa',
             borderWidth: 1,
