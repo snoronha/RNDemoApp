@@ -3,22 +3,16 @@ import {
   ActivityIndicator,
   Dimensions,
   FlatList,
-  Modal,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {
-  TouchableOpacity,
-  TouchableHighlight,
-} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
-import ItemPageQuickLook from '../components/item_page/ItemPageQuickLook';
 import QuickLookModal from '../components/item_page/QuickLookModal';
 
 const useInfiniteScroll = load => {
@@ -108,6 +102,7 @@ const SearchBaseScreen = ({navigation}) => {
                 favorite: isHearted,
                 width: Dimensions.get('window').width * 0.45,
                 quantity: 0,
+                hasVariants: n % 2 == 0,
               };
             },
           ),
@@ -116,17 +111,17 @@ const SearchBaseScreen = ({navigation}) => {
     });
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalItem, setModalItem] = useState({});
   const [data, isFetching, setIsFetching] = useInfiniteScroll(
     fetchMoreListItems,
   );
 
+  // For Quick Look Modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalItem, setModalItem] = useState({});
   const showQuickLookModal = itemHash => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
-
   const hideQuickLookModal = () => {
     setModalVisible(false);
   };

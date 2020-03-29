@@ -30,9 +30,10 @@ export function ItemTile(props) {
   // Pick alternate tiles to show ItemPageModal + ItemPageScreen
   // Real use case: variants show (Quick Look) modal first
   const modalOrScreen = () => {
-    if (props.item && props.item.id % 2 == 0) {
+    if (props.item && props.item.hasVariants) {
       return (
-        <TouchableOpacity onPress={this.navigateToItemPage}>
+        <TouchableOpacity
+          onPress={() => props.showQuickLookModal({item: props.item})}>
           <Image
             style={styles.item_image}
             source={
@@ -46,8 +47,7 @@ export function ItemTile(props) {
       );
     } else {
       return (
-        <TouchableOpacity
-          onPress={() => props.showQuickLookModal({item: props.item})}>
+        <TouchableOpacity onPress={this.navigateToItemPage}>
           <Image
             style={styles.item_image}
             source={

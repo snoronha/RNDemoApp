@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Dimensions,
+  FlatList,
   Image,
   SafeAreaView,
   ScrollView,
@@ -13,8 +14,8 @@ import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const HomeScreen = () => {
   var HPDATA = [];
-  const NUM_CAROUSELS = 10;
-  const MAX_ITEMS_PER_CAROUSEL = 8;
+  const NUM_CAROUSELS = 8;
+  const MAX_ITEMS_PER_CAROUSEL = 6;
   const carouselTitles = [
     'Featured Items',
     'Reorder Your Essentials',
@@ -55,19 +56,15 @@ const HomeScreen = () => {
         var randDescr =
           randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${key})`;
         var width = Dimensions.get('window').width * 0.4;
-        const item = (
-          <ItemTile
-            item={{
-              id: key,
-              favorite: isHearted,
-              image_url: image_url,
-              description: randDescr,
-              width: width,
-            }}
-            key={key}
-            showQuickLookModal={showQuickLookModal}
-          />
-        );
+        const item = {
+          id: '' + key,
+          favorite: isHearted,
+          image_url: image_url,
+          description: randDescr,
+          width: width,
+          quantity: 0,
+          hasVariants: false,
+        };
         carouselData.push(item);
         keyCount++;
       }
@@ -100,7 +97,19 @@ const HomeScreen = () => {
         {HPDATA.map((carousel, carouselIndex) => (
           <View key={carouselIndex}>
             <Text style={styles.carouselTitle}>{carousel.carouselTitle}</Text>
-            <ScrollView horizontal>{carousel.carouselData}</ScrollView>
+            <FlatList
+              horizontal={true}
+              data={carousel.carouselData}
+              keyExtractor={item => item.id}
+              renderItem={({item}) => {
+                return (
+                  <ItemTile
+                    item={item}
+                    showQuickLookModal={showQuickLookModal}
+                  />
+                );
+              }}
+            />
           </View>
         ))}
       </ScrollView>
