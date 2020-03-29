@@ -14,8 +14,12 @@ export function QuantityPicker(props) {
   const dispatch = useDispatch();
   decrementItemCount = () => {
     if (quantity > 0) {
+      dispatch({
+        type: 'REMOVE_FROM_CART',
+        payload: {item: item, qty: quantity - 1},
+      });
       setQuantity(quantity - 1);
-      dispatch({type: 'DECREMENT'});
+      // Remove from global.CART
       if (
         global.CART.itemIds[item.id] !== undefined &&
         global.CART.itemIds[item.id] !== null
@@ -28,12 +32,17 @@ export function QuantityPicker(props) {
           global.CART.items[index].quantity -= 1;
         }
       }
+    } else {
+      dispatch({type: 'REMOVE_FROM_CART', payload: {item: item, qty: 0}});
+      setQuantity(0);
     }
   };
 
   incrementItemCount = () => {
+    // dispatch({type: 'INCREMENT'});
+    dispatch({type: 'ADD_TO_CART', payload: {item: item, qty: quantity + 1}});
     setQuantity(quantity + 1);
-    dispatch({type: 'INCREMENT'});
+
     // Add to/Update global.CART
     if (
       global.CART.itemIds[item.id] !== undefined &&

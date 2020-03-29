@@ -18,7 +18,8 @@ export function HeaderCartLink() {
     navigation.navigate('Cart');
   };
 
-  const cartCount = useSelector(state => state);
+  // const cartCount = useSelector(state => state.cartCount);
+  const cartCount = useSelector(state => state.cart.length);
 
   return (
     <View>
