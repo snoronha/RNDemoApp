@@ -6,8 +6,10 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
@@ -70,6 +72,7 @@ const CartScreen = () => {
             <Text style={styles.shopping_cart_text}>No items in cart</Text>
           </View>
         )}
+        {/*
         <FlatList
           style={styles.list}
           numColumns={1}
@@ -77,6 +80,29 @@ const CartScreen = () => {
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return <CartItemTile item={item} />;
+          }}
+        />
+        */}
+        <SwipeListView
+          useFlatList={true}
+          data={cart}
+          renderItem={({item}) => {
+            return <CartItemTile item={item} />;
+          }}
+          renderHiddenItem={(rowData, rowMap) => (
+            <View style={styles.rowBack}>
+              <TouchableOpacity
+                onPress={() => rowMap[rowData.item.key].closeRow()}>
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          leftOpenValue={75}
+          rightOpenValue={-150}
+          onRowOpen={(rowKey, rowMap) => {
+            setTimeout(() => {
+              rowMap[rowKey].closeRow();
+            }, 2000);
           }}
         />
       </View>
@@ -101,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    marginHorizontal: 4,
+    marginHorizontal: 0,
     paddingBottom: 8,
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
