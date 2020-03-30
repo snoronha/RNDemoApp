@@ -8,10 +8,35 @@ import {
   Text,
   View,
 } from 'react-native';
-import {QuantityPicker} from '../components/item_tile/QuantityPicker.js';
+import {useSelector} from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {QuantityPicker} from '../components/item_tile/QuantityPicker';
+
+const getQuantity = (item, cart) => {
+  const itemId = item.id;
+  var qty = 0;
+  for (var idx in cart) {
+    if (cart[idx].id === itemId) {
+      qty = cart[idx].qty;
+    }
+  }
+  return qty;
+};
+
+const getCart = (items, cart) => {
+  var cartWithItems = [];
+  for (var idx in cart) {
+    var item = items[cart[idx].id];
+    cartWithItems.push(item);
+  }
+  return cartWithItems;
+};
 
 const CartItemTile = itemHash => {
   const item = itemHash.item;
+  const qty = useSelector(state => {
+    return getQuantity(item, state.cart);
+  });
   return (
     <View style={styles.item_row}>
       <Image style={styles.item_image} source={{uri: item.image_url}} />
@@ -20,25 +45,35 @@ const CartItemTile = itemHash => {
           {item.description}
         </Text>
         <View style={styles.quantity_picker}>
-          <QuantityPicker quantity={0} item={item} />
+          <QuantityPicker item={item} />
         </View>
       </View>
       <View>
         <Text style={{marginTop: 8, fontSize: 18}}>$5.55</Text>
-        <Text style={{paddingTop: 20, color: '#888'}}>Qty {item.quantity}</Text>
+        <Text style={{paddingTop: 20, color: '#888'}}>Qty {qty}</Text>
       </View>
     </View>
   );
 };
 
 const CartScreen = () => {
+  const cart = useSelector(state => {
+    return getCart(state.items, state.cart);
+  });
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <View style={{flex: 1}}>
+        {/* Show big gray shopping cart if no items in cart */}
+        {cart.length <= 0 && (
+          <View style={styles.shopping_cart_icon_container}>
+            <Icon name={'shopping-cart'} size={150} color={'#ddd'} />
+            <Text style={styles.shopping_cart_text}>No items in cart</Text>
+          </View>
+        )}
         <FlatList
           style={styles.list}
           numColumns={1}
-          data={global.CART.items}
+          data={cart}
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return <CartItemTile item={item} />;
@@ -91,5 +126,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginHorizontal: 8,
     justifyContent: 'center',
+  },
+  shopping_cart_icon_container: {
+    height: Dimensions.get('window').height * 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shopping_cart_text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ddd',
   },
 });

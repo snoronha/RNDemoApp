@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector} from 'react-redux';
-
-//-------- REDUX -------//
 import {useDispatch} from 'react-redux';
 
 const getQuantity = (item, cart) => {
@@ -20,13 +18,11 @@ export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
   var item = props.item;
   const qty = useSelector(state => {
-    if (item.id == 1) {
-      console.log('CART: ', state.cart);
-    }
     return getQuantity(item, state.cart);
   });
   const [quantity, setQuantity] = useState(qty);
   const dispatch = useDispatch();
+
   decrementItemCount = () => {
     if (qty > 0) {
       dispatch({

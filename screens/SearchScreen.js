@@ -101,7 +101,6 @@ const SearchBaseScreen = ({navigation}) => {
                   'https://i.picsum.photos/id/' + randInt + '/100/100.jpg',
                 favorite: isHearted,
                 width: Dimensions.get('window').width * 0.45,
-                quantity: 0,
                 hasVariants: n % 2 == 0,
               };
             },

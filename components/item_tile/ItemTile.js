@@ -8,14 +8,10 @@ import {QuantityPicker} from './QuantityPicker';
 // export ItemTile as a function (not a class)
 export function ItemTile(props) {
   const navigation = useNavigation();
-
-  // Set favorite in state to props.item.favorite
   const [favorite, setFavorite] = useState(props.item.favorite);
-
   const [imageLoaded, setImageLoaded] = useState(true);
 
   toggleHeart = () => {
-    // toggle the value of state variable favorite
     setFavorite(!favorite);
   };
 
@@ -83,7 +79,7 @@ export function ItemTile(props) {
         {props.item.description}
       </Text>
       <View style={styles.item_picker}>
-        <QuantityPicker quantity={0} item={props.item} />
+        <QuantityPicker item={props.item} />
       </View>
     </View>
   );

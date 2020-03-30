@@ -59,7 +59,7 @@ const removeFromCart = (state, action) => {
         };
       } else {
         // update quantity
-        newCart[idx].qty = action.payload.qty;
+        newCart[matchIdx].qty = action.payload.qty;
         return {
           items: state.items,
           cart: newCart,
