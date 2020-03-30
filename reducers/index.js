@@ -48,10 +48,7 @@ const removeFromCart = (state, action) => {
         // qty <= 0, remove from cart, items
         let newItems = deepCopyObject(state.items);
         delete newItems[itemId.toString()]; // toString necessary, seems shady - FIX
-        newCart = [
-          ...newCart.slice(0, matchIdx),
-          ...newCart.slice(matchIdx + 1),
-        ];
+        newCart.splice(matchIdx, 1);
         return {
           items: newItems,
           cart: newCart,

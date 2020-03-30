@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    top: -4,
+    top: -8,
     right: 4,
     zIndex: 1,
     width: 20,

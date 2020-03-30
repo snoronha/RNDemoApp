@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Modal, View} from 'react-native';
+import {Alert, Modal, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import ItemPageQuickLook from './ItemPageQuickLook';
