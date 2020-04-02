@@ -34,7 +34,7 @@ export function ItemTile(props) {
             style={styles.item_image}
             source={
               imageLoaded
-                ? {uri: props.item.image_url}
+                ? {uri: props.item.thumbnail}
                 : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
             }
             onError={this.displayFallBackImage}
@@ -48,7 +48,7 @@ export function ItemTile(props) {
             style={styles.item_image}
             source={
               imageLoaded
-                ? {uri: props.item.image_url}
+                ? {uri: props.item.thumbnail}
                 : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
             }
             onError={this.displayFallBackImage}
@@ -59,7 +59,7 @@ export function ItemTile(props) {
   };
 
   return (
-    <View style={[styles.item_row, {width: props.item.width}]}>
+    <View style={[styles.item_row, {width: props.width}]}>
       <View
         style={{
           width: props.item.width,
@@ -75,8 +75,8 @@ export function ItemTile(props) {
           onPress={this.toggleHeart}
         />
       </View>
-      <Text style={[styles.item_description, {width: props.item.width}]}>
-        {props.item.description}
+      <Text style={[styles.item_description, {width: props.width}]}>
+        {props.item.name}
       </Text>
       <View style={styles.item_picker}>
         <QuantityPicker item={props.item} />
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     marginHorizontal: 4,
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   item_description: {
+    flex: 1,
     fontSize: 12,
     marginHorizontal: 8,
     marginVertical: 8,
     justifyContent: 'center',
   },
   item_picker: {
-    flex: 1,
     fontSize: 14,
     marginBottom: 16,
     marginHorizontal: 8,

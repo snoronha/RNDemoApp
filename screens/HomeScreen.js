@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -9,25 +10,19 @@ import {
   Text,
   View,
 } from 'react-native';
-import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const HomeScreen = () => {
-  var HPDATA = [];
-  const NUM_CAROUSELS = 8;
-  const MAX_ITEMS_PER_CAROUSEL = 6;
-  const carouselTitles = [
-    'Featured Items',
-    'Reorder Your Essentials',
-    'Healthy Snacking',
-    'Easy Cleanup',
-    'Allergy Relief',
-    'Recommended for You',
-    'Fresh Fruit',
-    'Beef',
-    'Nuts & Dried Fruit',
-    'Frozen Meat & Seafood',
-  ];
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/home')
+      .then(response => response.json())
+      .then(json => setData(json.carousels))
+      .catch(error => console.error(error))
+      .finally(() => setLoading(false));
+  }, [isLoading]);
 
   // Quick Look Item Modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -39,43 +34,7 @@ const HomeScreen = () => {
   const hideQuickLookModal = () => {
     setModalVisible(false);
   };
-
-  // Populate HomePage data here
-  var keyCount = 1;
-  const getHomePageData = () => {
-    HPDATA = [];
-    for (var i = 0; i < NUM_CAROUSELS; i++) {
-      // Populate each carousel
-      var carouselData = [];
-      for (var j = 0; j < MAX_ITEMS_PER_CAROUSEL; j++) {
-        var randInt = 1 + Math.floor(Math.random() * 1000);
-        var isHearted = Math.floor(Math.random() * 5) == 0;
-        var image_url =
-          'https://i.picsum.photos/id/' + randInt + '/100/100.jpg';
-        var key = keyCount.toString();
-        var randDescr =
-          randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${key})`;
-        var width = Dimensions.get('window').width * 0.4;
-        const item = {
-          id: '' + key,
-          favorite: isHearted,
-          image_url: image_url,
-          description: randDescr,
-          width: width,
-          quantity: 0,
-          hasVariants: false,
-        };
-        carouselData.push(item);
-        keyCount++;
-      }
-      HPDATA.push({
-        carouselTitle: carouselTitles[i],
-        carouselData: carouselData,
-      });
-    }
-  };
-
-  getHomePageData();
+  const itemWidth = (width = Dimensions.get('window').width * 0.4);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -94,24 +53,31 @@ const HomeScreen = () => {
               'https://s.yimg.com/ny/api/res/1.2/mdknwWiRXB9ISzYWSMqIbg--~A/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9ODAw/https://media.zenfs.com/en-US/scary_mommy_602/681ccac5b578857a330cde82ea2f08e7',
           }}
         />
-        {HPDATA.map((carousel, carouselIndex) => (
-          <View key={carouselIndex}>
-            <Text style={styles.carouselTitle}>{carousel.carouselTitle}</Text>
-            <FlatList
-              horizontal={true}
-              data={carousel.carouselData}
-              keyExtractor={item => item.id}
-              renderItem={({item}) => {
-                return (
-                  <ItemTile
-                    item={item}
-                    showQuickLookModal={showQuickLookModal}
-                  />
-                );
-              }}
-            />
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <View>
+            {data.map((carousel, carouselIndex) => (
+              <View style={{flex: 1}} key={carouselIndex}>
+                <Text style={styles.carouselTitle}>{carousel.title}</Text>
+                <FlatList
+                  horizontal={true}
+                  data={carousel.items}
+                  keyExtractor={item => item.id.toString()}
+                  renderItem={({item}) => {
+                    return (
+                      <ItemTile
+                        item={item}
+                        width={itemWidth}
+                        showQuickLookModal={showQuickLookModal}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            ))}
           </View>
-        ))}
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -127,7 +93,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     margin: 0,
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height * 0.3,
+    height: Dimensions.get('window').height * 0.25,
   },
   carouselTitle: {
     marginTop: 8,
