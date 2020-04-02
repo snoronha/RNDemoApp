@@ -17,7 +17,11 @@ export function HeaderCartLink() {
   };
 
   const cartCount = useSelector(state => {
-    return state.cart.length;
+    var count = 0;
+    for (var idx in state.cart) {
+      count += state.cart[idx].qty;
+    }
+    return count;
   });
 
   return (

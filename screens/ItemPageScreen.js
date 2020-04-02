@@ -26,7 +26,7 @@ const ItemPageScreen = ({route}) => {
           flexDirection: 'row',
           justifyContent: 'center',
         }}>
-        <Image style={styles.item_image} source={{uri: item.image_url}} />
+        <Image style={styles.item_image} source={{uri: item.thumbnail}} />
         <Icon
           name={favorite ? 'heart' : 'heart-o'}
           color={'tomato'}
@@ -35,7 +35,7 @@ const ItemPageScreen = ({route}) => {
           onPress={this.toggleHeart}
         />
       </View>
-      <Text style={[styles.item_description]}>{item.description}</Text>
+      <Text style={[styles.item_description]}>{item.name}</Text>
       <View style={styles.quantity_picker}>
         <QuantityPicker quantity={0} item={item} />
       </View>

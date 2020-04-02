@@ -34,6 +34,15 @@ const getCart = (items, cart) => {
   return cartWithItems;
 };
 
+const getTotal = (items, cart) => {
+  var total = 0;
+  for (var idx in cart) {
+    var item = items[cart[idx].id];
+    total += item.list * cart[idx].qty;
+  }
+  return total;
+};
+
 const CartItemTile = itemHash => {
   const item = itemHash.item;
   const qty = useSelector(state => {
@@ -41,18 +50,31 @@ const CartItemTile = itemHash => {
   });
   return (
     <View style={styles.item_row}>
-      <Image style={styles.item_image} source={{uri: item.image_url}} />
-      <View style={{}}>
-        <Text style={[styles.item_description, {width: item.width}]}>
-          {item.description}
-        </Text>
+      <Image style={[styles.item_image]} source={{uri: item.thumbnail}} />
+      <View style={{width: Dimensions.get('window').width * 0.5}}>
+        <Text style={[styles.item_description]}>{item.name}</Text>
         <View style={styles.quantity_picker}>
           <QuantityPicker item={item} />
         </View>
       </View>
-      <View>
-        <Text style={{marginTop: 8, fontSize: 18}}>$5.55</Text>
-        <Text style={{paddingTop: 20, color: '#888'}}>Qty {qty}</Text>
+      <View style={{width: 70, alignItems: 'flex-end'}}>
+        <View
+          style={{
+            width: 70,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <Text
+            style={{marginTop: 8, marginLeft: 8, fontSize: 18, color: '#888'}}>
+            $
+          </Text>
+          <Text style={{marginTop: 8, fontSize: 18, marginRight: 8}}>
+            {(item.list * qty).toFixed(2)}
+          </Text>
+        </View>
+        <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
+          Qty {qty}
+        </Text>
       </View>
     </View>
   );
@@ -61,6 +83,9 @@ const CartItemTile = itemHash => {
 const CartScreen = () => {
   const cart = useSelector(state => {
     return getCart(state.items, state.cart);
+  });
+  const cartTotal = useSelector(state => {
+    return getTotal(state.items, state.cart);
   });
   return (
     <SafeAreaView style={styles.container}>
@@ -72,20 +97,10 @@ const CartScreen = () => {
             <Text style={styles.shopping_cart_text}>No items in cart</Text>
           </View>
         )}
-        {/*
-        <FlatList
-          style={styles.list}
-          numColumns={1}
-          data={cart}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return <CartItemTile item={item} />;
-          }}
-        />
-        */}
         <SwipeListView
           useFlatList={true}
           data={cart}
+          keyExtractor={item => item.id.toString()}
           renderItem={({item}) => {
             return <CartItemTile item={item} />;
           }}
@@ -105,6 +120,34 @@ const CartScreen = () => {
             }, 2000);
           }}
         />
+        <View
+          style={[
+            {
+              position: 'absolute',
+              width: Dimensions.get('window').width,
+              height: 60,
+              bottom: 0,
+              borderTopColor: '#ddd',
+              borderTopWidth: 1,
+              backgroundColor: '#fff',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            },
+          ]}>
+          <Text
+            style={{
+              fontSize: 24,
+              marginLeft: 20,
+              marginTop: 8,
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}>
+            Total
+          </Text>
+          <Text style={{fontSize: 24, marginRight: 8, marginTop: 8}}>
+            $ {cartTotal.toFixed(2)}
+          </Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -126,8 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginHorizontal: 0,
+    justifyContent: 'space-between',
     paddingBottom: 8,
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
@@ -135,22 +177,22 @@ const styles = StyleSheet.create({
   item_image: {
     width: 72,
     height: 72,
-    marginTop: 16,
-    marginHorizontal: 8,
+    marginTop: 4,
+    marginLeft: 8,
     borderRadius: 4,
     justifyContent: 'center',
   },
   item_description: {
+    width: Dimensions.get('window').width * 0.45,
     fontSize: 12,
-    marginHorizontal: 8,
+    marginLeft: 4,
     marginTop: 8,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   quantity_picker: {
     flex: 1,
     fontSize: 14,
     marginTop: 8,
-    marginHorizontal: 8,
     justifyContent: 'center',
   },
   shopping_cart_icon_container: {
