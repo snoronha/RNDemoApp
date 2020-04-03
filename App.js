@@ -4,7 +4,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -20,6 +19,7 @@ import CartScreen from './screens/CartScreen';
 
 import {HeaderBackLink} from './components/header/HeaderBackLink';
 import {HeaderCartLink} from './components/header/HeaderCartLink';
+import {HeaderSearchBar} from './components/header/HeaderSearchBar';
 import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 
 //-------- REDUX ---------//
@@ -102,7 +102,7 @@ const Search = () => {
             return <HeaderCartLink />;
           },
           headerTitleAlign: 'center',
-          headerTitle: 'Search',
+          headerTitle: props => <HeaderSearchBar {...props} />,
         }}
       />
       <SearchStack.Screen
@@ -231,51 +231,6 @@ const StoreFinder = () => {
     </StoreFinderStack.Navigator>
   );
 };
-
-// Need to move this to a separate component
-// Causing an error when moved out of here to a separate file
-
-/*
-const HeaderSearchBar = props => {
-  const dispatch = useDispatch();
-  const [searchKwds, setSearchKwds] = useState('');
-  const onChangeText = text => {
-    setSearchKwds(text);
-    // console.log('SEARCH: ' + text);
-  };
-  const onSubmitEditing = evt => {
-    // dispatch 'SET_SEARCH_KWDS' (redux) event
-    dispatch({
-      type: 'SET_SEARCH_KWDS',
-      payload: {searchKwds: evt.nativeEvent.text},
-    });
-  };
-
-  return (
-    <TextInput
-      style={[
-        {
-          width: Dimensions.get('window').width * 0.7,
-          borderColor: '#ddd',
-          backgroundColor: '#fff',
-          paddingLeft: 5,
-          borderRadius: 10,
-          borderWidth: 1,
-          height: 35,
-          marginRight: 8,
-        },
-      ]}
-      onChangeText={text => onChangeText(text)}
-      onSubmitEditing={text => onSubmitEditing(text)}
-      returnKeyType="search"
-      placeholder="Search"
-      placeholderTextColor="#aaa"
-      maxLength={40}
-      autoCapitalize="none"
-    />
-  );
-};
-*/
 
 export default App = () => {
   return (
