@@ -8,13 +8,14 @@ import {
   Text,
   View,
 } from 'react-native';
+import {shallowEqual, useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import randomWords from 'random-words';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
 import QuickLookModal from '../components/item_page/QuickLookModal';
 
+/*
 const useInfiniteScroll = load => {
   const [isFetching, setIsFetching] = useState(true);
   const [data, setData] = useState([]);
@@ -43,24 +44,25 @@ const useInfiniteScroll = load => {
 
   return [data, isFetching, setIsFetching];
 };
+*/
 
 const INITIAL_LOAD = 25;
 const PAGE_SIZE = 25;
 const SortDrawer = createDrawerNavigator();
 const LeftNavDrawer = createDrawerNavigator();
 
-export default QuickLookScreen = () => {
+export default SearchScreen = () => {
   return (
     <LeftNavDrawer.Navigator
       initialRouteName="RightDrawer"
       drawerPosition="left"
       drawerType="back">
-      <LeftNavDrawer.Screen name="Search" component={SearchScreen} />
+      <LeftNavDrawer.Screen name="Search" component={SortFilterDrawerScreen} />
     </LeftNavDrawer.Navigator>
   );
 };
 
-const SearchScreen = () => {
+const SortFilterDrawerScreen = () => {
   return (
     <SortDrawer.Navigator
       drawerPosition={'right'}
@@ -80,6 +82,7 @@ const SearchBaseScreen = ({navigation}) => {
    * @param lastIndex
    * @returns {Promise<R>}
    */
+  /*
   const fetchMoreListItems = ({lastIndex}) => {
     // Simulate fetch of next 25 items (25 if initial load)
     return new Promise(resolve => {
@@ -96,8 +99,8 @@ const SearchBaseScreen = ({navigation}) => {
               return {
                 number: n.toString(),
                 id: n.toString(),
-                description: randWords,
-                image_url:
+                name: randWords,
+                thumbnail:
                   'https://i.picsum.photos/id/' + randInt + '/100/100.jpg',
                 favorite: isHearted,
                 width: Dimensions.get('window').width * 0.45,
@@ -109,10 +112,33 @@ const SearchBaseScreen = ({navigation}) => {
       }, 400);
     });
   };
+  */
 
+  /*
   const [data, isFetching, setIsFetching] = useInfiniteScroll(
     fetchMoreListItems,
   );
+  */
+
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [searchKwds, setSearchKwds] = useState('');
+
+  useEffect(() => {
+    console.log('IN useEffect!!\n');
+    fetch('http://localhost:8080/items/search?kwd=' + srchKwds)
+      .then(response => response.json())
+      .then(json => setData(json.items))
+      .catch(error => console.error(error))
+      .finally(() => setLoading(false));
+  }, [searchKwds]);
+
+  // searchKwds from redux
+
+  const srchKwds = useSelector(state => {
+    console.log('IN SearchKwds: ', state.searchKwds);
+    return state.searchKwds;
+  }, shallowEqual);
 
   // For Quick Look Modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -150,8 +176,8 @@ const SearchBaseScreen = ({navigation}) => {
         onEndReachedThreshold={3}
         numColumns={2}
         onEndReached={() => {
-          if (!isFetching) {
-            setIsFetching(true);
+          if (!isLoading) {
+            setLoading(true);
           }
         }}
         data={data}
@@ -162,20 +188,11 @@ const SearchBaseScreen = ({navigation}) => {
           );
         }}
       />
-      {isFetching && (
+      {isLoading && (
         <ActivityIndicator
           size="large"
           color="#444"
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: 0,
-          }}
+          style={styles.activity_indicator}
         />
       )}
     </SafeAreaView>
@@ -214,5 +231,15 @@ const styles = StyleSheet.create({
     borderColor: '#aaa',
     borderWidth: 1,
     borderRadius: 20,
+  },
+  activity_indicator: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 0,
   },
 });

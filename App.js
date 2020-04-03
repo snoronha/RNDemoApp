@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
+import React, {useState} from 'react';
+import {Dimensions, Text, TextInput, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -13,7 +13,7 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
-import QuickLookScreen from './screens/SearchScreen';
+import SearchScreen from './screens/SearchScreen';
 
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
@@ -24,6 +24,7 @@ import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import store from './stores/store';
 
 // Hack to ensure FontAwesome loads
@@ -85,12 +86,14 @@ const Home = ({navigation}) => {
   );
 };
 
+// headerTitle: props => <HeaderSearchBar {...props} />
+
 const Search = () => {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={QuickLookScreen}
+        component={SearchScreen}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;
@@ -228,6 +231,51 @@ const StoreFinder = () => {
     </StoreFinderStack.Navigator>
   );
 };
+
+// Need to move this to a separate component
+// Causing an error when moved out of here to a separate file
+
+/*
+const HeaderSearchBar = props => {
+  const dispatch = useDispatch();
+  const [searchKwds, setSearchKwds] = useState('');
+  const onChangeText = text => {
+    setSearchKwds(text);
+    // console.log('SEARCH: ' + text);
+  };
+  const onSubmitEditing = evt => {
+    // dispatch 'SET_SEARCH_KWDS' (redux) event
+    dispatch({
+      type: 'SET_SEARCH_KWDS',
+      payload: {searchKwds: evt.nativeEvent.text},
+    });
+  };
+
+  return (
+    <TextInput
+      style={[
+        {
+          width: Dimensions.get('window').width * 0.7,
+          borderColor: '#ddd',
+          backgroundColor: '#fff',
+          paddingLeft: 5,
+          borderRadius: 10,
+          borderWidth: 1,
+          height: 35,
+          marginRight: 8,
+        },
+      ]}
+      onChangeText={text => onChangeText(text)}
+      onSubmitEditing={text => onSubmitEditing(text)}
+      returnKeyType="search"
+      placeholder="Search"
+      placeholderTextColor="#aaa"
+      maxLength={40}
+      autoCapitalize="none"
+    />
+  );
+};
+*/
 
 export default App = () => {
   return (

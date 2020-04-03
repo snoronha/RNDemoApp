@@ -57,8 +57,8 @@ const FavoritesScreen = () => {
         const item = {
           id: '' + key,
           favorite: true,
-          image_url: image_url,
-          description: randDescr,
+          thumbnail: image_url,
+          name: randDescr,
           width: width,
           quantity: 0,
           hasVariants: false,

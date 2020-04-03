@@ -2,6 +2,7 @@ const initialState = {
   items: {}, // {id1: {<item1>}, id2: {<item2>}, ... }
   cart: [], // [{id: <id1>, qty: <qty1>}, ...]
   favIds: {}, // {id1: true, id2: true, ...}
+  searchKwds: '',
 };
 
 // assume action = {qty: <qty>, item: <item>}
@@ -19,6 +20,7 @@ const addToCart = (state, action) => {
       items: state.items,
       cart: newCart,
       favIds: state.favIds,
+      searchKwds: state.searchKwds,
     };
   } else {
     // Item not found - push onto cart, items
@@ -29,6 +31,7 @@ const addToCart = (state, action) => {
       items: newItems,
       cart: newCart,
       favIds: state.favIds,
+      searchKwds: state.searchKwds,
     };
   }
 };
@@ -53,6 +56,7 @@ const removeFromCart = (state, action) => {
           items: newItems,
           cart: newCart,
           favIds: state.favIds,
+          searchKwds: state.searchKwds,
         };
       } else {
         // update quantity
@@ -61,6 +65,7 @@ const removeFromCart = (state, action) => {
           items: state.items,
           cart: newCart,
           favIds: state.favIds,
+          searchKwds: state.searchKwds,
         };
       }
     } else {
@@ -75,17 +80,14 @@ const removeFromCart = (state, action) => {
   }
 };
 
-export default (state = initialState, action) => {
-  switch (action.type) {
-    case 'ADD_TO_CART':
-      // action = payload: {id: <id>, qty: <qty>, item: <item>}
-      return addToCart(state, action);
-    case 'REMOVE_FROM_CART':
-      // action = payload: {id: <id>, qty: <qty>, item: <item>}
-      return removeFromCart(state, action);
-    default:
-      return state;
-  }
+// assume action = {searchKwds: searchKwds}, searchKwds is a string
+const setSearchKwds = (state, action) => {
+  return {
+    items: state.items,
+    cart: state.cart,
+    favIds: state.favIds,
+    searchKwds: action.payload.searchKwds,
+  };
 };
 
 // Move this to util after done
@@ -106,4 +108,20 @@ const deepCopyObject = inObject => {
         : value;
   }
   return outObject;
+};
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_TO_CART':
+      // action = payload: {id: <id>, qty: <qty>, item: <item>}
+      return addToCart(state, action);
+    case 'REMOVE_FROM_CART':
+      // action = payload: {id: <id>, qty: <qty>, item: <item>}
+      return removeFromCart(state, action);
+    case 'SET_SEARCH_KWDS':
+      // action = payload: {searchKwds: searchKwds}
+      return setSearchKwds(state, action);
+    default:
+      return state;
+  }
 };
