@@ -1,5 +1,4 @@
-import React, {useState} from 'react';
-import {Dimensions, Text, TextInput, View} from 'react-native';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -12,7 +11,8 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
-import SearchScreen from './screens/SearchScreen';
+import {SearchScreen} from './screens/SearchScreen';
+import {SearchBaseScreen} from './screens/SearchScreen';
 
 import ItemPageScreen from './screens/ItemPageScreen';
 import CartScreen from './screens/CartScreen';
@@ -24,7 +24,6 @@ import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
-import {useDispatch} from 'react-redux';
 import store from './stores/store';
 
 // Hack to ensure FontAwesome loads
@@ -88,12 +87,12 @@ const Home = ({navigation}) => {
 
 // headerTitle: props => <HeaderSearchBar {...props} />
 
-const Search = () => {
+export function Search() {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={SearchScreen}
+        component={SearchBaseScreen}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;
@@ -102,7 +101,7 @@ const Search = () => {
             return <HeaderCartLink />;
           },
           headerTitleAlign: 'center',
-          headerTitle: props => <HeaderSearchBar {...props} />,
+          headerTitle: (props) => <HeaderSearchBar {...props} />,
         }}
       />
       <SearchStack.Screen
@@ -135,7 +134,7 @@ const Search = () => {
       />
     </SearchStack.Navigator>
   );
-};
+}
 
 const Favorites = () => {
   return (

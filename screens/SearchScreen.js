@@ -8,7 +8,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {shallowEqual, useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
@@ -51,29 +50,52 @@ const PAGE_SIZE = 25;
 const SortDrawer = createDrawerNavigator();
 const LeftNavDrawer = createDrawerNavigator();
 
-export default SearchScreen = () => {
+/*
+export function SearchScreen(props) {
+  console.log('11111  PROPS: ', props.route.params);
   return (
     <LeftNavDrawer.Navigator
       initialRouteName="RightDrawer"
       drawerPosition="left"
       drawerType="back">
-      <LeftNavDrawer.Screen name="Search" component={SortFilterDrawerScreen} />
+      <LeftNavDrawer.Screen name="SearchBase" component={SearchBaseScreen} />
+      <LeftNavDrawer.Screen name="SortAndFilter" component={SortFilterScreen} />
     </LeftNavDrawer.Navigator>
   );
-};
+}
+*/
 
-const SortFilterDrawerScreen = () => {
+export function SearchScreen(props) {
+  return (
+    <LeftNavDrawer.Navigator
+      initialRouteName="RightDrawer"
+      drawerPosition="left"
+      drawerType="back">
+      <LeftNavDrawer.Screen
+        name="SortAndFilterDrawer"
+        component={SortFilterDrawerScreen}
+        {...props}
+      />
+    </LeftNavDrawer.Navigator>
+  );
+}
+
+function SortFilterDrawerScreen(props) {
   return (
     <SortDrawer.Navigator
       drawerPosition={'right'}
       drawerContent={() => <SortFilterScreen />}>
-      <SortDrawer.Screen name="Search" component={SearchBaseScreen} />
-      <SortDrawer.Screen name="Sort & Filter" component={SortFilterScreen} />
+      <SortDrawer.Screen
+        name="SearchBase"
+        component={SearchBaseScreen}
+        {...props}
+      />
+      <SortDrawer.Screen name="SortAndFilter" component={SortFilterScreen} />
     </SortDrawer.Navigator>
   );
-};
+}
 
-const SearchBaseScreen = ({navigation}) => {
+export function SearchBaseScreen(props) {
   /**
    * Right now, I'm mandating that whatever this method is accepts as a
    * parameter an object containing the objects `lastIndex` and `lastObject`
@@ -120,30 +142,26 @@ const SearchBaseScreen = ({navigation}) => {
   );
   */
 
+  const navigation = props.navigation;
+  let searchKwds =
+    props.route && props.route.params ? props.route.params.searchKwds : '';
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [searchKwds, setSearchKwds] = useState('');
+  // console.log('searckKwds: ' + searchKwds);
 
   useEffect(() => {
-    console.log('IN useEffect!!\n');
-    fetch('http://localhost:8080/items/search?kwd=' + srchKwds)
-      .then(response => response.json())
-      .then(json => setData(json.items))
-      .catch(error => console.error(error))
+    setLoading(true);
+    fetch('http://localhost:8080/items/search?kwd=' + searchKwds)
+      .then((response) => response.json())
+      .then((json) => setData(json.items))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [searchKwds]);
-
-  // searchKwds from redux
-
-  const srchKwds = useSelector(state => {
-    console.log('IN SearchKwds: ', state.searchKwds);
-    return state.searchKwds;
-  }, shallowEqual);
 
   // For Quick Look Modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = itemHash => {
+  const showQuickLookModal = (itemHash) => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
@@ -175,13 +193,8 @@ const SearchBaseScreen = ({navigation}) => {
       <FlatList
         onEndReachedThreshold={3}
         numColumns={2}
-        onEndReached={() => {
-          if (!isLoading) {
-            setLoading(true);
-          }
-        }}
         data={data}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({item}) => {
           return (
             <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
@@ -197,7 +210,7 @@ const SearchBaseScreen = ({navigation}) => {
       )}
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

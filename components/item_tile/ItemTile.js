@@ -75,6 +75,10 @@ export function ItemTile(props) {
           onPress={this.toggleHeart}
         />
       </View>
+      <View style={{flexDirection: 'row', width: props.width}}>
+        <Text style={styles.item_price}>${props.item.list.toFixed(2)}</Text>
+        <Text style={styles.display_unit}>${props.item.displayUnitPrice}</Text>
+      </View>
       <Text style={[styles.item_description, {width: props.width}]}>
         {props.item.name}
       </Text>
@@ -107,6 +111,18 @@ const styles = StyleSheet.create({
   heart: {
     alignSelf: 'flex-start',
     marginTop: 16,
+  },
+  item_price: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginHorizontal: 8,
+    marginVertical: 4,
+  },
+  display_unit: {
+    fontSize: 11,
+    color: '#aaa',
+    marginHorizontal: 0,
+    marginVertical: 6,
   },
   item_description: {
     flex: 1,

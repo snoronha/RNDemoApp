@@ -1,19 +1,17 @@
 import React, {useState} from 'react';
 import {Dimensions, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 
 export function HeaderSearchBar() {
   const dispatch = useDispatch();
   const [searchKwds, setSearchKwds] = useState('');
-  const onChangeText = text => {
+  const onChangeText = (text) => {
     setSearchKwds(text);
   };
-  const onSubmitEditing = evt => {
-    // dispatch 'SET_SEARCH_KWDS' (redux) event
-    dispatch({
-      type: 'SET_SEARCH_KWDS',
-      payload: {searchKwds: evt.nativeEvent.text},
-    });
+  const navigation = useNavigation();
+  const onSubmitEditing = (evt) => {
+    navigation.navigate('Search', {searchKwds: evt.nativeEvent.text});
   };
   return (
     <TextInput
@@ -29,8 +27,8 @@ export function HeaderSearchBar() {
           marginRight: 8,
         },
       ]}
-      onChangeText={text => onChangeText(text)}
-      onSubmitEditing={text => onSubmitEditing(text)}
+      onChangeText={(text) => onChangeText(text)}
+      onSubmitEditing={(text) => onSubmitEditing(text)}
       placeholder="Search"
       placeholderTextColor="#aaa"
       maxLength={40}
