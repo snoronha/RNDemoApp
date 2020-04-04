@@ -52,15 +52,17 @@ const SortDrawer = createDrawerNavigator();
 const LeftNavDrawer = createDrawerNavigator();
 
 /*
-export function SearchScreen(props) {
-  console.log('11111  PROPS: ', props.route.params);
+export function SearchScreen() {
   return (
     <LeftNavDrawer.Navigator
       initialRouteName="RightDrawer"
       drawerPosition="left"
       drawerType="back">
       <LeftNavDrawer.Screen name="SearchBase" component={SearchBaseScreen} />
-      <LeftNavDrawer.Screen name="SortAndFilter" component={SortFilterScreen} />
+      <LeftNavDrawer.Screen
+        name="SortAndFilter"
+        component={SortFilterDrawerScreen}
+      />
     </LeftNavDrawer.Navigator>
   );
 }
@@ -81,16 +83,12 @@ export function SearchScreen(props) {
   );
 }
 
-function SortFilterDrawerScreen(props) {
+function SortFilterDrawerScreen() {
   return (
     <SortDrawer.Navigator
       drawerPosition={'right'}
       drawerContent={() => <SortFilterScreen />}>
-      <SortDrawer.Screen
-        name="SearchBase"
-        component={SearchBaseScreen}
-        {...props}
-      />
+      <SortDrawer.Screen name="SearchBase" component={SearchBaseScreen} />
       <SortDrawer.Screen name="SortAndFilter" component={SortFilterScreen} />
     </SortDrawer.Navigator>
   );

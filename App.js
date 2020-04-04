@@ -85,14 +85,12 @@ const Home = ({navigation}) => {
   );
 };
 
-// headerTitle: props => <HeaderSearchBar {...props} />
-
 export function Search() {
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
         name="Search"
-        component={SearchBaseScreen}
+        component={SearchScreen}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;
@@ -129,7 +127,7 @@ export function Search() {
             return <HeaderCartLink />;
           },
           headerTitleAlign: 'center',
-          headerTitle: 'Item Page',
+          headerTitle: 'Cart',
         }}
       />
     </SearchStack.Navigator>
