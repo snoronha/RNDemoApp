@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
@@ -10,8 +10,21 @@ export function ItemTile(props) {
   const navigation = useNavigation();
   const [favorite, setFavorite] = useState(props.item.favorite);
   const [imageLoaded, setImageLoaded] = useState(true);
+  const [isHeartLoading, setHeartLoading] = useState(true); // used for heart-ing
 
   toggleHeart = () => {
+    console.log('Toggling heart ' + favorite);
+    let action = favorite ? 'delete' : 'insert';
+    let url = `http://localhost:8080/favorites/${props.item.id}?action=${action}`;
+    let body = JSON.stringify({itemId: props.item.id, userId: 1});
+    setHeartLoading(true);
+    fetch(url, {method: 'post', body: body})
+      .then((response) => response.json())
+      .then((json) => {
+        setHeartLoading(true);
+      })
+      .catch((error) => console.error(error)) // handle this
+      .finally(() => setHeartLoading(false));
     setFavorite(!favorite);
   };
 

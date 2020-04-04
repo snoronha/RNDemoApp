@@ -11,7 +11,11 @@ export function HeaderSearchBar() {
   };
   const navigation = useNavigation();
   const onSubmitEditing = (evt) => {
-    navigation.navigate('Search', {searchKwds: evt.nativeEvent.text});
+    dispatch({
+      type: 'SET_SEARCH_KWDS',
+      payload: {searchKwds: evt.nativeEvent.text},
+    });
+    // navigation.navigate('Search', {searchKwds: evt.nativeEvent.text});
   };
   return (
     <TextInput

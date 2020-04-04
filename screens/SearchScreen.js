@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
@@ -143,11 +144,14 @@ export function SearchBaseScreen(props) {
   */
 
   const navigation = props.navigation;
-  let searchKwds =
-    props.route && props.route.params ? props.route.params.searchKwds : '';
-  const [isLoading, setLoading] = useState(true);
+  // let searchKwds =
+  //   props.route && props.route.params ? props.route.params.searchKwds : '';
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  // console.log('searckKwds: ' + searchKwds);
+
+  const searchKwds = useSelector((state) => {
+    return state.searchKwds;
+  });
 
   useEffect(() => {
     setLoading(true);

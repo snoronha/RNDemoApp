@@ -43,9 +43,9 @@ const getTotal = (items, cart) => {
   return total;
 };
 
-const CartItemTile = itemHash => {
+const CartItemTile = (itemHash) => {
   const item = itemHash.item;
-  const qty = useSelector(state => {
+  const qty = useSelector((state) => {
     return getQuantity(item, state.cart);
   });
   return (
@@ -62,14 +62,17 @@ const CartItemTile = itemHash => {
           style={{
             width: 70,
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            marginRight: 8,
           }}>
           <Text
-            style={{marginTop: 8, marginLeft: 8, fontSize: 18, color: '#888'}}>
-            $
-          </Text>
-          <Text style={{marginTop: 8, fontSize: 18, marginRight: 8}}>
-            {(item.list * qty).toFixed(2)}
+            style={{
+              marginTop: 4,
+              fontSize: 18,
+              width: 70,
+              marginRight: 8,
+              textAlign: 'right',
+            }}>
+            ${(item.list * qty).toFixed(2)}
           </Text>
         </View>
         <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
@@ -81,10 +84,10 @@ const CartItemTile = itemHash => {
 };
 
 const CartScreen = () => {
-  const cart = useSelector(state => {
+  const cart = useSelector((state) => {
     return getCart(state.items, state.cart);
   });
-  const cartTotal = useSelector(state => {
+  const cartTotal = useSelector((state) => {
     return getTotal(state.items, state.cart);
   });
   return (
@@ -100,7 +103,7 @@ const CartScreen = () => {
         <SwipeListView
           useFlatList={true}
           data={cart}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({item}) => {
             return <CartItemTile item={item} />;
           }}
