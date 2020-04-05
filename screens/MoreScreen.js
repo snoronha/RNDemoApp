@@ -32,17 +32,19 @@ const MoreScreen = ({navigation}) => {
           <TouchableOpacity
             style={styles.tile_image}
             onPress={() => {
-              navigation.navigate('WebView', {
-                url:
+              navigation.navigate('WebViewAB', {
+                url1:
+                  'https://grocery.walmart.com/?_xf=0w8xl&wm_preview_date=1580770276041',
+                url2:
                   'https://grocery.walmart.com/?_xf=dIUjO&wm_preview_date=1580760608359',
                 showUrlBar: false,
-                headerTitle: 'Groceries',
+                headerTitle: 'Groceries A/B',
               });
             }}
             key={2}>
             <Icon name={'shopping-basket'} size={72} color={'#08f'} />
           </TouchableOpacity>
-          <Text style={styles.tile_text}>Online Grocery</Text>
+          <Text style={styles.tile_text}>Grocery A/B</Text>
         </View>
       </View>
       <View style={styles.tile_row}>
@@ -99,7 +101,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.7,
   },
   tile_text: {
+    marginTop: Dimensions.get('window').width * -0.14,
     fontSize: 16,
+    color: '#aaa',
     fontWeight: 'bold',
   },
 });

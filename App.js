@@ -11,6 +11,7 @@ import FavoritesScreen from './screens/FavoritesScreen';
 import StoreFinderScreen from './screens/StoreFinderScreen';
 import MoreScreen from './screens/MoreScreen';
 import WebViewScreen from './screens/WebViewScreen';
+import WebViewABScreen from './screens/WebViewABScreen';
 import {SearchScreen} from './screens/SearchScreen';
 import {SearchBaseScreen} from './screens/SearchScreen';
 
@@ -206,6 +207,17 @@ const More = () => {
           },
           headerTitleAlign: 'center',
           headerTitle: 'WebView',
+        }}
+      />
+      <MoreStack.Screen
+        name="WebViewAB"
+        component={WebViewABScreen}
+        options={{
+          headerLeft: () => {
+            return <HeaderBackLink />;
+          },
+          headerTitleAlign: 'center',
+          headerTitle: 'WebViewAB',
         }}
       />
     </MoreStack.Navigator>
