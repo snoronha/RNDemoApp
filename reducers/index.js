@@ -1,25 +1,32 @@
 const initialState = {
   items: {}, // {id1: {<item1>}, id2: {<item2>}, ... }
   cart: [], // [{id: <id1>, qty: <qty1>}, ...]
-  favIds: {}, // {id1: true, id2: true, ...}
+  favorites: [], // [{id1: <id1>}, {id2: <id2>}, ...]
   searchKwds: '',
 };
 
-// assume action = {qty: <qty>, item: <item>}
+// action = {qty: <qty>, item: <item>}
 const addToCart = (state, action) => {
   let newCart = deepCopyObject(state.cart); // shallow copy done with Object.assign
   const itemId = action.payload.item.id;
   if (state.items[itemId]) {
+    var matchIdx = -1;
     for (var idx in newCart) {
       if (newCart[idx].id === itemId) {
         // found the cart item to be incremented
+        matchIdx = idx;
         newCart[idx].qty = action.payload.qty;
       }
+    }
+    if (matchIdx >= 0) {
+      newCart[matchIdx].qty = action.payload.qty;
+    } else {
+      newCart.push({id: itemId, qty: 1});
     }
     return {
       items: state.items,
       cart: newCart,
-      favIds: state.favIds,
+      favorites: state.favorites,
       searchKwds: state.searchKwds,
     };
   } else {
@@ -30,7 +37,7 @@ const addToCart = (state, action) => {
     return {
       items: newItems,
       cart: newCart,
-      favIds: state.favIds,
+      favorites: state.favorites,
       searchKwds: state.searchKwds,
     };
   }
@@ -49,13 +56,13 @@ const removeFromCart = (state, action) => {
     if (matchIdx >= 0) {
       if (action.payload.qty <= 0) {
         // qty <= 0, remove from cart, items
-        let newItems = deepCopyObject(state.items);
-        delete newItems[itemId.toString()]; // toString necessary, seems shady - FIX
+        // let newItems = deepCopyObject(state.items);
+        // delete newItems[itemId.toString()]; // toString necessary, seems shady - FIX
         newCart.splice(matchIdx, 1);
         return {
-          items: newItems,
+          items: state.items,
           cart: newCart,
-          favIds: state.favIds,
+          favorites: state.favorites,
           searchKwds: state.searchKwds,
         };
       } else {
@@ -64,7 +71,7 @@ const removeFromCart = (state, action) => {
         return {
           items: state.items,
           cart: newCart,
-          favIds: state.favIds,
+          favorites: state.favorites,
           searchKwds: state.searchKwds,
         };
       }
@@ -75,7 +82,7 @@ const removeFromCart = (state, action) => {
     }
   } else {
     // Item not found in items - throw error
-    console.log('ERROR: Item not found!', state.cart, state.items);
+    console.log('ERROR: Cart Item not found!', state.cart, state.items);
     return state;
   }
 };
@@ -85,14 +92,91 @@ const setSearchKwds = (state, action) => {
   return {
     items: state.items,
     cart: state.cart,
-    favIds: state.favIds,
+    favorites: state.favorites,
     searchKwds: action.payload.searchKwds,
   };
 };
 
+// action = {item: <item>}
+const heartItem = (state, action) => {
+  let newFavorites = deepCopyObject(state.favorites);
+  const itemId = action.payload.item.id;
+  if (state.items[itemId]) {
+    // Found item in items (item store: cart + fav items)
+    found = false; // see if it exists in favorites
+    for (var idx in newFavorites) {
+      if (newFavorites[idx].id === itemId) {
+        // found the favorite item do nothing
+        found = true;
+      }
+    }
+    if (!found) {
+      newFavorites.push({id: itemId});
+    }
+    return {
+      items: state.items,
+      cart: state.cart,
+      favorites: newFavorites,
+      searchKwds: state.searchKwds,
+    };
+  } else {
+    // Item not found - push onto favorites, items
+    newFavorites.push({id: itemId});
+    let newItems = deepCopyObject(state.items);
+    newItems[itemId] = action.payload.item; // update state.items
+    return {
+      items: newItems,
+      cart: state.cart,
+      favorites: newFavorites,
+      searchKwds: state.searchKwds,
+    };
+  }
+};
+
+// action = {item: <item>}
+const unheartItem = (state, action) => {
+  let newFavorites = deepCopyObject(state.favorites); // shallow copy done with Object.assign
+  const itemId = action.payload.item.id;
+  if (state.items[itemId]) {
+    var matchIdx = -1;
+    for (var idx in state.favorites) {
+      if (state.favorites[idx].id === itemId) {
+        matchIdx = idx;
+      }
+    }
+    if (matchIdx >= 0) {
+      // splice out the unhearted item from favorites
+      // leave item in state.items (might be in cart)
+      newFavorites.splice(matchIdx, 1);
+      return {
+        items: state.items,
+        cart: state.cart,
+        favorites: newFavorites,
+        searchKwds: state.searchKwds,
+      };
+    } else {
+      // No matching item found in favorites
+      console.log(
+        'ERROR: Item not found in favorites!',
+        state.favorites,
+        state.items,
+      );
+      return state;
+    }
+  } else {
+    // Item not found in items - throw error
+    console.log(
+      'ERROR: Favorites Item not found!',
+      state.favorites,
+      state.items,
+    );
+    return state;
+  }
+};
+
 // Move this to util after done
 // Deep copy of an Object
-const deepCopyObject = inObject => {
+const deepCopyObject = (inObject) => {
   let outObject, value, key;
   if (typeof inObject !== 'object' || inObject === null) {
     return inObject; // Return the value if inObject is not an object
@@ -121,6 +205,12 @@ export default (state = initialState, action) => {
     case 'SET_SEARCH_KWDS':
       // action = payload: {searchKwds: searchKwds}
       return setSearchKwds(state, action);
+    case 'HEART_ITEM':
+      // action = payload: {id: <id>, item: <item>}
+      return heartItem(state, action);
+    case 'UNHEART_ITEM':
+      // action = payload: {item: <item>}
+      return unheartItem(state, action);
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 
 import {QuantityPicker} from './QuantityPicker';
 
@@ -11,9 +12,9 @@ export function ItemTile(props) {
   const [favorite, setFavorite] = useState(props.item.favorite);
   const [imageLoaded, setImageLoaded] = useState(true);
   const [isHeartLoading, setHeartLoading] = useState(true); // used for heart-ing
+  const dispatch = useDispatch();
 
   toggleHeart = () => {
-    console.log('Toggling heart ' + favorite);
     let action = favorite ? 'delete' : 'insert';
     let url = `http://localhost:8080/favorites/${props.item.id}?action=${action}`;
     let body = JSON.stringify({itemId: props.item.id, userId: 1});
@@ -22,6 +23,11 @@ export function ItemTile(props) {
       .then((response) => response.json())
       .then((json) => {
         setHeartLoading(true);
+        if (action === 'delete') {
+          dispatch({type: 'UNHEART_ITEM', payload: {item: props.item}});
+        } else {
+          dispatch({type: 'HEART_ITEM', payload: {item: props.item}});
+        }
       })
       .catch((error) => console.error(error)) // handle this
       .finally(() => setHeartLoading(false));
