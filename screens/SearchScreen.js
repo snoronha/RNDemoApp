@@ -11,6 +11,7 @@ import {
 import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
 import QuickLookModal from '../components/item_page/QuickLookModal';
@@ -184,14 +185,23 @@ export function SearchBaseScreen(props) {
           hideQuickLookModal: hideQuickLookModal,
         }}
       />
-      <View style={styles.blueBox}>
-        <Text style={styles.bigWhiteBoldText}>
-          {`${data.length} Items Loaded`}
-        </Text>
-        <TouchableOpacity onPress={toggleDrawer}>
-          <Text>Sort & Filter</Text>
-        </TouchableOpacity>
-      </View>
+      {data.length > 0 && (
+        <View style={styles.blueBox}>
+          <Text style={styles.bigWhiteBoldText}>
+            {`${data.length} Items Loaded`}
+          </Text>
+          <TouchableOpacity onPress={toggleDrawer}>
+            <Text>Sort & Filter</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      {/* Show big gray search icon if no search results */}
+      {data.length <= 0 && (
+        <View style={styles.search_icon_container}>
+          <Icon name={'search'} size={150} color={'#ddd'} />
+          <Text style={styles.search_icon_text}>No search results</Text>
+        </View>
+      )}
       <FlatList
         onEndReachedThreshold={3}
         numColumns={2}
@@ -256,5 +266,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 0,
+  },
+  search_icon_container: {
+    height: Dimensions.get('window').height * 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  search_icon_text: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ddd',
   },
 });
