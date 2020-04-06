@@ -86,13 +86,16 @@ export function ItemTile(props) {
           justifyContent: 'space-between',
         }}>
         {modalOrScreen()}
-        <Icon
-          name={favorite ? 'heart' : 'heart-o'}
-          color={'tomato'}
-          size={18}
+        <TouchableOpacity
           style={styles.heart}
           onPress={this.toggleHeart}
-        />
+          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+          <Icon
+            name={favorite ? 'heart' : 'heart-o'}
+            color={'tomato'}
+            size={18}
+          />
+        </TouchableOpacity>
       </View>
       <View style={{flexDirection: 'row', width: props.width}}>
         <Text style={styles.item_price}>${props.item.list.toFixed(2)}</Text>
