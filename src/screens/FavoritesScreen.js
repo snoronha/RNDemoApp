@@ -9,65 +9,46 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import randomWords from 'random-words';
-import {ItemTile} from '../components/item_tile/ItemTile.js';
+import {useSelector} from 'react-redux';
+import {ItemTile} from '../components/item_tile/ItemTile';
 
 const FavoritesScreen = () => {
-  // Populate Favorites data here
-  /*
-  var keyCount = 1;
-  const getFavoritesData = () => {
-    FAVDATA = [];
-    for (var i = 0; i < departmentTitles.length; i++) {
-      // Populate each department with a FlatList
-      var departmentData = [];
-      var randCount = 1 + Math.floor(Math.random() * 10);
-      for (var j = 0; j < randCount; j++) {
-        var randInt = 1 + Math.floor(Math.random() * 1000);
-        var image_url =
-          'https://i.picsum.photos/id/' + randInt + '/100/100.jpg';
-        var key = keyCount.toString();
-        var randDescr =
-          randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${key})`;
-        var width = Dimensions.get('window').width * 0.4;
-        const item = {
-          id: '' + key,
-          favorite: true,
-          thumbnail: image_url,
-          name: randDescr,
-          width: width,
-          quantity: 0,
-          hasVariants: false,
-        };
-        departmentData.push(item);
-        keyCount++;
-      }
-      FAVDATA.push({
-        id: i + 1,
-        title: departmentTitles[i],
-        data: departmentData,
-      });
-    }
-  };
-  */
-
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch('http://localhost:8080/favorites/1')
-      .then((response) => response.json())
-      .then((json) => setData(json.favorites))
-      .catch((error) => console.error(error))
+      .then(response => response.json())
+      .then(json => setData(json.favorites))
+      .catch(error => console.error(error))
       .finally(() => {
-        // console.log('3333 isLoading: ', isLoading);
         setLoading(false);
       });
   }, [isLoading]);
 
+  // Listen for redux changes to favs
+  useSelector(state => {
+    let favCount = 0;
+    if (data && data.length > 0) {
+      data.forEach(dept => {
+        dept.items.forEach(item => {
+          favCount++;
+        });
+      });
+      if (favCount > 0 && favCount != state.favorites.length) {
+        // Update favorites from API
+        fetch('http://localhost:8080/favorites/1')
+          .then(response => response.json())
+          .then(json => setData(json.favorites))
+          .catch(error => console.error(error))
+          .finally(() => console.log('Done'));
+      }
+    }
+  });
+
   // For Quick Look Modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = (itemHash) => {
+  const showQuickLookModal = itemHash => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
@@ -75,16 +56,14 @@ const FavoritesScreen = () => {
     setModalVisible(false);
   };
 
-  // getFavoritesData();
-
-  const Department = (departmentHash) => {
+  const Department = departmentHash => {
     var deptKey = 'D' + (1 + Math.floor(Math.random() * 1000));
     const department = departmentHash.department;
     return (
       <FlatList
         numColumns={2}
         data={department}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         renderItem={({item}) => {
           return (
             <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
@@ -106,7 +85,7 @@ const FavoritesScreen = () => {
         showsVerticalScrollIndicator={true}
         numColumns={1}
         data={data}
-        keyExtractor={(item) => item.title}
+        keyExtractor={item => item.title}
         renderItem={({item}) => (
           <View key={item.title}>
             <Text
@@ -115,7 +94,8 @@ const FavoritesScreen = () => {
             </Text>
             <Department department={item.items} />
           </View>
-        )}></FlatList>
+        )}
+      />
     </SafeAreaView>
   );
 };

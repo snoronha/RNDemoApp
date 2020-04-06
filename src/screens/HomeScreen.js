@@ -21,27 +21,29 @@ const HomeScreen = () => {
   // fetch /home data
   useEffect(() => {
     fetch('http://localhost:8080/home')
-      .then((response) => response.json())
-      .then((json) => setData(json.carousels))
-      .catch((error) => console.error(error))
+      .then(response => response.json())
+      .then(json => setData(json.carousels))
+      .catch(error => console.error(error))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
   // Preload favorites
   useEffect(() => {
     fetch('http://localhost:8080/favorites/1')
-      .then((response) => response.json())
-      .then((json) => {
-        let deptFavs = json.favorites;
+      .then(response => response.json())
+      .then(json => {
         let favs = [];
-        deptFavs.forEach((dept) => {
-          dept.items.forEach((item) => {
-            favs.push(item);
+        if (json.favorites && json.favorites.length > 0) {
+          let deptFavs = json.favorites;
+          deptFavs.forEach(dept => {
+            dept.items.forEach(item => {
+              favs.push(item);
+            });
           });
-        });
+        }
         dispatch({type: 'SET_FAVORITES', payload: {favorites: favs}});
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
@@ -50,19 +52,19 @@ const HomeScreen = () => {
   let userId = 1; // Needs to be populated
   useEffect(() => {
     fetch(`http://localhost:8080/order/${orderId}/user/${userId}`)
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         let cart = json.order;
         dispatch({type: 'SET_CART', payload: {cart: cart}});
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
   // Quick Look Item Modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = (itemHash) => {
+  const showQuickLookModal = itemHash => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
@@ -99,7 +101,7 @@ const HomeScreen = () => {
                 <FlatList
                   horizontal={true}
                   data={carousel.items}
-                  keyExtractor={(item) => item.id.toString()}
+                  keyExtractor={item => item.id.toString()}
                   renderItem={({item}) => {
                     return (
                       <ItemTile
