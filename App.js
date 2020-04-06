@@ -23,6 +23,8 @@ import {HeaderCartLink} from './components/header/HeaderCartLink';
 import {HeaderSearchBar} from './components/header/HeaderSearchBar';
 import {HamburgerPlusScreen} from './components/header/HamburgerMenu';
 
+import {IconWithBadge} from './components/footer/IconWithBadge';
+
 //-------- REDUX ---------//
 import {Provider} from 'react-redux';
 import store from './stores/store';
@@ -252,16 +254,28 @@ export default App = () => {
                 let iconName;
                 if (route.name === 'Home') {
                   iconName = focused ? 'home' : 'home';
+                  return <Icon name={iconName} size={size} color={color} />;
                 } else if (route.name === 'Search') {
                   iconName = focused ? 'search' : 'search';
+                  return <Icon name={iconName} size={size} color={color} />;
                 } else if (route.name === 'Favorites') {
                   iconName = focused ? 'heart' : 'heart-o';
+                  return (
+                    <IconWithBadge
+                      name={iconName}
+                      size={size}
+                      color={color}
+                      badgeCount={3}
+                    />
+                  );
                 } else if (route.name === 'StoreFinder') {
                   iconName = focused ? 'map-marker' : 'map-marker';
+                  return <Icon name={iconName} size={size} color={color} />;
                 } else if (route.name === 'NEW!') {
                   iconName = focused ? 'ellipsis-h' : 'ellipsis-h';
+                  return <Icon name={iconName} size={size} color={color} />;
                 }
-                return <Icon name={iconName} size={size} color={color} />;
+                // return <Icon name={iconName} size={size} color={color} />;
               },
             })}
             tabBarOptions={{

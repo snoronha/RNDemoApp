@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
-import {connect, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 export function HeaderCartLink() {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ export function HeaderCartLink() {
     navigation.navigate('Cart');
   };
 
-  const cartCount = useSelector(state => {
+  const cartCount = useSelector((state) => {
     var count = 0;
     for (var idx in state.cart) {
       count += state.cart[idx].qty;
