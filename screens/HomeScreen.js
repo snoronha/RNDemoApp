@@ -13,27 +13,28 @@ import {
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const HomeScreen = () => {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/home')
-      .then(response => response.json())
-      .then(json => setData(json.carousels))
-      .catch(error => console.error(error))
+      .then((response) => response.json())
+      .then((json) => setData(json.carousels))
+      .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
   // Quick Look Item Modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = itemHash => {
+  const showQuickLookModal = (itemHash) => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
   const hideQuickLookModal = () => {
     setModalVisible(false);
   };
+
   const itemWidth = (width = Dimensions.get('window').width * 0.4);
 
   return (
@@ -63,7 +64,7 @@ const HomeScreen = () => {
                 <FlatList
                   horizontal={true}
                   data={carousel.items}
-                  keyExtractor={item => item.id.toString()}
+                  keyExtractor={(item) => item.id.toString()}
                   renderItem={({item}) => {
                     return (
                       <ItemTile
