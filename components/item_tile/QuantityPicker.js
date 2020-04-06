@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -16,28 +16,69 @@ const getQuantity = (item, cart) => {
 export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
   var item = props.item;
-  const qty = useSelector(state => {
+  const qty = useSelector((state) => {
     return getQuantity(item, state.cart);
   });
   const [quantity, setQuantity] = useState(qty);
+  const [isQtyLoading, setQtyLoading] = useState(true); // used for change qty
   const dispatch = useDispatch();
 
   decrementItemCount = () => {
-    if (qty > 0) {
-      dispatch({
-        type: 'REMOVE_FROM_CART',
-        payload: {item: item, qty: qty - 1},
+    // POST /order_item/:order_id
+    let orderId = 1;
+    let decrQty = qty > 0 ? qty - 1 : 0;
+    // Begin Dispatch redux event optimistically
+    setQuantity(decrQty);
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      payload: {item: item, qty: decrQty},
+    });
+    // End Dispatch redux event optimistically
+    let url = `http://localhost:8080/order_item/${orderId}`;
+    let body = JSON.stringify({
+      itemId: props.item.id,
+      orderId: orderId,
+      quantity: decrQty,
+    });
+    // setQtyLoading(true);
+    fetch(url, {method: 'post', body: body})
+      .then((response) => response.json())
+      .then((json) => {
+        // setQtyLoading(true);
+      })
+      .catch((error) => console.error(error)) // handle this
+      .finally(() => {
+        // setQtyLoading(false)
       });
-      setQuantity(qty - 1);
-    } else {
-      dispatch({type: 'REMOVE_FROM_CART', payload: {item: item, qty: 0}});
-      setQuantity(0);
-    }
   };
 
   incrementItemCount = () => {
-    dispatch({type: 'ADD_TO_CART', payload: {item: item, qty: qty + 1}});
-    setQuantity(qty + 1);
+    let orderId = 1;
+    let addQty = qty + 1;
+    // Begin Dispatch redux event optimistically
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: {item: item, qty: addQty},
+    });
+    setQuantity(addQty);
+    // End Dispatch redux event optimistically
+    let url = `http://localhost:8080/order_item/${orderId}`;
+    let body = JSON.stringify({
+      itemId: props.item.id,
+      orderId: orderId,
+      quantity: addQty,
+    });
+    // setQtyLoading(true);
+    fetch(url, {method: 'post', body: body})
+      .then((response) => response.json())
+      .then((json) => {
+        // setQtyLoading(true);
+        // TODO if the DB update fails, need to unwind the ATC here
+      })
+      .catch((error) => console.error(error)) // handle this
+      .finally(() => {
+        // setQtyLoading(false)
+      });
   };
 
   if (qty > 0) {

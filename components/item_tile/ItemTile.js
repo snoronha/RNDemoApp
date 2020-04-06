@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   display_unit: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#aaa',
     marginHorizontal: 0,
     marginVertical: 6,

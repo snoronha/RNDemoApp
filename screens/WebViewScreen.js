@@ -43,7 +43,7 @@ const WebViewScreen = ({route, navigation}) => {
               placeholderTextColor="#aaa"
               maxLength={40}
               autoCapitalize="none"
-              onChangeText={txt => setUrl(txt)}
+              onChangeText={(txt) => setUrl(txt)}
               value={url}
             />
             <TouchableOpacity
@@ -59,11 +59,11 @@ const WebViewScreen = ({route, navigation}) => {
         <View
           style={{
             width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height * 0.8,
+            height: Dimensions.get('window').height * 0.9,
             marginTop: 0,
           }}>
           <WebView
-            ref={ref => (webview = ref)}
+            ref={(ref) => (webview = ref)}
             originWhitelist={['*']}
             style={{marginTop: 10}}
             source={{uri: startUrl}}
