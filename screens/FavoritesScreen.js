@@ -51,7 +51,7 @@ const FavoritesScreen = () => {
   };
   */
 
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch('http://localhost:8080/favorites/1')

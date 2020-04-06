@@ -1,7 +1,7 @@
 const initialState = {
   items: {}, // {id1: {<item1>}, id2: {<item2>}, ... }
   cart: [], // [{id: <id1>, qty: <qty1>}, ...]
-  favorites: [], // [{id1: <id1>}, {id2: <id2>}, ...]
+  favorites: [], // [{id: <id1>}, {id: <id2>}, ...]
   searchKwds: '',
 };
 
@@ -174,6 +174,48 @@ const unheartItem = (state, action) => {
   }
 };
 
+// action = payload: {favorites: [<item1>, <item2>, ...]}
+const setFavorites = (state, action) => {
+  let favItems = action.payload.favorites;
+  let newFavorites = [];
+  let newItems = deepCopyObject(state.items);
+  for (var idx in favItems) {
+    let item = favItems[idx];
+    if (!newItems[item.id]) {
+      // Does not exist in new items, add in
+      newItems[item.id] = item;
+    }
+    newFavorites.push({id: item.id});
+  }
+  return {
+    items: newItems,
+    cart: state.cart,
+    favorites: newFavorites,
+    searchKwds: state.searchKwds,
+  };
+};
+
+// action = payload: {cart: [<item1>, <item2>, ...]}
+const setCart = (state, action) => {
+  let cartItems = action.payload.cart;
+  let newCart = [];
+  let newItems = deepCopyObject(state.items);
+  for (var idx in cartItems) {
+    let item = cartItems[idx];
+    if (!newItems[item.id]) {
+      // Does not exist in new items, add in
+      newItems[item.id] = item;
+    }
+    newCart.push({id: item.id, qty: item.quantity});
+  }
+  return {
+    items: newItems,
+    cart: newCart,
+    favorites: state.favorites,
+    searchKwds: state.searchKwds,
+  };
+};
+
 // Move this to util after done
 // Deep copy of an Object
 const deepCopyObject = (inObject) => {
@@ -211,6 +253,12 @@ export default (state = initialState, action) => {
     case 'UNHEART_ITEM':
       // action = payload: {item: <item>}
       return unheartItem(state, action);
+    case 'SET_FAVORITES':
+      // action = payload: {favorites: [<item1>, <item2>, ...]}
+      return setFavorites(state, action);
+    case 'SET_CART':
+      // action = payload: {cart: [<item1>, <item2>, ...]}
+      return setCart(state, action);
     default:
       return state;
   }

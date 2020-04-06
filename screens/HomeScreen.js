@@ -10,16 +10,51 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useDispatch} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 
 const HomeScreen = () => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const dispatch = useDispatch();
 
+  // fetch /home data
   useEffect(() => {
     fetch('http://localhost:8080/home')
       .then((response) => response.json())
       .then((json) => setData(json.carousels))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [isLoading]);
+
+  // Preload favorites
+  useEffect(() => {
+    fetch('http://localhost:8080/favorites/1')
+      .then((response) => response.json())
+      .then((json) => {
+        let deptFavs = json.favorites;
+        let favs = [];
+        deptFavs.forEach((dept) => {
+          dept.items.forEach((item) => {
+            favs.push(item);
+          });
+        });
+        dispatch({type: 'SET_FAVORITES', payload: {favorites: favs}});
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, [isLoading]);
+
+  // Load Cart
+  let orderId = 1; // Needs to be populated
+  let userId = 1; // Needs to be populated
+  useEffect(() => {
+    fetch(`http://localhost:8080/order/${orderId}/user/${userId}`)
+      .then((response) => response.json())
+      .then((json) => {
+        let cart = json.order;
+        dispatch({type: 'SET_CART', payload: {cart: cart}});
+      })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, [isLoading]);
