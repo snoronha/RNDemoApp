@@ -40,7 +40,7 @@ const FavoritesScreen = () => {
           .then(response => response.json())
           .then(json => setData(json.favorites))
           .catch(error => console.error(error))
-          .finally(() => console.log('Done'));
+          .finally(() => {});
       }
     }
   });
