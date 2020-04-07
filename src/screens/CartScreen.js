@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SwipeListView} from 'react-native-swipe-list-view';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
@@ -43,9 +42,9 @@ const getTotal = (items, cart) => {
   return total;
 };
 
-const CartItemTile = (itemHash) => {
+const CartItemTile = itemHash => {
   const item = itemHash.item;
-  const qty = useSelector((state) => {
+  const qty = useSelector(state => {
     return getQuantity(item, state.cart);
   });
   return (
@@ -84,10 +83,10 @@ const CartItemTile = (itemHash) => {
 };
 
 const CartScreen = () => {
-  const cart = useSelector((state) => {
+  const cart = useSelector(state => {
     return getCart(state.items, state.cart);
   });
-  const cartTotal = useSelector((state) => {
+  const cartTotal = useSelector(state => {
     return getTotal(state.items, state.cart);
   });
   return (
@@ -100,27 +99,13 @@ const CartScreen = () => {
             <Text style={styles.shopping_cart_text}>No items in cart</Text>
           </View>
         )}
-        <SwipeListView
-          useFlatList={true}
+        <FlatList
+          style={styles.list}
+          numColumns={1}
           data={cart}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           renderItem={({item}) => {
             return <CartItemTile item={item} />;
-          }}
-          renderHiddenItem={(rowData, rowMap) => (
-            <View style={styles.rowBack}>
-              <TouchableOpacity
-                onPress={() => rowMap[rowData.item.key].closeRow()}>
-                <Text>Close</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          leftOpenValue={75}
-          rightOpenValue={-150}
-          onRowOpen={(rowKey, rowMap) => {
-            setTimeout(() => {
-              rowMap[rowKey].closeRow();
-            }, 2000);
           }}
         />
         <View
