@@ -79,8 +79,8 @@ const CartItemTile = itemHash => {
             <TouchableOpacity onPress={setCartQuantityZero}>
               <Icon
                 name={'trash'}
-                size={36}
-                color={'tomato'}
+                size={30}
+                color={'#aaa'}
                 style={{alignSelf: 'center'}}
               />
             </TouchableOpacity>

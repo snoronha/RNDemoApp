@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const getQuantity = (item, cart) => {
   const itemId = item.id;
@@ -31,6 +32,7 @@ export function QuantityPicker(props) {
     setQuantity(decrQty);
     dispatch({
       type: 'SET_CART_QUANTITY',
+      // type: 'REMOVE_FROM_CART',
       payload: {item: item, qty: decrQty},
     });
     // End Dispatch redux event optimistically
@@ -58,6 +60,7 @@ export function QuantityPicker(props) {
     // Begin Dispatch redux event optimistically
     dispatch({
       type: 'SET_CART_QUANTITY',
+      // type: 'ADD_TO_CART',
       payload: {item: item, qty: addQty},
     });
     setQuantity(addQty);
@@ -88,7 +91,7 @@ export function QuantityPicker(props) {
           style={styles.item_touchable_left}
           hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
           onPress={this.decrementItemCount}>
-          <Text style={styles.item_text}> - </Text>
+          <Icon name={'minus'} size={14} color={'#444'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.item_touchable_center}
@@ -99,7 +102,7 @@ export function QuantityPicker(props) {
           style={styles.item_touchable_right}
           hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
           onPress={this.incrementItemCount}>
-          <Text style={styles.item_text}>+</Text>
+          <Icon name={'plus'} size={14} color={'#444'} />
         </TouchableOpacity>
       </View>
     );
@@ -119,7 +122,7 @@ export function QuantityPicker(props) {
 
 const styles = StyleSheet.create({
   item_text: {
-    fontSize: 14,
+    fontSize: 16,
   },
   item_touchable_center_atc: {
     alignItems: 'center',
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     shadowColor: '#aaa',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.9,
   },
   item_touchable_center: {
@@ -147,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     shadowColor: '#aaa',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.7,
   },
   item_touchable_left: {
@@ -162,7 +165,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     shadowColor: '#aaa',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.9,
   },
   item_touchable_right: {
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     shadowColor: '#aaa',
-    shadowOffset: {width: 2, height: 2},
+    shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.9,
   },
 });
