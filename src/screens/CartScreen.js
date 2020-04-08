@@ -14,6 +14,11 @@ import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
 
+const Screen = {
+  width: Dimensions.get('window').width,
+  height: Dimensions.get('window').height - 75,
+};
+
 const getQuantity = (item, cart) => {
   const itemId = item.id;
   var qty = 0;
@@ -49,42 +54,66 @@ const CartItemTile = itemHash => {
     return getQuantity(item, state.cart);
   });
   return (
-    <Interactable.View
-      horizontalOnly={true}
-      snapPoints={[{x: 0}, {x: -100}]}
-      onSnap={this.onDrawerSnap}>
-      <View style={styles.item_row}>
-        <Image style={[styles.item_image]} source={{uri: item.thumbnail}} />
-        <View style={{width: Dimensions.get('window').width * 0.5}}>
-          <Text style={[styles.item_description]}>{item.name}</Text>
-          <View style={styles.quantity_picker}>
-            <QuantityPicker item={item} />
+    <View style={styles.container}>
+      <View style={styles.markerContainer}>
+        <View
+          style={{
+            backgroundColor: '#eee',
+            position: 'absolute',
+            left: Screen.width - 75,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <TouchableOpacity>
+              <Icon
+                name={'trash'}
+                size={36}
+                color={'tomato'}
+                style={{alignSelf: 'center'}}
+              />
+            </TouchableOpacity>
           </View>
-        </View>
-        <View style={{width: 70, alignItems: 'flex-end'}}>
-          <View
-            style={{
-              width: 70,
-              flexDirection: 'row',
-              marginRight: 8,
-            }}>
-            <Text
-              style={{
-                marginTop: 4,
-                fontSize: 18,
-                width: 70,
-                marginRight: 8,
-                textAlign: 'right',
-              }}>
-              ${(item.list * qty).toFixed(2)}
-            </Text>
-          </View>
-          <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
-            Qty {qty}
-          </Text>
         </View>
       </View>
-    </Interactable.View>
+      <Interactable.View
+        horizontalOnly={true}
+        snapPoints={[{x: 0}, {x: -75}]}
+        onSnap={this.onDrawerSnap}>
+        <View style={styles.item_row}>
+          <Image style={[styles.item_image]} source={{uri: item.thumbnail}} />
+          <View style={{width: Dimensions.get('window').width * 0.5}}>
+            <Text style={[styles.item_description]}>{item.name}</Text>
+            <View style={styles.quantity_picker}>
+              <QuantityPicker item={item} />
+            </View>
+          </View>
+          <View style={{width: 70, alignItems: 'flex-end'}}>
+            <View
+              style={{
+                width: 70,
+                flexDirection: 'row',
+                marginRight: 8,
+              }}>
+              <Text
+                style={{
+                  marginTop: 4,
+                  fontSize: 18,
+                  width: 70,
+                  marginRight: 8,
+                  textAlign: 'right',
+                }}>
+                ${(item.list * qty).toFixed(2)}
+              </Text>
+            </View>
+            <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
+              Qty {qty}
+            </Text>
+          </View>
+        </View>
+      </Interactable.View>
+    </View>
   );
 };
 
@@ -154,6 +183,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 0,
     backgroundColor: '#fff',
+  },
+  markerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
   list: {
     height: Dimensions.get('window').height,
