@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Interactable from 'react-native-interactable';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
@@ -48,37 +49,42 @@ const CartItemTile = itemHash => {
     return getQuantity(item, state.cart);
   });
   return (
-    <View style={styles.item_row}>
-      <Image style={[styles.item_image]} source={{uri: item.thumbnail}} />
-      <View style={{width: Dimensions.get('window').width * 0.5}}>
-        <Text style={[styles.item_description]}>{item.name}</Text>
-        <View style={styles.quantity_picker}>
-          <QuantityPicker item={item} />
+    <Interactable.View
+      horizontalOnly={true}
+      snapPoints={[{x: 0}, {x: -100}]}
+      onSnap={this.onDrawerSnap}>
+      <View style={styles.item_row}>
+        <Image style={[styles.item_image]} source={{uri: item.thumbnail}} />
+        <View style={{width: Dimensions.get('window').width * 0.5}}>
+          <Text style={[styles.item_description]}>{item.name}</Text>
+          <View style={styles.quantity_picker}>
+            <QuantityPicker item={item} />
+          </View>
         </View>
-      </View>
-      <View style={{width: 70, alignItems: 'flex-end'}}>
-        <View
-          style={{
-            width: 70,
-            flexDirection: 'row',
-            marginRight: 8,
-          }}>
-          <Text
+        <View style={{width: 70, alignItems: 'flex-end'}}>
+          <View
             style={{
-              marginTop: 4,
-              fontSize: 18,
               width: 70,
+              flexDirection: 'row',
               marginRight: 8,
-              textAlign: 'right',
             }}>
-            ${(item.list * qty).toFixed(2)}
+            <Text
+              style={{
+                marginTop: 4,
+                fontSize: 18,
+                width: 70,
+                marginRight: 8,
+                textAlign: 'right',
+              }}>
+              ${(item.list * qty).toFixed(2)}
+            </Text>
+          </View>
+          <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
+            Qty {qty}
           </Text>
         </View>
-        <Text style={{paddingTop: 10, marginRight: 8, color: '#888'}}>
-          Qty {qty}
-        </Text>
       </View>
-    </View>
+    </Interactable.View>
   );
 };
 
