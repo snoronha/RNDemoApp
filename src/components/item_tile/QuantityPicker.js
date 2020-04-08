@@ -16,7 +16,7 @@ const getQuantity = (item, cart) => {
 export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
   var item = props.item;
-  const qty = useSelector((state) => {
+  const qty = useSelector(state => {
     return getQuantity(item, state.cart);
   });
   const [quantity, setQuantity] = useState(qty);
@@ -30,7 +30,7 @@ export function QuantityPicker(props) {
     // Begin Dispatch redux event optimistically
     setQuantity(decrQty);
     dispatch({
-      type: 'REMOVE_FROM_CART',
+      type: 'SET_CART_QUANTITY',
       payload: {item: item, qty: decrQty},
     });
     // End Dispatch redux event optimistically
@@ -42,11 +42,11 @@ export function QuantityPicker(props) {
     });
     // setQtyLoading(true);
     fetch(url, {method: 'post', body: body})
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         // setQtyLoading(true);
       })
-      .catch((error) => console.error(error)) // handle this
+      .catch(error => console.error(error)) // handle this
       .finally(() => {
         // setQtyLoading(false)
       });
@@ -57,7 +57,7 @@ export function QuantityPicker(props) {
     let addQty = qty + 1;
     // Begin Dispatch redux event optimistically
     dispatch({
-      type: 'ADD_TO_CART',
+      type: 'SET_CART_QUANTITY',
       payload: {item: item, qty: addQty},
     });
     setQuantity(addQty);
@@ -70,12 +70,12 @@ export function QuantityPicker(props) {
     });
     // setQtyLoading(true);
     fetch(url, {method: 'post', body: body})
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         // setQtyLoading(true);
         // TODO if the DB update fails, need to unwind the ATC here
       })
-      .catch((error) => console.error(error)) // handle this
+      .catch(error => console.error(error)) // handle this
       .finally(() => {
         // setQtyLoading(false)
       });

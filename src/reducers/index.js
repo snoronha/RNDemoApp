@@ -6,6 +6,7 @@ const initialState = {
 };
 
 // action = {qty: <qty>, item: <item>}
+/*
 const addToCart = (state, action) => {
   let newCart = deepCopyObject(state.cart); // shallow copy done with Object.assign
   const itemId = action.payload.item.id;
@@ -42,7 +43,10 @@ const addToCart = (state, action) => {
     };
   }
 };
+*/
 
+// action = {qty: <qty>, item: <item>}
+/*
 const removeFromCart = (state, action) => {
   let newCart = deepCopyObject(state.cart); // shallow copy done with Object.assign
   const itemId = action.payload.item.id;
@@ -84,6 +88,69 @@ const removeFromCart = (state, action) => {
     // Item not found in items - throw error
     console.log('ERROR: Cart Item not found!', state.cart, state.items);
     return state;
+  }
+};
+*/
+
+// action = {qty: <qty>, item: <item>}
+const setCartQuantity = (state, action) => {
+  let newCart = deepCopyObject(state.cart); // shallow copy done with Object.assign
+  const itemId = action.payload.item.id;
+  if (state.items[itemId]) {
+    var matchIdx = -1;
+    for (var idx in newCart) {
+      if (newCart[idx].id === itemId) {
+        // found the cart item to be incremented
+        matchIdx = idx;
+        newCart[idx].qty = action.payload.qty;
+      }
+    }
+    if (matchIdx >= 0) {
+      newCart[matchIdx].qty = action.payload.qty;
+    } else {
+      newCart.push({id: itemId, qty: 1});
+    }
+    if (matchIdx >= 0) {
+      if (action.payload.qty <= 0) {
+        // qty <= 0, remove from cart, items
+        newCart.splice(matchIdx, 1);
+        return {
+          items: state.items,
+          cart: newCart,
+          favorites: state.favorites,
+          searchKwds: state.searchKwds,
+        };
+      } else {
+        // update quantity
+        newCart[matchIdx].qty = action.payload.qty;
+        return {
+          items: state.items,
+          cart: newCart,
+          favorites: state.favorites,
+          searchKwds: state.searchKwds,
+        };
+      }
+    } else {
+      // No matching item found in cart
+      newCart.push({id: itemId, qty: action.payload.qty});
+      return {
+        items: state.items,
+        cart: newCart,
+        favorites: state.favorites,
+        searchKwds: state.searchKwds,
+      };
+    }
+  } else {
+    // Item not found - push onto cart, items
+    newCart.push({id: itemId, qty: action.payload.qty});
+    let newItems = deepCopyObject(state.items);
+    newItems[itemId] = action.payload.item; // update state.items
+    return {
+      items: newItems,
+      cart: newCart,
+      favorites: state.favorites,
+      searchKwds: state.searchKwds,
+    };
   }
 };
 
@@ -218,7 +285,7 @@ const setCart = (state, action) => {
 
 // Move this to util after done
 // Deep copy of an Object
-const deepCopyObject = (inObject) => {
+const deepCopyObject = inObject => {
   let outObject, value, key;
   if (typeof inObject !== 'object' || inObject === null) {
     return inObject; // Return the value if inObject is not an object
@@ -238,12 +305,15 @@ const deepCopyObject = (inObject) => {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    // case 'ADD_TO_CART':
+    // action = payload: {id: <id>, qty: <qty>, item: <item>}
+    // return addToCart(state, action);
+    // case 'REMOVE_FROM_CART':
+    // action = payload: {id: <id>, qty: <qty>, item: <item>}
+    // return removeFromCart(state, action);
+    case 'SET_CART_QUANTITY':
       // action = payload: {id: <id>, qty: <qty>, item: <item>}
-      return addToCart(state, action);
-    case 'REMOVE_FROM_CART':
-      // action = payload: {id: <id>, qty: <qty>, item: <item>}
-      return removeFromCart(state, action);
+      return setCartQuantity(state, action);
     case 'SET_SEARCH_KWDS':
       // action = payload: {searchKwds: searchKwds}
       return setSearchKwds(state, action);
