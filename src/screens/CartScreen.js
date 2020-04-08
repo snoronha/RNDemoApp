@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import Interactable from 'react-native-interactable';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
 
@@ -50,9 +50,19 @@ const getTotal = (items, cart) => {
 
 const CartItemTile = itemHash => {
   const item = itemHash.item;
+  const dispatch = useDispatch();
+
   const qty = useSelector(state => {
     return getQuantity(item, state.cart);
   });
+
+  const setCartQuantityZero = () => {
+    dispatch({
+      type: 'SET_CART_QUANTITY',
+      payload: {item: item, qty: 0},
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.markerContainer}>
@@ -66,7 +76,7 @@ const CartItemTile = itemHash => {
             bottom: 0,
           }}>
           <View style={{flex: 1, justifyContent: 'center'}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={setCartQuantityZero}>
               <Icon
                 name={'trash'}
                 size={36}
