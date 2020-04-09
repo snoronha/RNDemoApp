@@ -5,12 +5,13 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const StoreFinderScreen = () => {
+export function StoreFinderScreen() {
   // Example of Native Module talking to Calendar API. Commenting for now
   /*
   var CalendarManager = NativeModules.CalendarManager;
@@ -74,7 +75,7 @@ const StoreFinderScreen = () => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -109,5 +110,3 @@ const styles = StyleSheet.create({
     width: 80,
   },
 });
-
-export default StoreFinderScreen;

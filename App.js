@@ -8,7 +8,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import HomeScreen from './src/screens/HomeScreen';
 import FavoritesScreen from './src/screens/FavoritesScreen';
-import StoreFinderScreen from './src/screens/StoreFinderScreen';
+import {StoreFinderScreen} from './src/screens/StoreFinderScreen';
 import MoreScreen from './src/screens/MoreScreen';
 import WebViewScreen from './src/screens/WebViewScreen';
 import WebViewABScreen from './src/screens/WebViewABScreen';
@@ -102,7 +102,7 @@ export function Search() {
             return <HeaderCartLink />;
           },
           headerTitleAlign: 'center',
-          headerTitle: (props) => <HeaderSearchBar {...props} />,
+          headerTitle: props => <HeaderSearchBar {...props} />,
         }}
       />
       <SearchStack.Screen
@@ -243,7 +243,7 @@ const StoreFinder = () => {
   );
 };
 
-export default App = () => {
+export default (App = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -293,4 +293,4 @@ export default App = () => {
       </SafeAreaProvider>
     </Provider>
   );
-};
+});

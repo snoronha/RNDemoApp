@@ -12,10 +12,37 @@ import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Interactable from 'react-native-interactable';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
 import QuickLookModal from '../components/item_page/QuickLookModal';
 
+const Screen = Dimensions.get('window');
+
+const QuickLook = ({props}) => {
+  const setShowQuickLook = props.setShowQuickLook;
+  return (
+    <View style={styles.card_container}>
+      <Interactable.View
+        key="first"
+        VerticalOnly={true}
+        snapPoints={[{y: 0, damping: 0.5}]}>
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={{alignSelf: 'flex-end', margin: 10}}
+            onPress={setShowQuickLook}>
+            <Icon
+              name={'times'}
+              size={24}
+              color={'#000'}
+              style={{alignSelf: 'flex-end', margin: 10}}
+            />
+          </TouchableOpacity>
+        </View>
+      </Interactable.View>
+    </View>
+  );
+};
 /*
 const useInfiniteScroll = load => {
   const [isFetching, setIsFetching] = useState(true);
@@ -147,29 +174,34 @@ export function SearchBaseScreen(props) {
   //   props.route && props.route.params ? props.route.params.searchKwds : '';
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [showQuickLook, setQuickLook] = useState(true);
 
-  const searchKwds = useSelector((state) => {
+  const searchKwds = useSelector(state => {
     return state.searchKwds;
   });
 
   useEffect(() => {
     setLoading(true);
     fetch('http://localhost:8080/items/search?kwd=' + searchKwds)
-      .then((response) => response.json())
-      .then((json) => setData(json.items))
-      .catch((error) => console.error(error))
+      .then(response => response.json())
+      .then(json => setData(json.items))
+      .catch(error => console.error(error))
       .finally(() => setLoading(false));
   }, [searchKwds]);
 
   // For Quick Look Modal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = (itemHash) => {
+  const showQuickLookModal = itemHash => {
     setModalItem(itemHash.item);
     setModalVisible(true);
   };
   const hideQuickLookModal = () => {
     setModalVisible(false);
+  };
+  const setShowQuickLook = () => {
+    console.log('Executed ...');
+    setQuickLook(false);
   };
 
   const toggleDrawer = () => {
@@ -178,6 +210,7 @@ export function SearchBaseScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/*
       <QuickLookModal
         visible={modalVisible}
         props={{
@@ -185,6 +218,10 @@ export function SearchBaseScreen(props) {
           hideQuickLookModal: hideQuickLookModal,
         }}
       />
+      */}
+      {showQuickLook && (
+        <QuickLook props={{setShowQuickLook: setShowQuickLook}} />
+      )}
       {data.length > 0 && (
         <View style={styles.blueBox}>
           <Text style={styles.bigWhiteBoldText}>
@@ -202,17 +239,19 @@ export function SearchBaseScreen(props) {
           <Text style={styles.search_icon_text}>No search results</Text>
         </View>
       )}
-      <FlatList
-        onEndReachedThreshold={3}
-        numColumns={2}
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => {
-          return (
-            <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
-          );
-        }}
-      />
+      <View style={{zIndex: 1}}>
+        <FlatList
+          onEndReachedThreshold={3}
+          numColumns={2}
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => {
+            return (
+              <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
+            );
+          }}
+        />
+      </View>
       {isLoading && (
         <ActivityIndicator
           size="large"
@@ -276,5 +315,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ddd',
+  },
+  card_container: {
+    position: 'absolute',
+    zIndex: 2,
+    marginLeft: Screen.width * 0.05,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  card: {
+    flex: 1,
+    width: Screen.width * 0.9,
+    height: Screen.height * 0.75,
+    backgroundColor: '#fff',
+    opacity: 0.7,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#aaa',
+    marginVertical: 6,
   },
 });
