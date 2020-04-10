@@ -21,15 +21,17 @@ const HomeScreen = () => {
   // fetch /home data
   useEffect(() => {
     fetch('http://localhost:8080/home')
+      // fetch('https://decrep.it/home')
       .then(response => response.json())
       .then(json => setData(json.carousels))
-      .catch(error => console.error(error))
+      .catch(error => console.log(error + ' (HomePage: getHome)'))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
   // Preload favorites
   useEffect(() => {
     fetch('http://localhost:8080/favorites/1')
+      // fetch('https://decrep.it/favorites/1')
       .then(response => response.json())
       .then(json => {
         let favs = [];
@@ -43,7 +45,7 @@ const HomeScreen = () => {
         }
         dispatch({type: 'SET_FAVORITES', payload: {favorites: favs}});
       })
-      .catch(error => console.error(error))
+      .catch(error => console.log(error + ' (HomePage: getFavorites)'))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
@@ -52,12 +54,13 @@ const HomeScreen = () => {
   let userId = 1; // Needs to be populated
   useEffect(() => {
     fetch(`http://localhost:8080/order/${orderId}/user/${userId}`)
+      // fetch(`https://decrep.it/order/${orderId}/user/${userId}`)
       .then(response => response.json())
       .then(json => {
         let cart = json.order;
         dispatch({type: 'SET_CART', payload: {cart: cart}});
       })
-      .catch(error => console.error(error))
+      .catch(error => console.log(error + ' (HomePage: getCart)'))
       .finally(() => setLoading(false));
   }, [isLoading]);
 
