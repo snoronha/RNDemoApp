@@ -64,28 +64,10 @@ const HomeScreen = () => {
       .finally(() => setLoading(false));
   }, [isLoading]);
 
-  // Quick Look Item Modal
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = itemHash => {
-    setModalItem(itemHash.item);
-    setModalVisible(true);
-  };
-  const hideQuickLookModal = () => {
-    setModalVisible(false);
-  };
-
   const itemWidth = (width = Dimensions.get('window').width * 0.4);
 
   return (
     <SafeAreaView style={styles.container}>
-      <QuickLookModal
-        visible={modalVisible}
-        props={{
-          item: modalItem,
-          hideQuickLookModal: hideQuickLookModal,
-        }}
-      />
       <ScrollView>
         <Image
           style={styles.banner_image}
@@ -106,13 +88,7 @@ const HomeScreen = () => {
                   data={carousel.items}
                   keyExtractor={item => item.id.toString()}
                   renderItem={({item}) => {
-                    return (
-                      <ItemTile
-                        item={item}
-                        width={itemWidth}
-                        showQuickLookModal={showQuickLookModal}
-                      />
-                    );
+                    return <ItemTile item={item} width={itemWidth} />;
                   }}
                 />
               </View>

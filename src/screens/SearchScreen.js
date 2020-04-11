@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Interactable from 'react-native-interactable';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
-import QuickLookModal from '../components/item_page/QuickLookModal';
 
 const Screen = Dimensions.get('window');
 
@@ -43,58 +42,9 @@ const QuickLook = ({props}) => {
     </View>
   );
 };
-/*
-const useInfiniteScroll = load => {
-  const [isFetching, setIsFetching] = useState(true);
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    let didCancel = false;
-    if (!isFetching) return;
-
-    const loadAsync = async () => {
-      const lastIndex = data.length;
-      const lastItem = data.length ? data[lastIndex] : null;
-
-      const newData = await load({lastIndex, lastItem});
-      if (!didCancel) {
-        setData(prevState => [...prevState, ...newData]);
-        setIsFetching(false);
-      }
-    };
-
-    loadAsync();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [isFetching]);
-
-  return [data, isFetching, setIsFetching];
-};
-*/
-
-const INITIAL_LOAD = 25;
-const PAGE_SIZE = 25;
 const SortDrawer = createDrawerNavigator();
 const LeftNavDrawer = createDrawerNavigator();
-
-/*
-export function SearchScreen() {
-  return (
-    <LeftNavDrawer.Navigator
-      initialRouteName="RightDrawer"
-      drawerPosition="left"
-      drawerType="back">
-      <LeftNavDrawer.Screen name="SearchBase" component={SearchBaseScreen} />
-      <LeftNavDrawer.Screen
-        name="SortAndFilter"
-        component={SortFilterDrawerScreen}
-      />
-    </LeftNavDrawer.Navigator>
-  );
-}
-*/
 
 export function SearchScreen(props) {
   return (
@@ -123,55 +73,7 @@ function SortFilterDrawerScreen() {
 }
 
 export function SearchBaseScreen(props) {
-  /**
-   * Right now, I'm mandating that whatever this method is accepts as a
-   * parameter an object containing the objects `lastIndex` and `lastObject`
-   * respectively. I believe this should suffice for effective paging.
-   *
-   * @param lastIndex
-   * @returns {Promise<R>}
-   */
-  /*
-  const fetchMoreListItems = ({lastIndex}) => {
-    // Simulate fetch of next 25 items (25 if initial load)
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve([
-          ...Array.from(
-            Array(lastIndex === 0 ? INITIAL_LOAD : PAGE_SIZE).keys(),
-            n => {
-              n = n + lastIndex;
-              var randInt = 1 + Math.floor(Math.random() * 1000);
-              var isHearted = Math.floor(Math.random() * 5) == 0;
-              var randWords =
-                randomWords({min: 5, max: 10, join: ' '}) + ` (id: ${n})`;
-              return {
-                number: n.toString(),
-                id: n.toString(),
-                name: randWords,
-                thumbnail:
-                  'https://i.picsum.photos/id/' + randInt + '/100/100.jpg',
-                favorite: isHearted,
-                width: Dimensions.get('window').width * 0.45,
-                hasVariants: n % 2 == 0,
-              };
-            },
-          ),
-        ]);
-      }, 400);
-    });
-  };
-  */
-
-  /*
-  const [data, isFetching, setIsFetching] = useInfiniteScroll(
-    fetchMoreListItems,
-  );
-  */
-
   const navigation = props.navigation;
-  // let searchKwds =
-  //   props.route && props.route.params ? props.route.params.searchKwds : '';
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [showQuickLook, setQuickLook] = useState(true);
@@ -210,15 +112,6 @@ export function SearchBaseScreen(props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/*
-      <QuickLookModal
-        visible={modalVisible}
-        props={{
-          item: modalItem,
-          hideQuickLookModal: hideQuickLookModal,
-        }}
-      />
-      */}
       {showQuickLook && (
         <QuickLook props={{setShowQuickLook: setShowQuickLook}} />
       )}
