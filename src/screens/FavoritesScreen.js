@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile';
@@ -45,17 +44,6 @@ const FavoritesScreen = () => {
     }
   });
 
-  // For Quick Look Modal
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalItem, setModalItem] = useState({});
-  const showQuickLookModal = itemHash => {
-    setModalItem(itemHash.item);
-    setModalVisible(true);
-  };
-  const hideQuickLookModal = () => {
-    setModalVisible(false);
-  };
-
   const Department = departmentHash => {
     var deptKey = 'D' + (1 + Math.floor(Math.random() * 1000));
     const department = departmentHash.department;
@@ -65,22 +53,13 @@ const FavoritesScreen = () => {
         data={department}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return (
-            <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
-          );
+          return <ItemTile item={item} />;
         }}
       />
     );
   };
   return (
     <SafeAreaView style={styles.container}>
-      <QuickLookModal
-        visible={modalVisible}
-        props={{
-          item: modalItem,
-          hideQuickLookModal: hideQuickLookModal,
-        }}
-      />
       <FlatList
         showsVerticalScrollIndicator={true}
         numColumns={1}

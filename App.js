@@ -40,7 +40,16 @@ const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
+  let tabBarVisible = true;
+  if (
+    route.state &&
+    route.state.index > 0 &&
+    route.state.routes[1].name == 'Cart'
+  ) {
+    tabBarVisible = false;
+  }
+  navigation.setOptions({tabBarVisible: tabBarVisible});
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -89,7 +98,16 @@ const Home = ({navigation}) => {
   );
 };
 
-export function Search() {
+export function Search({navigation, route}) {
+  let tabBarVisible = true;
+  if (
+    route.state &&
+    route.state.index > 0 &&
+    route.state.routes[1].name == 'Cart'
+  ) {
+    tabBarVisible = false;
+  }
+  navigation.setOptions({tabBarVisible: tabBarVisible});
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen
@@ -138,7 +156,16 @@ export function Search() {
   );
 }
 
-const Favorites = () => {
+const Favorites = ({navigation, route}) => {
+  let tabBarVisible = true;
+  if (
+    route.state &&
+    route.state.index > 0 &&
+    route.state.routes[1].name == 'Cart'
+  ) {
+    tabBarVisible = false;
+  }
+  navigation.setOptions({tabBarVisible: tabBarVisible});
   return (
     <FavoritesStack.Navigator>
       <FavoritesStack.Screen

@@ -17,7 +17,7 @@ const util = {
     return id;
   },
 
-  deepCopyObject: (inObject) => {
+  deepCopyObject: inObject => {
     // Deep copy of an Object
     let outObject, value, key;
     if (typeof inObject !== 'object' || inObject === null) {
