@@ -154,54 +154,59 @@ const CartScreen = () => {
             return <CartItemTile item={item} />;
           }}
         />
-        <View
-          style={{
-            width: Dimensions.get('window').width,
-            height: 24,
-            bottom: 0,
-            borderTopColor: '#ddd',
-            borderTopWidth: 1,
-            backgroundColor: '#fff',
-            flexDirection: 'row',
-            justifyContent: 'flex-end',
-          }}>
+
+        {cart.length > 0 && (
           <View
             style={{
               width: Dimensions.get('window').width,
-              height: 30,
-              borderTopColor: '#eee',
+              height: 24,
+              bottom: 0,
+              borderTopColor: '#ddd',
               borderTopWidth: 1,
               backgroundColor: '#fff',
               flexDirection: 'row',
               justifyContent: 'flex-end',
             }}>
-            <View style={{justifyContent: 'flex-end'}}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  marginRight: 12,
-                  marginTop: 4,
-                  color: '#888',
-                }}>
-                Subtotal
-              </Text>
-            </View>
-            <View style={{justifyContent: 'flex-end'}}>
-              <Text style={{fontSize: 20, marginRight: 8, marginTop: 4}}>
-                ${cartTotal.toFixed(2)}
-              </Text>
+            <View
+              style={{
+                width: Dimensions.get('window').width,
+                height: 30,
+                borderTopColor: '#eee',
+                borderTopWidth: 1,
+                backgroundColor: '#fff',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+              }}>
+              <View style={{justifyContent: 'flex-end'}}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    marginRight: 12,
+                    marginTop: 4,
+                    color: '#888',
+                  }}>
+                  Subtotal
+                </Text>
+              </View>
+              <View style={{justifyContent: 'flex-end'}}>
+                <Text style={{fontSize: 20, marginRight: 8, marginTop: 4}}>
+                  ${cartTotal.toFixed(2)}
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={{margin: 12}}>
-          <Button
-            mode="contained"
-            color="#04f"
-            style={{borderRadius: 12}}
-            onPress={() => console.log('Pressed')}>
-            Checkout
-          </Button>
-        </View>
+        )}
+        {cart.length > 0 && (
+          <View style={{margin: 12}}>
+            <Button
+              mode="contained"
+              color="#04f"
+              style={{borderRadius: 12}}
+              onPress={() => console.log('Pressed')}>
+              Checkout
+            </Button>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
