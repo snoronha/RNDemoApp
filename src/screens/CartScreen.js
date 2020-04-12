@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import Interactable from 'react-native-interactable';
+import {Button} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
@@ -154,32 +155,52 @@ const CartScreen = () => {
           }}
         />
         <View
-          style={[
-            {
-              position: 'absolute',
+          style={{
+            width: Dimensions.get('window').width,
+            height: 24,
+            bottom: 0,
+            borderTopColor: '#ddd',
+            borderTopWidth: 1,
+            backgroundColor: '#fff',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          }}>
+          <View
+            style={{
               width: Dimensions.get('window').width,
-              height: 60,
-              bottom: 0,
-              borderTopColor: '#ddd',
+              height: 30,
+              borderTopColor: '#eee',
               borderTopWidth: 1,
               backgroundColor: '#fff',
               flexDirection: 'row',
-              justifyContent: 'space-between',
-            },
-          ]}>
-          <Text
-            style={{
-              fontSize: 24,
-              marginLeft: 20,
-              marginTop: 8,
-              alignContent: 'center',
-              justifyContent: 'center',
+              justifyContent: 'flex-end',
             }}>
-            Total
-          </Text>
-          <Text style={{fontSize: 24, marginRight: 8, marginTop: 8}}>
-            $ {cartTotal.toFixed(2)}
-          </Text>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  marginRight: 12,
+                  marginTop: 4,
+                  color: '#888',
+                }}>
+                Subtotal
+              </Text>
+            </View>
+            <View style={{justifyContent: 'flex-end'}}>
+              <Text style={{fontSize: 20, marginRight: 8, marginTop: 4}}>
+                ${cartTotal.toFixed(2)}
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={{margin: 12}}>
+          <Button
+            mode="contained"
+            color="#04f"
+            style={{borderRadius: 12}}
+            onPress={() => console.log('Pressed')}>
+            Checkout
+          </Button>
         </View>
       </View>
     </SafeAreaView>

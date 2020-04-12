@@ -1,10 +1,11 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-export function HeaderBackLink() {
+export function HeaderBackLink({props}) {
   const navigation = useNavigation();
+  let iconName = props && props.icon ? props.icon : 'arrow-left';
   goBack = () => {
     if (navigation.canGoBack()) navigation.goBack();
   };
@@ -15,9 +16,9 @@ export function HeaderBackLink() {
       hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
       onPress={this.goBack}>
       {navigation.canGoBack() ? (
-        <Icon name={'arrow-left'} size={24} color={'#888'} />
+        <Icon name={iconName} size={24} color={'#888'} />
       ) : (
-        <Icon name={'arrow-left'} size={24} color={'#fff'} />
+        <View />
       )}
     </TouchableOpacity>
   );

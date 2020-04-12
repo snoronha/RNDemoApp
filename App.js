@@ -85,10 +85,7 @@ const Home = ({navigation, route}) => {
         component={CartScreen}
         options={{
           headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
+            return <HeaderBackLink props={{icon: 'times'}} />;
           },
           headerTitleAlign: 'center',
           headerTitle: 'Cart',
@@ -143,10 +140,7 @@ export function Search({navigation, route}) {
         component={CartScreen}
         options={{
           headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
+            return <HeaderBackLink props={{icon: 'times'}} />;
           },
           headerTitleAlign: 'center',
           headerTitle: 'Cart',
@@ -201,13 +195,10 @@ const Favorites = ({navigation, route}) => {
         component={CartScreen}
         options={{
           headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
+            return <HeaderBackLink props={{icon: 'times'}} />;
           },
           headerTitleAlign: 'center',
-          headerTitle: 'Item Page',
+          headerTitle: 'Cart',
         }}
       />
     </FavoritesStack.Navigator>
