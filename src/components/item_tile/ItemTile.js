@@ -46,7 +46,6 @@ export function ItemTile(props) {
   // Pick alternate tiles to show ItemPageModal + ItemPageScreen
   // Real use case: variants show (Quick Look) modal first
   const modalOrScreen = () => {
-    // if (props.item && props.item.hasVariants) {
     if (
       props.showQuickLookModal &&
       props.item &&
@@ -83,6 +82,38 @@ export function ItemTile(props) {
     }
   };
 
+  const seeOptions = () => {
+    if (props.item && props.item.type == 'VARIANT') {
+      if (props.showQuickLookModal) {
+        // showQuickModal has been passed in
+        return (
+          <View style={styles.item_picker}>
+            <TouchableOpacity
+              onPress={() => props.showQuickLookModal({item: props.item})}>
+              <Text style={styles.options_text}>See Options</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      } else {
+        // if no showQuickModal present, navigate to Item Page
+        return (
+          <View style={styles.item_picker}>
+            <TouchableOpacity onPress={this.navigateToItemPage}>
+              <Text style={styles.options_text}>See Options</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      }
+    } else {
+      // if not VARIANT show regular Item Page
+      return (
+        <View style={styles.item_picker}>
+          <QuantityPicker item={props.item} />
+        </View>
+      );
+    }
+  };
+
   return (
     <View style={[styles.item_row, {width: props.width}]}>
       <View
@@ -110,15 +141,7 @@ export function ItemTile(props) {
       <Text style={[styles.item_description, {width: props.width}]}>
         {props.item.name}
       </Text>
-      <View style={styles.item_picker}>
-        {props.item.type != 'VARIANT' && <QuantityPicker item={props.item} />}
-        {props.item.type == 'VARIANT' && (
-          <TouchableOpacity
-            onPress={() => props.showQuickLookModal({item: props.item})}>
-            <Text style={styles.options_text}>See Options</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+      {seeOptions()}
     </View>
   );
 }
