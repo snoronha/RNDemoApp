@@ -61,6 +61,7 @@ const FavoritesScreen = () => {
   const Department = departmentHash => {
     var deptKey = 'D' + (1 + Math.floor(Math.random() * 1000));
     const department = departmentHash.department;
+    // <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
     return (
       <FlatList
         numColumns={2}
@@ -68,7 +69,7 @@ const FavoritesScreen = () => {
         keyExtractor={item => item.id}
         renderItem={({item}) => {
           return (
-            <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
+            <ItemTile item={item}/>
           );
         }}
       />

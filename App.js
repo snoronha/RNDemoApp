@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {Provider as PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
@@ -45,7 +44,7 @@ const Home = ({navigation, route}) => {
   if (
     route.state &&
     route.state.index > 0 &&
-    route.state.routes[1].name == 'Cart'
+    route.state.routes[route.state.routes.length - 1].name == 'Cart'
   ) {
     tabBarVisible = false;
   }
@@ -100,7 +99,7 @@ export function Search({navigation, route}) {
   if (
     route.state &&
     route.state.index > 0 &&
-    route.state.routes[1].name == 'Cart'
+    route.state.routes[route.state.routes.length - 1].name == 'Cart'
   ) {
     tabBarVisible = false;
   }
@@ -155,7 +154,7 @@ const Favorites = ({navigation, route}) => {
   if (
     route.state &&
     route.state.index > 0 &&
-    route.state.routes[1].name == 'Cart'
+    route.state.routes[route.state.routes.length - 1].name == 'Cart'
   ) {
     tabBarVisible = false;
   }
@@ -265,53 +264,51 @@ const StoreFinder = () => {
 export default (App = () => {
   return (
     <Provider store={store}>
-      <PaperProvider>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <Tab.Navigator
-              screenOptions={({route}) => ({
-                tabBarIcon: ({focused, color, size}) => {
-                  let iconName;
-                  if (route.name === 'Home') {
-                    iconName = focused ? 'home' : 'home';
-                    return <Icon name={iconName} size={size} color={color} />;
-                  } else if (route.name === 'Search') {
-                    iconName = focused ? 'search' : 'search';
-                    return <Icon name={iconName} size={size} color={color} />;
-                  } else if (route.name === 'Favorites') {
-                    iconName = focused ? 'heart' : 'heart-o';
-                    return (
-                      <IconWithBadge
-                        name={iconName}
-                        size={size}
-                        color={color}
-                        badgeCount={3}
-                      />
-                    );
-                  } else if (route.name === 'StoreFinder') {
-                    iconName = focused ? 'map-marker' : 'map-marker';
-                    return <Icon name={iconName} size={size} color={color} />;
-                  } else if (route.name === 'NEW!') {
-                    iconName = focused ? 'ellipsis-h' : 'ellipsis-h';
-                    return <Icon name={iconName} size={size} color={color} />;
-                  }
-                  // return <Icon name={iconName} size={size} color={color} />;
-                },
-              })}
-              tabBarOptions={{
-                activeTintColor: 'tomato',
-                inactiveTintColor: 'black',
-                tabStyle: {borderRightColor: '#eee', borderRightWidth: 1},
-              }}>
-              <Tab.Screen name="Home" component={Home} />
-              <Tab.Screen name="Search" component={Search} />
-              <Tab.Screen name="Favorites" component={Favorites} />
-              <Tab.Screen name="StoreFinder" component={StoreFinder} />
-              <Tab.Screen name="NEW!" component={More} />
-            </Tab.Navigator>
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </PaperProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({route}) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                let iconName;
+                if (route.name === 'Home') {
+                  iconName = focused ? 'home' : 'home';
+                  return <Icon name={iconName} size={size} color={color} />;
+                } else if (route.name === 'Search') {
+                  iconName = focused ? 'search' : 'search';
+                  return <Icon name={iconName} size={size} color={color} />;
+                } else if (route.name === 'Favorites') {
+                  iconName = focused ? 'heart' : 'heart-o';
+                  return (
+                    <IconWithBadge
+                      name={iconName}
+                      size={size}
+                      color={color}
+                      badgeCount={3}
+                    />
+                  );
+                } else if (route.name === 'StoreFinder') {
+                  iconName = focused ? 'map-marker' : 'map-marker';
+                  return <Icon name={iconName} size={size} color={color} />;
+                } else if (route.name === 'NEW!') {
+                  iconName = focused ? 'ellipsis-h' : 'ellipsis-h';
+                  return <Icon name={iconName} size={size} color={color} />;
+                }
+                // return <Icon name={iconName} size={size} color={color} />;
+              },
+            })}
+            tabBarOptions={{
+              activeTintColor: 'tomato',
+              inactiveTintColor: 'black',
+              tabStyle: {borderRightColor: '#eee', borderRightWidth: 1},
+            }}>
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Search" component={Search} />
+            <Tab.Screen name="Favorites" component={Favorites} />
+            <Tab.Screen name="StoreFinder" component={StoreFinder} />
+            <Tab.Screen name="NEW!" component={More} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
   );
 });

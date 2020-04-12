@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import Interactable from 'react-native-interactable';
-import {Button} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {QuantityPicker} from '../components/item_tile/QuantityPicker';
@@ -198,13 +197,18 @@ const CartScreen = () => {
         )}
         {cart.length > 0 && (
           <View style={{margin: 12}}>
-            <Button
-              mode="contained"
-              color="#04f"
-              style={{borderRadius: 12}}
-              onPress={() => console.log('Pressed')}>
-              Checkout
-            </Button>
+            <TouchableOpacity
+              style={styles.checkout_button}
+              onPress={() => console.log('Pressed opacity')}>
+              <View
+                style={{
+                  flex: 1,
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={styles.checkout_button_text}>Checkout</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         )}
       </View>
@@ -273,5 +277,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ddd',
+  },
+  checkout_button: {
+    height: 40,
+    borderRadius: 10,
+    backgroundColor: '#08f',
+  },
+  checkout_button_text: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

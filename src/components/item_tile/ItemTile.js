@@ -47,7 +47,11 @@ export function ItemTile(props) {
   // Real use case: variants show (Quick Look) modal first
   const modalOrScreen = () => {
     // if (props.item && props.item.hasVariants) {
-    if (props.item && props.item.type == 'VARIANT') {
+    if (
+      props.showQuickLookModal &&
+      props.item &&
+      props.item.type == 'VARIANT'
+    ) {
       return (
         <TouchableOpacity
           onPress={() => props.showQuickLookModal({item: props.item})}>
