@@ -1,0 +1,5 @@
+const server = {
+    domain: 'https://decrep.it', // 'http://localhost:8080'
+}
+
+export default server;

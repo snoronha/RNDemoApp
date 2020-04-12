@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Interactable from 'react-native-interactable';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
+import server from '../conf/server';
 
 const Screen = Dimensions.get('window');
 
@@ -84,7 +85,7 @@ export function SearchBaseScreen(props) {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:8080/items/search?kwd=' + searchKwds)
+    fetch(`${server.domain}/items/search?kwd=${searchKwds}`)
       .then(response => response.json())
       .then(json => setData(json.items))
       .catch(error => console.error(error))

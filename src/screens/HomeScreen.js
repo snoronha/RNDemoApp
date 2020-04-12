@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
+import server from '../conf/server';
 
 const HomeScreen = () => {
   const [isLoading, setLoading] = useState(false);
@@ -20,8 +21,7 @@ const HomeScreen = () => {
 
   // fetch /home data
   useEffect(() => {
-    fetch('http://localhost:8080/home')
-      // fetch('https://decrep.it/home')
+    fetch(`${server.domain}/home`)
       .then(response => response.json())
       .then(json => setData(json.carousels))
       .catch(error => console.log(error + ' (HomePage: getHome)'))
@@ -30,8 +30,7 @@ const HomeScreen = () => {
 
   // Preload favorites
   useEffect(() => {
-    fetch('http://localhost:8080/favorites/1')
-      // fetch('https://decrep.it/favorites/1')
+    fetch(`${server.domain}/favorites/1`)
       .then(response => response.json())
       .then(json => {
         let favs = [];
@@ -53,8 +52,7 @@ const HomeScreen = () => {
   let orderId = 1; // Needs to be populated
   let userId = 1; // Needs to be populated
   useEffect(() => {
-    fetch(`http://localhost:8080/order/${orderId}/user/${userId}`)
-      // fetch(`https://decrep.it/order/${orderId}/user/${userId}`)
+    fetch(`${server.domain}/order/${orderId}/user/${userId}`)
       .then(response => response.json())
       .then(json => {
         let cart = json.order;

@@ -10,12 +10,13 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile';
+import server from '../conf/server';
 
 const FavoritesScreen = () => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:8080/favorites/1')
+    fetch(`${server.domain}/favorites/1`)
       .then(response => response.json())
       .then(json => setData(json.favorites))
       .catch(error => console.error(error))
@@ -35,7 +36,7 @@ const FavoritesScreen = () => {
       });
       if (favCount > 0 && favCount != state.favorites.length) {
         // Update favorites from API
-        fetch('http://localhost:8080/favorites/1')
+        fetch(`${server.domain}/favorites/1`)
           .then(response => response.json())
           .then(json => setData(json.favorites))
           .catch(error => console.error(error))

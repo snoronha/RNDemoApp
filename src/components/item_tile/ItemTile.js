@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 
 import {QuantityPicker} from './QuantityPicker';
+import server from '../../conf/server';
 
 // export ItemTile as a function (not a class)
 export function ItemTile(props) {
@@ -16,7 +17,7 @@ export function ItemTile(props) {
 
   toggleHeart = () => {
     let action = favorite ? 'delete' : 'insert';
-    let url = `http://localhost:8080/favorites/${props.item.id}?action=${action}`;
+    let url = `${server.domain}/favorites/${props.item.id}?action=${action}`;
     let body = JSON.stringify({itemId: props.item.id, userId: 1});
     setHeartLoading(true);
     fetch(url, {method: 'post', body: body})

@@ -3,6 +3,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import server from '../../conf/server';
+
 const getQuantity = (item, cart) => {
   const itemId = item.id;
   var qty = 0;
@@ -36,7 +38,7 @@ export function QuantityPicker(props) {
       payload: {item: item, qty: decrQty},
     });
     // End Dispatch redux event optimistically
-    let url = `http://localhost:8080/order_item/${orderId}`;
+    let url = `${server.domain}/order_item/${orderId}`;
     let body = JSON.stringify({
       itemId: props.item.id,
       orderId: orderId,
@@ -65,7 +67,7 @@ export function QuantityPicker(props) {
     });
     setQuantity(addQty);
     // End Dispatch redux event optimistically
-    let url = `http://localhost:8080/order_item/${orderId}`;
+    let url = `${server.domain}/order_item/${orderId}`;
     let body = JSON.stringify({
       itemId: props.item.id,
       orderId: orderId,
