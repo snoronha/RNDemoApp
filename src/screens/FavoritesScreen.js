@@ -10,11 +10,24 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile';
+import {QuickLook} from '../components/item_page/QuickLook.js';
 import server from '../conf/server';
 
 const FavoritesScreen = () => {
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+
+  // For Quick Look
+  const [showQuickLook, setQuickLook] = useState(false);
+  const [modalItem, setModalItem] = useState({});
+  const showQuickLookModal = itemHash => {
+    setModalItem(itemHash.item);
+    setQuickLook(true);
+  };
+  const hideQuickLook = () => {
+    setQuickLook(false);
+  };
+
   useEffect(() => {
     fetch(`${server.domain}/favorites/1`)
       .then(response => response.json())
@@ -54,13 +67,18 @@ const FavoritesScreen = () => {
         data={department}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return <ItemTile item={item} />;
+          return (
+            <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
+          );
         }}
       />
     );
   };
   return (
     <SafeAreaView style={styles.container}>
+      {showQuickLook && (
+        <QuickLook props={{hideQuickLook: hideQuickLook, item: modalItem}} />
+      )}
       <FlatList
         showsVerticalScrollIndicator={true}
         numColumns={1}

@@ -19,7 +19,7 @@ const ItemPageQuickLook = ({props}) => {
           flexDirection: 'row',
           justifyContent: 'center',
         }}>
-        <Image style={styles.item_image} source={{uri: item.image_url}} />
+        <Image style={styles.item_image} source={{uri: item.thumbnail}} />
         <Icon
           name={favorite ? 'heart' : 'heart-o'}
           color={'tomato'}

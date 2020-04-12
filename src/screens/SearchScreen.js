@@ -12,37 +12,10 @@ import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Interactable from 'react-native-interactable';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
 import SortFilterScreen from './SortFilterScreen';
+import {QuickLook} from '../components/item_page/QuickLook.js';
 import server from '../conf/server';
-
-const Screen = Dimensions.get('window');
-
-const QuickLook = ({props}) => {
-  const setShowQuickLook = props.setShowQuickLook;
-  return (
-    <View style={styles.card_container}>
-      <Interactable.View
-        key="first"
-        VerticalOnly={true}
-        snapPoints={[{y: 0, damping: 0.5}]}>
-        <View style={styles.card}>
-          <TouchableOpacity
-            style={{alignSelf: 'flex-end', margin: 10}}
-            onPress={setShowQuickLook}>
-            <Icon
-              name={'times'}
-              size={24}
-              color={'#000'}
-              style={{alignSelf: 'flex-end', margin: 10}}
-            />
-          </TouchableOpacity>
-        </View>
-      </Interactable.View>
-    </View>
-  );
-};
 
 const SortDrawer = createDrawerNavigator();
 const LeftNavDrawer = createDrawerNavigator();
@@ -77,7 +50,6 @@ export function SearchBaseScreen(props) {
   const navigation = props.navigation;
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [showQuickLook, setQuickLook] = useState(true);
 
   const searchKwds = useSelector(state => {
     return state.searchKwds;
@@ -92,18 +64,14 @@ export function SearchBaseScreen(props) {
       .finally(() => setLoading(false));
   }, [searchKwds]);
 
-  // For Quick Look Modal
-  const [modalVisible, setModalVisible] = useState(false);
+  // For Quick Look
+  const [showQuickLook, setQuickLook] = useState(false);
   const [modalItem, setModalItem] = useState({});
   const showQuickLookModal = itemHash => {
     setModalItem(itemHash.item);
-    setModalVisible(true);
+    setQuickLook(true);
   };
-  const hideQuickLookModal = () => {
-    setModalVisible(false);
-  };
-  const setShowQuickLook = () => {
-    console.log('Executed ...');
+  const hideQuickLook = () => {
     setQuickLook(false);
   };
 
@@ -114,7 +82,7 @@ export function SearchBaseScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       {showQuickLook && (
-        <QuickLook props={{setShowQuickLook: setShowQuickLook}} />
+        <QuickLook props={{hideQuickLook: hideQuickLook, item: modalItem}} />
       )}
       {data.length > 0 && (
         <View style={styles.blueBox}>
@@ -209,23 +177,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#ddd',
-  },
-  card_container: {
-    position: 'absolute',
-    zIndex: 2,
-    marginLeft: Screen.width * 0.05,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  card: {
-    flex: 1,
-    width: Screen.width * 0.9,
-    height: Screen.height * 0.75,
-    backgroundColor: '#fff',
-    opacity: 0.7,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#aaa',
-    marginVertical: 6,
   },
 });

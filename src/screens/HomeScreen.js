@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import {ItemTile} from '../components/item_tile/ItemTile.js';
+import {QuickLook} from '../components/item_page/QuickLook.js';
 import server from '../conf/server';
 
 const HomeScreen = () => {
@@ -64,8 +65,22 @@ const HomeScreen = () => {
 
   const itemWidth = (width = Dimensions.get('window').width * 0.4);
 
+  // For Quick Look
+  const [showQuickLook, setQuickLook] = useState(false);
+  const [modalItem, setModalItem] = useState({});
+  const showQuickLookModal = itemHash => {
+    setModalItem(itemHash.item);
+    setQuickLook(true);
+  };
+  const hideQuickLook = () => {
+    setQuickLook(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {showQuickLook && (
+        <QuickLook props={{hideQuickLook: hideQuickLook, item: modalItem}} />
+      )}
       <ScrollView>
         <Image
           style={styles.banner_image}
@@ -86,7 +101,13 @@ const HomeScreen = () => {
                   data={carousel.items}
                   keyExtractor={item => item.id.toString()}
                   renderItem={({item}) => {
-                    return <ItemTile item={item} width={itemWidth} />;
+                    return (
+                      <ItemTile
+                        item={item}
+                        width={itemWidth}
+                        showQuickLookModal={showQuickLookModal}
+                      />
+                    );
                   }}
                 />
               </View>

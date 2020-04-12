@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
@@ -21,8 +21,8 @@ export function ItemTile(props) {
     let body = JSON.stringify({itemId: props.item.id, userId: 1});
     setHeartLoading(true);
     fetch(url, {method: 'post', body: body})
-      .then((response) => response.json())
-      .then((json) => {
+      .then(response => response.json())
+      .then(json => {
         setHeartLoading(true);
         if (action === 'delete') {
           dispatch({type: 'UNHEART_ITEM', payload: {item: props.item}});
@@ -30,7 +30,7 @@ export function ItemTile(props) {
           dispatch({type: 'HEART_ITEM', payload: {item: props.item}});
         }
       })
-      .catch((error) => console.error(error)) // handle this
+      .catch(error => console.error(error)) // handle this
       .finally(() => setHeartLoading(false));
     setFavorite(!favorite);
   };
@@ -46,7 +46,8 @@ export function ItemTile(props) {
   // Pick alternate tiles to show ItemPageModal + ItemPageScreen
   // Real use case: variants show (Quick Look) modal first
   const modalOrScreen = () => {
-    if (props.item && props.item.hasVariants) {
+    // if (props.item && props.item.hasVariants) {
+    if (props.item && props.item.type == 'VARIANT') {
       return (
         <TouchableOpacity
           onPress={() => props.showQuickLookModal({item: props.item})}>
@@ -106,7 +107,13 @@ export function ItemTile(props) {
         {props.item.name}
       </Text>
       <View style={styles.item_picker}>
-        <QuantityPicker item={props.item} />
+        {props.item.type != 'VARIANT' && <QuantityPicker item={props.item} />}
+        {props.item.type == 'VARIANT' && (
+          <TouchableOpacity
+            onPress={() => props.showQuickLookModal({item: props.item})}>
+            <Text style={styles.options_text}>See Options</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -162,5 +169,10 @@ const styles = StyleSheet.create({
   },
   item_text: {
     fontSize: 14,
+  },
+  options_text: {
+    fontSize: 14,
+    color: '#444',
+    textDecorationLine: 'underline',
   },
 });
