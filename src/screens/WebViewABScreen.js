@@ -34,7 +34,7 @@ const WebViewABScreen = ({route, navigation}) => {
         marginTop: 0,
       }}>
       <WebView
-        ref={(ref) => (webview1 = ref)}
+        ref={ref => (webview1 = ref)}
         originWhitelist={['*']}
         style={{marginTop: 0}}
         source={{uri: startUrl1}}
@@ -50,7 +50,7 @@ const WebViewABScreen = ({route, navigation}) => {
         marginTop: 0,
       }}>
       <WebView
-        ref={(ref) => (webview2 = ref)}
+        ref={ref => (webview2 = ref)}
         originWhitelist={['*']}
         style={{marginTop: 0, borderWidth: 1}}
         source={{uri: startUrl2}}
@@ -71,6 +71,19 @@ const WebViewABScreen = ({route, navigation}) => {
     oneapp: OneAppRoute,
   });
 
+  const renderTabBar = props => (
+    <TabBar
+      {...props}
+      scrollEnabled
+      getLabelText={({route}) => route.title}
+      tabStyle={{flex: 1, alignItems: 'center'}}
+      labelStyle={{fontSize: 14, color: '#000'}}
+      indicatorStyle={{backgroundColor: 'tomato'}}
+      style={{backgroundColor: 'white'}}
+    />
+  );
+
+  /*
   const renderTabBar = () => {
     return (
       <TabBar
@@ -82,52 +95,16 @@ const WebViewABScreen = ({route, navigation}) => {
       />
     );
   };
+  */
 
   return (
     <TabView
+      renderTabBar={renderTabBar}
       navigationState={{index, routes}}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={initialLayout}
     />
   );
-  /*
-  return (
-    <SafeAreaView>
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        pagingEnabled>
-        <View
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            height: Dimensions.get('window').height * 0.7,
-            marginTop: 0,
-          }}>
-          <WebView
-            ref={(ref) => (webview1 = ref)}
-            originWhitelist={['*']}
-            style={{marginTop: 0, borderWidth: 1}}
-            source={{uri: startUrl1}}
-          />
-        </View>
-        <View
-          style={{
-            width: Dimensions.get('window').width * 0.75,
-            height: Dimensions.get('window').height * 0.7,
-            marginTop: 0,
-          }}>
-          <WebView
-            ref={(ref) => (webview2 = ref)}
-            originWhitelist={['*']}
-            style={{marginTop: 0, borderWidth: 1}}
-            source={{uri: startUrl2}}
-          />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-  */
 };
 
 const styles = StyleSheet.create({

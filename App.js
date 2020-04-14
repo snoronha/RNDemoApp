@@ -41,11 +41,11 @@ const Tab = createBottomTabNavigator();
 
 const Home = ({navigation, route}) => {
   let tabBarVisible = true;
-  if (
-    route.state &&
-    route.state.index > 0 &&
-    route.state.routes[route.state.routes.length - 1].name == 'Cart'
-  ) {
+  let lastRoute =
+    route.state && route.state.index > 0
+      ? route.state.routes[route.state.routes.length - 1].name
+      : '';
+  if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
   navigation.setOptions({tabBarVisible: tabBarVisible});
@@ -96,11 +96,11 @@ const Home = ({navigation, route}) => {
 
 export function Search({navigation, route}) {
   let tabBarVisible = true;
-  if (
-    route.state &&
-    route.state.index > 0 &&
-    route.state.routes[route.state.routes.length - 1].name == 'Cart'
-  ) {
+  let lastRoute =
+    route.state && route.state.index > 0
+      ? route.state.routes[route.state.routes.length - 1].name
+      : '';
+  if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
   navigation.setOptions({tabBarVisible: tabBarVisible});
@@ -151,11 +151,11 @@ export function Search({navigation, route}) {
 
 const Favorites = ({navigation, route}) => {
   let tabBarVisible = true;
-  if (
-    route.state &&
-    route.state.index > 0 &&
-    route.state.routes[route.state.routes.length - 1].name == 'Cart'
-  ) {
+  let lastRoute =
+    route.state && route.state.index > 0
+      ? route.state.routes[route.state.routes.length - 1].name
+      : '';
+  if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
   navigation.setOptions({tabBarVisible: tabBarVisible});
