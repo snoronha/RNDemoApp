@@ -18,8 +18,9 @@ import {QuickLook} from '../components/item_page/QuickLook.js';
 import server from '../conf/server';
 
 const SortDrawer = createDrawerNavigator();
-const LeftNavDrawer = createDrawerNavigator();
+// const LeftNavDrawer = createDrawerNavigator();
 
+/*
 export function SearchScreen(props) {
   return (
     <LeftNavDrawer.Navigator
@@ -36,6 +37,18 @@ export function SearchScreen(props) {
 }
 
 function SortFilterDrawerScreen() {
+  return (
+    <SortDrawer.Navigator
+      drawerPosition={'right'}
+      drawerContent={() => <SortFilterScreen />}>
+      <SortDrawer.Screen name="SearchBase" component={SearchBaseScreen} />
+      <SortDrawer.Screen name="SortAndFilter" component={SortFilterScreen} />
+    </SortDrawer.Navigator>
+  );
+}
+*/
+
+export function SearchScreen() {
   return (
     <SortDrawer.Navigator
       drawerPosition={'right'}
@@ -98,7 +111,8 @@ export function SearchBaseScreen(props) {
       {data.length <= 0 && (
         <View style={styles.search_icon_container}>
           <Icon name={'search'} size={150} color={'#ddd'} />
-          <Text style={styles.search_icon_text}>No search results</Text>
+          <Text style={styles.search_icon_text}>No search results for</Text>
+          <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
         </View>
       )}
       <View style={{zIndex: 1}}>
