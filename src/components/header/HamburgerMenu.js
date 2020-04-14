@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default (HamburgerMenu = ({openLeftNav}) => {
+export function HamburgerMenu({openLeftNav}) {
   const openDrawer = () => {
     openLeftNav();
   };
@@ -23,7 +23,7 @@ export default (HamburgerMenu = ({openLeftNav}) => {
       </TouchableOpacity>
     </View>
   );
-});
+}
 
 const styles = StyleSheet.create({
   container: {

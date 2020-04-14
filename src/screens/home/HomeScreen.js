@@ -11,9 +11,9 @@ import {
   View,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
-import {ItemTile} from '../components/item_tile/ItemTile.js';
-import {QuickLook} from '../components/item_page/QuickLook.js';
-import server from '../conf/server';
+import {ItemTile} from '../../components/item_tile/ItemTile.js';
+import {QuickLook} from '../../components/item_page/QuickLook.js';
+import server from '../../conf/server';
 
 const HomeScreen = () => {
   const [isLoading, setLoading] = useState(false);
