@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Home} from './src/screens/home/Home';
-import FavoritesScreen from './src/screens/FavoritesScreen';
+import {Favorites} from './src/screens/favorites/Favorites';
 import {StoreFinderScreen} from './src/screens/StoreFinderScreen';
 import MoreScreen from './src/screens/MoreScreen';
 import WebViewScreen from './src/screens/WebViewScreen';
@@ -29,7 +29,6 @@ import store from './src/stores/store';
 Icon.loadFont();
 
 const SearchStack = createStackNavigator();
-const FavoritesStack = createStackNavigator();
 const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -88,61 +87,6 @@ export function Search({navigation, route}) {
     </SearchStack.Navigator>
   );
 }
-
-const Favorites = ({navigation, route}) => {
-  let tabBarVisible = true;
-  let lastRoute =
-    route.state && route.state.index > 0
-      ? route.state.routes[route.state.routes.length - 1].name
-      : '';
-  if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
-    tabBarVisible = false;
-  }
-  navigation.setOptions({tabBarVisible: tabBarVisible});
-  return (
-    <FavoritesStack.Navigator>
-      <FavoritesStack.Screen
-        name="Favorites"
-        component={FavoritesScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'Favorites',
-        }}
-      />
-      <FavoritesStack.Screen
-        name="ItemPage"
-        component={ItemPageScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'Item Page',
-        }}
-      />
-      <FavoritesStack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink props={{icon: 'times'}} />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'Cart',
-        }}
-      />
-    </FavoritesStack.Navigator>
-  );
-};
 
 const More = () => {
   return (

@@ -9,9 +9,9 @@ import {
   View,
 } from 'react-native';
 import {useSelector} from 'react-redux';
-import {ItemTile} from '../components/item_tile/ItemTile';
-import {QuickLook} from '../components/item_page/QuickLook.js';
-import server from '../conf/server';
+import {ItemTile} from '../../components/item_tile/ItemTile';
+import {QuickLook} from '../../components/item_page/QuickLook.js';
+import server from '../../conf/server';
 
 const FavoritesScreen = () => {
   const [isLoading, setLoading] = useState(false);
@@ -68,9 +68,7 @@ const FavoritesScreen = () => {
         data={department}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return (
-            <ItemTile item={item}/>
-          );
+          return <ItemTile item={item} />;
         }}
       />
     );
