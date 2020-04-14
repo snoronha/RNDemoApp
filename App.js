@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -39,6 +39,18 @@ const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const HomeDrawer = createDrawerNavigator();
+const HomePlus = ({navigation, route}) => {
+  return (
+    <HomeDrawer.Navigator initialRouteName="Home">
+      <HomeDrawer.Screen name="Home" component={Home} />
+      <HomeDrawer.Screen name="Search" component={Search} />
+      <HomeDrawer.Screen name="Favorites" component={Favorites} />
+      <HomeDrawer.Screen name="More" component={More} />
+    </HomeDrawer.Navigator>
+  );
+};
+
 const Home = ({navigation, route}) => {
   let tabBarVisible = true;
   let lastRoute =
@@ -48,7 +60,12 @@ const Home = ({navigation, route}) => {
   if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
-  navigation.setOptions({tabBarVisible: tabBarVisible});
+  let parent = navigation.dangerouslyGetParent();
+  // navigation.setOptions({tabBarVisible: tabBarVisible});
+  parent.setOptions({tabBarVisible: tabBarVisible});
+  const openLeftNav = () => {
+    navigation.openDrawer();
+  };
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -56,7 +73,7 @@ const Home = ({navigation, route}) => {
         component={HomeScreen}
         options={{
           headerLeft: () => {
-            return <HamburgerMenu navigationProps={navigation} />;
+            return <HamburgerMenu openLeftNav={openLeftNav} />;
           },
           headerRight: () => {
             return <HeaderCartLink />;
@@ -301,7 +318,7 @@ export default (App = () => {
               inactiveTintColor: 'black',
               tabStyle: {borderRightColor: '#eee', borderRightWidth: 1},
             }}>
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Home" component={HomePlus} />
             <Tab.Screen name="Search" component={Search} />
             <Tab.Screen name="Favorites" component={Favorites} />
             <Tab.Screen name="StoreFinder" component={StoreFinder} />

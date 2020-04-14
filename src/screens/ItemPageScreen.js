@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Animated,
   Dimensions,
   Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {TabView, TabBar, SceneMap} from 'react-native-tab-view';

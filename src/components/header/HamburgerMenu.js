@@ -8,10 +8,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default HamburgerMenu = () => {
-  const toggleDrawer = () => {
-    // navigation.toggleDrawer();
-    console.log('Clicked');
+export default (HamburgerMenu = ({openLeftNav}) => {
+  const openDrawer = () => {
+    openLeftNav();
   };
 
   return (
@@ -19,12 +18,12 @@ export default HamburgerMenu = () => {
       <TouchableOpacity
         style={styles.hamburger}
         hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
-        onPress={toggleDrawer}>
+        onPress={openDrawer}>
         <Icon name={'bars'} size={24} color={'#888'} />
       </TouchableOpacity>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
