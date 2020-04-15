@@ -16,7 +16,7 @@ export function HeaderCartLink() {
     navigation.navigate('Cart');
   };
 
-  const cartCount = useSelector((state) => {
+  const cartCount = useSelector(state => {
     var count = 0;
     for (var idx in state.cart) {
       count += state.cart[idx].qty;
@@ -57,20 +57,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    top: -8,
+    top: -6,
     right: 4,
     zIndex: 1,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#ff0',
-    borderColor: '#888',
-    borderWidth: 2,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#f00',
   },
   cart_badge: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
-    color: '#888',
+    color: '#ff0',
     alignSelf: 'center',
     justifyContent: 'center',
   },

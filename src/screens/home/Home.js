@@ -1,33 +1,67 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {Dimensions} from 'react-native';
 
 import ItemPageScreen from '../ItemPageScreen';
 import CartScreen from '../CartScreen';
 import HomeScreen from './HomeScreen';
+// import {Search} from '../search/Search';
+import {Favorites} from '../favorites/Favorites';
+import {More} from '../more/More';
 import {HeaderBackLink} from '../../components/header/HeaderBackLink';
 import {HeaderCartLink} from '../../components/header/HeaderCartLink';
 import {HamburgerMenu} from '../../components/header/HamburgerMenu';
 
 const HomeStack = createStackNavigator();
 const HomeDrawer = createDrawerNavigator();
-/*
-export function HomePlus({navigation, route}) {
+
+const Screen = Dimensions.get('window');
+const CustomDrawerContent = props => {
   return (
-    <HomeDrawer.Navigator initialRouteName="Home">
-      <HomeDrawer.Screen name="Home" component={Home} />
-      <HomeDrawer.Screen name="Search" component={Search} />
-      <HomeDrawer.Screen name="Favorites" component={Favorites} />
-      <HomeDrawer.Screen name="More" component={More} />
-    </HomeDrawer.Navigator>
+    <DrawerContentScrollView>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        icon={({focused, color, size}) => (
+          <Icon color={color} size={size} name={'home'} />
+        )}
+        label="Home"
+        onPress={() => props.navigation.closeDrawer()}
+      />
+      <DrawerItem
+        icon={({focused, color, size}) => (
+          <Icon color={color} size={size} name={'heart'} />
+        )}
+        label="Favorites"
+        onPress={() => props.navigation.jumpTo('Favorites')}
+      />
+      <DrawerItem
+        icon={({focused, color, size}) => (
+          <Icon color={color} size={size} name={'search'} />
+        )}
+        label="Search"
+        onPress={() => props.navigation.jumpTo('Search')}
+      />
+    </DrawerContentScrollView>
   );
-}
-*/
+};
 
 export function Home({navigation, route}) {
   return (
-    <HomeDrawer.Navigator initialRouteName="HomeContent">
-      <HomeDrawer.Screen name="Home" component={HomeContent} />
+    <HomeDrawer.Navigator
+      initialRouteName="HomeContent"
+      drawerStyle={{
+        backgroundColor: '#eee',
+        width: Screen.width * 0.8,
+      }}
+      drawerContent={props => <CustomDrawerContent {...props} />}>
+      <HomeDrawer.Screen name="Hello" component={HomeContent} />
     </HomeDrawer.Navigator>
   );
 }
