@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const MoreScreen = ({navigation}) => {
+export function MoreScreen({navigation}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.tile_row}>
@@ -66,7 +66,7 @@ const MoreScreen = ({navigation}) => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 export default MoreScreen;
 

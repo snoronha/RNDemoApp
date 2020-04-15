@@ -8,10 +8,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Home} from './src/screens/home/Home';
 import {Favorites} from './src/screens/favorites/Favorites';
 import {Search} from './src/screens/search/Search';
+import {More} from './src/screens/more/More';
 import {StoreFinderScreen} from './src/screens/StoreFinderScreen';
-import MoreScreen from './src/screens/MoreScreen';
-import WebViewScreen from './src/screens/WebViewScreen';
-import WebViewABScreen from './src/screens/WebViewABScreen';
 
 import {HeaderBackLink} from './src/components/header/HeaderBackLink';
 import {IconWithBadge} from './src/components/footer/IconWithBadge';
@@ -23,49 +21,8 @@ import store from './src/stores/store';
 // Hack to ensure FontAwesome loads
 Icon.loadFont();
 
-const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const More = () => {
-  return (
-    <MoreStack.Navigator>
-      <MoreStack.Screen
-        name="More"
-        component={MoreScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'New!',
-        }}
-      />
-      <MoreStack.Screen
-        name="WebView"
-        component={WebViewScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'WebView',
-        }}
-      />
-      <MoreStack.Screen
-        name="WebViewAB"
-        component={WebViewABScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'WebViewAB',
-        }}
-      />
-    </MoreStack.Navigator>
-  );
-};
 
 const StoreFinder = () => {
   return (
