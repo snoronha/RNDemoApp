@@ -12,10 +12,10 @@ import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ItemTile} from '../components/item_tile/ItemTile.js';
-import SortFilterScreen from './SortFilterScreen';
-import {QuickLook} from '../components/item_page/QuickLook.js';
-import server from '../conf/server';
+import {ItemTile} from '../../components/item_tile/ItemTile.js';
+import SortFilterScreen from '../SortFilterScreen';
+import {QuickLook} from '../../components/item_page/QuickLook.js';
+import server from '../../conf/server';
 
 const SortDrawer = createDrawerNavigator();
 // const LeftNavDrawer = createDrawerNavigator();

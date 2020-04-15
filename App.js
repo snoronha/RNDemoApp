@@ -7,18 +7,13 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Home} from './src/screens/home/Home';
 import {Favorites} from './src/screens/favorites/Favorites';
+import {Search} from './src/screens/search/Search';
 import {StoreFinderScreen} from './src/screens/StoreFinderScreen';
 import MoreScreen from './src/screens/MoreScreen';
 import WebViewScreen from './src/screens/WebViewScreen';
 import WebViewABScreen from './src/screens/WebViewABScreen';
-import {SearchScreen} from './src/screens/SearchScreen';
-import ItemPageScreen from './src/screens/ItemPageScreen';
-import CartScreen from './src/screens/CartScreen';
 
 import {HeaderBackLink} from './src/components/header/HeaderBackLink';
-import {HeaderCartLink} from './src/components/header/HeaderCartLink';
-import {HeaderSearchBar} from './src/components/header/HeaderSearchBar';
-
 import {IconWithBadge} from './src/components/footer/IconWithBadge';
 
 //-------- REDUX ---------//
@@ -28,65 +23,9 @@ import store from './src/stores/store';
 // Hack to ensure FontAwesome loads
 Icon.loadFont();
 
-const SearchStack = createStackNavigator();
 const MoreStack = createStackNavigator();
 const StoreFinderStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-export function Search({navigation, route}) {
-  let tabBarVisible = true;
-  let lastRoute =
-    route.state && route.state.index > 0
-      ? route.state.routes[route.state.routes.length - 1].name
-      : '';
-  if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
-    tabBarVisible = false;
-  }
-  navigation.setOptions({tabBarVisible: tabBarVisible});
-  return (
-    <SearchStack.Navigator>
-      <SearchStack.Screen
-        name="Search"
-        component={SearchScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: props => <HeaderSearchBar {...props} />,
-        }}
-      />
-      <SearchStack.Screen
-        name="ItemPage"
-        component={ItemPageScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink />;
-          },
-          headerRight: () => {
-            return <HeaderCartLink />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'Item Page',
-        }}
-      />
-      <SearchStack.Screen
-        name="Cart"
-        component={CartScreen}
-        options={{
-          headerLeft: () => {
-            return <HeaderBackLink props={{icon: 'times'}} />;
-          },
-          headerTitleAlign: 'center',
-          headerTitle: 'Cart',
-        }}
-      />
-    </SearchStack.Navigator>
-  );
-}
 
 const More = () => {
   return (
