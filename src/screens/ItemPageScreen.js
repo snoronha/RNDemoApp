@@ -46,7 +46,14 @@ const ItemPageScreen = ({route}) => {
       <Text style={{fontSize: 14, fontWeight: 'bold', marginBottom: 8}}>
         Ingredients
       </Text>
-      <Text style={{fontSize: 12, color: '#444'}}>{data.ingredients}</Text>
+      <Text style={{fontSize: 12, color: '#444', marginBottom: 8}}>
+        {data.ingredients}
+      </Text>
+      <View style={{height: 1, backgroundColor: '#aaa', marginBottom: 12}} />
+      <Text style={{fontSize: 14, fontWeight: 'bold', marginBottom: 8}}>
+        Product features
+      </Text>
+      <Text style={{fontSize: 11, color: '#444'}}>{data.description}</Text>
     </View>
   );
   const NutritionRoute = () => (
@@ -57,7 +64,112 @@ const ItemPageScreen = ({route}) => {
         padding: 12,
         marginBottom: 50,
       }}>
-      <Text style={{fontSize: 12, color: '#444'}}>{data.description}</Text>
+      <Text style={{fontSize: 14, fontWeight: 'bold', marginBottom: 10}}>
+        Nutrition Facts
+      </Text>
+      <Text style={{fontSize: 12, color: '#888', marginBottom: 8}}>
+        About 10 servings per container
+      </Text>
+
+      <View style={{flexDirection: 'row', marginBottom: 4}}>
+        <Text style={{flex: 1, fontSize: 12, fontWeight: 'bold'}}>
+          Serving Size
+        </Text>
+        <Text style={{fontSize: 12, color: '#888'}}>43 g</Text>
+      </View>
+      <View style={{height: 8, backgroundColor: '#000'}} />
+      <Text
+        style={{fontSize: 12, color: '#444', marginTop: 4, marginBottom: 4}}>
+        Amount per serving
+      </Text>
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 8}}>
+        <Text style={{flex: 1, fontSize: 18, fontWeight: 'bold'}}>
+          Calories
+        </Text>
+        <Text style={{fontSize: 18, fontWeight: 'bold'}}>170cal</Text>
+      </View>
+      <View style={{height: 4, backgroundColor: '#000'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1}} />
+        <Text style={{fontSize: 11}}>% Daily Value*</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Total Fat 3</Text>
+        <Text style={{fontSize: 11}}>4%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11, marginLeft: 20}}>
+          Saturated Fat 0.5g
+        </Text>
+        <Text style={{fontSize: 11}}>3%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11, marginLeft: 20}}>
+          Trans Fat 0g
+        </Text>
+        <Text style={{fontSize: 11}} />
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Cholestrol 0.0 mg</Text>
+        <Text style={{fontSize: 11}}>0%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Sodium 210mg</Text>
+        <Text style={{fontSize: 11}}>9%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Total Carbohydrates 31</Text>
+        <Text style={{fontSize: 11}}>10%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11, marginLeft: 20}}>
+          Dietary Fiber 4g
+        </Text>
+        <Text style={{fontSize: 11}}>14%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11, marginLeft: 20}}>Sugars 11g</Text>
+        <Text style={{fontSize: 11}} />
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Protein 5</Text>
+        <Text style={{fontSize: 11}} />
+      </View>
+      <View style={{height: 4, backgroundColor: '#000'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Vitamin A</Text>
+        <Text style={{fontSize: 11}}>0%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Vitamin C</Text>
+        <Text style={{fontSize: 11}}>0%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Calcium</Text>
+        <Text style={{fontSize: 11}}>2%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Phosphorus</Text>
+        <Text style={{fontSize: 11}}>15%</Text>
+      </View>
+      <View style={{height: 1, backgroundColor: '#aaa'}} />
+      <View style={{flexDirection: 'row', marginBottom: 4, marginTop: 6}}>
+        <Text style={{flex: 1, fontSize: 11}}>Iron</Text>
+        <Text style={{fontSize: 11}}>8%</Text>
+      </View>
+      <View style={{height: 8, backgroundColor: '#000'}} />
     </View>
   );
   const [index, setIndex] = React.useState(0);

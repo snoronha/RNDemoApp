@@ -52,6 +52,7 @@ const CustomDrawerContent = props => {
   );
 };
 
+// height = 0 hides the HomeContent Screen
 export function Home({navigation, route}) {
   return (
     <HomeDrawer.Navigator
@@ -60,7 +61,8 @@ export function Home({navigation, route}) {
         backgroundColor: '#eee',
         width: Screen.width * 0.8,
       }}
-      drawerContent={props => <CustomDrawerContent {...props} />}>
+      drawerContent={props => <CustomDrawerContent {...props} />}
+      drawerContentOptions={{itemStyle: {height: 0}}}>
       <HomeDrawer.Screen name="Hello" component={HomeContent} />
     </HomeDrawer.Navigator>
   );
