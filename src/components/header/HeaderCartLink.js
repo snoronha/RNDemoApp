@@ -33,7 +33,7 @@ export function HeaderCartLink() {
         style={styles.cart}
         hitSlop={{top: 10, left: 10, bottom: 10, right: 10}}
         onPress={this.goToCart}>
-        <Icon name={'shopping-cart'} size={30} color={'#888'} />
+        <Icon name={'shopping-cart'} size={24} color={'#666'} />
       </TouchableOpacity>
     </View>
   );
@@ -51,6 +51,14 @@ const styles = StyleSheet.create({
   cart: {
     alignSelf: 'center',
     marginRight: 12,
+    paddingTop: 2,
+    paddingBottom: 4,
+    paddingRight: 6,
+    paddingLeft: 4,
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: '#ccc',
+    backgroundColor: '#eee',
     zIndex: 0,
   },
   cart_badge_container: {

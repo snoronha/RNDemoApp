@@ -115,7 +115,7 @@ export function SearchBaseScreen(props) {
           <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
         </View>
       )}
-      <View style={{zIndex: 1}}>
+      <View style={{zIndex: 1, marginBottom: 50}}>
         <FlatList
           onEndReachedThreshold={3}
           numColumns={2}

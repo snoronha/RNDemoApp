@@ -28,5 +28,12 @@ const styles = StyleSheet.create({
   back_button: {
     alignSelf: 'center',
     marginLeft: 8,
+    paddingTop: 2,
+    paddingBottom: 4,
+    paddingHorizontal: 4,
+    borderWidth: 1,
+    borderRadius: 14,
+    borderColor: '#ccc',
+    backgroundColor: '#eee',
   },
 });
