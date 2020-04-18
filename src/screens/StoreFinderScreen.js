@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Dimensions,
   NativeModules,
   SafeAreaView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import MapView, {Callout, Marker} from 'react-native-maps';
+import MapView, {Callout, Marker, AnimatedRegion} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import server from '../conf/server';
 
-export function StoreFinderScreen() {
+const Screen = Dimensions.get('window');
+
+export function StoreFinderScreen(props) {
   // Example of Native Module talking to Calendar API. Commenting for now
   /*
   var CalendarManager = NativeModules.CalendarManager;
@@ -29,53 +34,150 @@ export function StoreFinderScreen() {
   });
   */
 
-  var region = {
+  let initLoc = [37.33459, -122.00919];
+  const [isLoading, setLoading] = useState(false);
+  const [stores, setStores] = useState([]);
+  const [prevPos, setPrevPos] = useState({});
+  const [curLat, setLatitude] = useState(37.420814);
+  const [curLng, setLongitude] = useState(-122.081949);
+  const [region, setRegion] = useState({
     latitude: 37.36,
     longitude: -122.05,
-    latitudeDelta: 0.25,
-    longitudeDelta: 0.0421,
+    // latitudeDelta: 0.0422,
+    // longitudeDelta: 0.0421,
+  });
+  let pos = {latitude: curLat, longitude: curLng};
+
+  /*
+  Geolocation.getCurrentPosition(info => {
+    initLoc = [info.coords.latitude, info.coords.longitude];
+    // console.log('SET COORDS: ', lat, lng, region);
+  });
+  */
+
+  const changeLatitude = lat => {
+    if (isNaN(lat)) {
+      setLatitude(0);
+    } else {
+      setLatitude(lat);
+    }
   };
+
+  const changeLongitude = lng => {
+    if (isNaN(lng)) {
+      setLongitude(0);
+    } else {
+      setLongitude(lng);
+    }
+  };
+
+  const getStores = () => {
+    let getUrl = '';
+    if (initLoc.length > 0 && curLat == 0) {
+      getUrl = `${server.domain}/stores/${initLoc[0]}/${initLoc[1]}`;
+    } else {
+      getUrl = `${server.domain}/stores/${curLat}/${curLng}`;
+    }
+    console.log('FETCHING: ', getUrl);
+    fetch(getUrl)
+      .then(response => response.json())
+      .then(json => {
+        setStores(json.stores);
+        console.log('len(stores) = ' + json.stores.length);
+      })
+      .catch(error => console.log(error + ' (StoreFinder: getStores)'))
+      .finally(() => setLoading(false));
+  };
+
+  // hook to fetch /store data
+  useEffect(() => {
+    setTimeout(getStores, 2000);
+  }, [isLoading]);
+
+  const onRegionChange = region => {
+    console.log('Setting Region:', region);
+    setRegion({region});
+  };
+
+  const searchLocation = () => {
+    console.log('Searching (' + pos.latitude + ',' + pos.longitude + ')');
+    this.map.animateCamera({center: {latitude: curLat, longitude: curLng}});
+    setLoading(true); // force re-render
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
+        <View style={{flexDirection: 'row'}}>
+          <TextInput
+            style={[
+              styles.text_input,
+              {width: Screen.width * 0.3, height: 30, margin: 8},
+            ]}
+            placeholder="Latitude"
+            placeholderTextColor="#aaa"
+            maxLength={20}
+            autoCapitalize="none"
+            onChangeText={lt => changeLatitude(parseFloat(lt))}
+          />
+          <TextInput
+            style={[
+              styles.text_input,
+              {width: Screen.width * 0.3, height: 30, margin: 8},
+            ]}
+            placeholder="Longitude"
+            placeholderTextColor="#aaa"
+            maxLength={20}
+            autoCapitalize="none"
+            onChangeText={ln => changeLongitude(parseFloat(ln))}
+          />
+          <TouchableOpacity
+            onPress={() => searchLocation('GO!')}
+            style={[styles.item_touchable, {width: 40}]}>
+            <Text>Go</Text>
+          </TouchableOpacity>
+        </View>
         <MapView
-          initialRegion={region}
+          ref={el => (this.map = el)}
+          initialRegion={{
+            latitude: curLat,
+            longitude: curLng,
+            latitudeDelta: 0.4,
+            longitudeDelta: 0.4,
+          }}
           zoomEnabled={true}
-          style={styles.map}
-          onRegionChange={this.onRegionChange}>
-          <Marker
-            coordinate={{
-              latitude: 37.4008228,
-              longitude: -122.1096709,
-            }}
-            centerOffset={{x: -18, y: -60}}
-            anchor={{x: 0.69, y: 1}}>
-            <Icon name={'shopping-cart'} size={18} color={'tomato'} />
-            <Callout style={styles.plainView}>
-              <View>
-                <Text style={{fontSize: 12}}>Mountain View</Text>
-              </View>
-            </Callout>
-          </Marker>
-          <Marker
-            coordinate={{
-              latitude: 37.3231123,
-              longitude: -121.9401324,
-            }}
-            centerOffset={{x: -18, y: -60}}
-            anchor={{x: 0.69, y: 1}}>
-            <Icon name={'shopping-cart'} size={18} color={'red'} />
-            <Callout style={styles.plainView}>
-              <View>
-                <Text style={{fontSize: 12}}>San Jose Market</Text>
-              </View>
-            </Callout>
-          </Marker>
+          style={styles.map}>
+          {stores &&
+            stores.map((store, idx) => (
+              <Marker
+                key={idx.toString()}
+                coordinate={{latitude: store.lat, longitude: store.lng}}
+                title={store.vicinity.split(',')[0]}
+                description={store.vicinity.split(',')[1]}
+              />
+            ))}
         </MapView>
       </View>
     </SafeAreaView>
   );
 }
+
+/*
+<Marker
+  coordinate={{
+    latitude: 37.3231123,
+    longitude: -121.9401324,
+  }}
+  centerOffset={{x: -18, y: -60}}
+  anchor={{x: 0.69, y: 1}}>
+  <Icon name={'shopping-cart'} size={18} color={'red'} />
+  <Callout style={styles.plainView}>
+    <View>
+      <Text style={{fontSize: 12}}>San Jose Market</Text>
+    </View>
+  </Callout>
+</Marker>
+*/
 
 const styles = StyleSheet.create({
   container: {
@@ -100,13 +202,32 @@ const styles = StyleSheet.create({
   },
   map: {
     borderColor: '#ddd',
-    borderRadius: 10,
+    borderRadius: 4,
     borderWidth: 1,
-    width: Dimensions.get('window').width * 0.96,
-    height: Dimensions.get('window').height * 0.6,
+    width: Screen.width * 0.96,
+    height: Screen.height * 0.5,
   },
   plainView: {
     height: 40,
     width: 80,
+  },
+  text_input: {
+    borderColor: 'gray',
+    backgroundColor: '#eee',
+    paddingLeft: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+  },
+  item_touchable: {
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    height: 30,
+    margin: 8,
+    color: '#aaa',
+    borderColor: '#aaa',
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: '#eee',
+    justifyContent: 'center',
   },
 });

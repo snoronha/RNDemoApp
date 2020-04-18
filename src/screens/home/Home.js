@@ -8,13 +8,11 @@ import {
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Dimensions} from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
 
 import ItemPageScreen from '../ItemPageScreen';
 import CartScreen from '../CartScreen';
 import HomeScreen from './HomeScreen';
-// import {Search} from '../search/Search';
-import {Favorites} from '../favorites/Favorites';
-import {More} from '../more/More';
 import {HeaderBackLink} from '../../components/header/HeaderBackLink';
 import {HeaderCartLink} from '../../components/header/HeaderCartLink';
 import {HamburgerMenu} from '../../components/header/HamburgerMenu';
@@ -23,7 +21,7 @@ const HomeStack = createStackNavigator();
 const HomeDrawer = createDrawerNavigator();
 
 const Screen = Dimensions.get('window');
-const CustomDrawerContent = props => {
+function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView>
       <DrawerItemList {...props} />
@@ -50,7 +48,7 @@ const CustomDrawerContent = props => {
       />
     </DrawerContentScrollView>
   );
-};
+}
 
 // height = 0 hides the HomeContent Screen
 export function Home({navigation, route}) {
@@ -69,6 +67,9 @@ export function Home({navigation, route}) {
 }
 
 function HomeContent({navigation, route}) {
+  // Request permission for Geolocatiom
+  Geolocation.requestAuthorization();
+
   let tabBarVisible = true;
   let lastRoute =
     route.state && route.state.index > 0
@@ -83,6 +84,7 @@ function HomeContent({navigation, route}) {
   const openLeftNav = () => {
     navigation.openDrawer();
   };
+
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
