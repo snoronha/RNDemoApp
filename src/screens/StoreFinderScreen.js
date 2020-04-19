@@ -9,10 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import MapView, {Callout, Marker, AnimatedRegion} from 'react-native-maps';
+import MapView, {Callout, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import server from '../conf/server';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const Screen = Dimensions.get('window');
 
@@ -37,7 +38,6 @@ export function StoreFinderScreen(props) {
   let initLoc = [37.33459, -122.00919];
   const [isLoading, setLoading] = useState(false);
   const [stores, setStores] = useState([]);
-  const [prevPos, setPrevPos] = useState({});
   const [curLat, setLatitude] = useState(37.420814);
   const [curLng, setLongitude] = useState(-122.081949);
   const [region, setRegion] = useState({
@@ -78,12 +78,12 @@ export function StoreFinderScreen(props) {
     } else {
       getUrl = `${server.domain}/stores/${curLat}/${curLng}`;
     }
-    console.log('FETCHING: ', getUrl);
+    // console.log('Fetching from: ', getUrl);
     fetch(getUrl)
       .then(response => response.json())
       .then(json => {
         setStores(json.stores);
-        console.log('len(stores) = ' + json.stores.length);
+        // console.log('len(stores) = ' + json.stores.length);
       })
       .catch(error => console.log(error + ' (StoreFinder: getStores)'))
       .finally(() => setLoading(false));
@@ -91,12 +91,18 @@ export function StoreFinderScreen(props) {
 
   // hook to fetch /store data
   useEffect(() => {
-    setTimeout(getStores, 2000);
+    setTimeout(getStores, 250);
   }, [isLoading]);
 
   const onRegionChange = region => {
     console.log('Setting Region:', region);
     setRegion({region});
+  };
+
+  const onMarkerPress = id => {
+    if (this.scrollView) {
+      this.scrollView.scrollTo({x: id * 200});
+    }
   };
 
   const searchLocation = () => {
@@ -112,7 +118,7 @@ export function StoreFinderScreen(props) {
           <TextInput
             style={[
               styles.text_input,
-              {width: Screen.width * 0.3, height: 30, margin: 8},
+              {width: Screen.width * 0.35, height: 30, margin: 8},
             ]}
             placeholder="Latitude"
             placeholderTextColor="#aaa"
@@ -123,7 +129,7 @@ export function StoreFinderScreen(props) {
           <TextInput
             style={[
               styles.text_input,
-              {width: Screen.width * 0.3, height: 30, margin: 8},
+              {width: Screen.width * 0.35, height: 30, margin: 8},
             ]}
             placeholder="Longitude"
             placeholderTextColor="#aaa"
@@ -137,6 +143,7 @@ export function StoreFinderScreen(props) {
             <Text>Go</Text>
           </TouchableOpacity>
         </View>
+        {/* MapView */}
         <MapView
           ref={el => (this.map = el)}
           initialRegion={{
@@ -154,9 +161,33 @@ export function StoreFinderScreen(props) {
                 coordinate={{latitude: store.lat, longitude: store.lng}}
                 title={store.vicinity.split(',')[0]}
                 description={store.vicinity.split(',')[1]}
+                onPress={() => onMarkerPress(idx)}
               />
             ))}
         </MapView>
+        {/* ScrollView for the store details */}
+        <View
+          style={{
+            width: Screen.width * 0.96,
+            height: Screen.height * 0.25,
+            marginTop: 8,
+          }}>
+          <ScrollView horizontal={true} ref={el => (this.scrollView = el)}>
+            {stores.map((store, routeIdx) => (
+              <View key={routeIdx.toString()} style={styles.tile}>
+                <Text style={styles.text_header}>
+                  {store.vicinity.split(',')[1]}
+                </Text>
+                <Text style={styles.text_line}>
+                  Addr: {store.vicinity.split(',')[0]}
+                </Text>
+                <Text style={styles.text_line}>
+                  Loc: ({store.lat.toFixed(4)}, {store.lng.toFixed(4)})
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -229,5 +260,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#eee',
     justifyContent: 'center',
+  },
+  tile: {
+    width: 200,
+    height: Screen.height * 0.25,
+    borderLeftWidth: 1,
+    borderLeftColor: '#ddd',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+  text_header: {
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#888',
+  },
+  text_line: {
+    fontSize: 14,
+    color: '#888',
+    margin: 8,
   },
 });
