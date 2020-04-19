@@ -178,8 +178,8 @@ export function StoreFinderScreen(props) {
                 <Text style={styles.text_header}>
                   {store.vicinity.split(',')[1]}
                 </Text>
-                <Text style={styles.text_line}>
-                  Addr: {store.vicinity.split(',')[0]}
+                <Text style={[styles.text_line, {height: 16}]}>
+                  {store.vicinity.split(',')[0]}
                 </Text>
                 <Text style={styles.text_line}>
                   Loc: ({store.lat.toFixed(4)}, {store.lng.toFixed(4)})
