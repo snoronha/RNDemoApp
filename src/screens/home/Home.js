@@ -7,7 +7,7 @@ import {
   createDrawerNavigator,
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
 import ItemPageScreen from '../ItemPageScreen';
@@ -67,8 +67,10 @@ export function Home({navigation, route}) {
 }
 
 function HomeContent({navigation, route}) {
-  // Request permission for Geolocatiom
-  Geolocation.requestAuthorization();
+  // Request permission for Geolocation
+  if (Platform.OS === 'ios') {
+    Geolocation.requestAuthorization();
+  }
 
   let tabBarVisible = true;
   let lastRoute =
