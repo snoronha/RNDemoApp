@@ -114,11 +114,11 @@ export function StoreFinderScreen(props) {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', height: 48}}>
           <TextInput
             style={[
               styles.text_input,
-              {width: Screen.width * 0.35, height: 30, margin: 8},
+              {width: Screen.width * 0.35, height: 36, margin: 8},
             ]}
             placeholder="Latitude"
             placeholderTextColor="#aaa"
@@ -129,7 +129,7 @@ export function StoreFinderScreen(props) {
           <TextInput
             style={[
               styles.text_input,
-              {width: Screen.width * 0.35, height: 30, margin: 8},
+              {width: Screen.width * 0.35, height: 36, margin: 8},
             ]}
             placeholder="Longitude"
             placeholderTextColor="#aaa"
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   item_touchable: {
     alignItems: 'center',
     alignSelf: 'stretch',
-    height: 30,
+    height: 36,
     margin: 8,
     color: '#aaa',
     borderColor: '#aaa',

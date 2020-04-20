@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, TextInput} from 'react-native';
+import {Dimensions, Platform, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -9,6 +9,7 @@ export function HeaderSearchBar() {
   const onChangeText = text => {
     setSearchKwds(text);
   };
+  const Screen = Dimensions.get('window')
   const navigation = useNavigation();
   const onSubmitEditing = evt => {
     dispatch({
@@ -17,20 +18,20 @@ export function HeaderSearchBar() {
     });
     // navigation.navigate('Search', {searchKwds: evt.nativeEvent.text});
   };
+  let borderRadius = Platform.OS === 'ios' ? 10 : 0;
   return (
     <TextInput
-      style={[
-        {
-          width: Dimensions.get('window').width * 0.7,
-          borderColor: 'gray',
-          backgroundColor: '#eee',
-          paddingLeft: 5,
-          borderRadius: 10,
-          borderWidth: 1,
-          height: 35,
-          marginRight: 8,
-        },
-      ]}
+      style={{
+        width: Screen.width * 0.7,
+        borderColor: 'gray',
+        backgroundColor: '#eee',
+        paddingLeft: 8,
+        borderRadius: borderRadius,
+        justifyContent: 'center',
+        borderWidth: 1,
+        height: 36,
+        marginRight: 8,
+      }}
       onChangeText={text => onChangeText(text)}
       onSubmitEditing={text => onSubmitEditing(text)}
       placeholder="Search"
