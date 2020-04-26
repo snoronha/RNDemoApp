@@ -32,10 +32,8 @@ const FavoritesScreen = () => {
     fetch(`${server.domain}/favorites/1`)
       .then(response => response.json())
       .then(json => setData(json.favorites))
-      .catch(error => console.error(error))
-      .finally(() => {
-        setLoading(false);
-      });
+      .catch(error => console.log(error))
+      .finally(() => setLoading(false));
   }, [isLoading]);
 
   // Listen for redux changes to favs
@@ -52,16 +50,14 @@ const FavoritesScreen = () => {
         fetch(`${server.domain}/favorites/1`)
           .then(response => response.json())
           .then(json => setData(json.favorites))
-          .catch(error => console.error(error))
-          .finally(() => {});
+          .catch(error => console.log(error))
+          .finally(() => setLoading(false));
       }
     }
   });
 
   const Department = departmentHash => {
-    var deptKey = 'D' + (1 + Math.floor(Math.random() * 1000));
     const department = departmentHash.department;
-    // <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
     return (
       <FlatList
         numColumns={2}
@@ -93,6 +89,13 @@ const FavoritesScreen = () => {
           </View>
         )}
       />
+      {isLoading && (
+        <ActivityIndicator
+          size="large"
+          color="#444"
+          style={styles.activity_indicator}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -130,6 +133,16 @@ const styles = StyleSheet.create({
     borderColor: '#aaa',
     borderWidth: 1,
     borderRadius: 20,
+  },
+  activity_indicator: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 0,
   },
 });
 

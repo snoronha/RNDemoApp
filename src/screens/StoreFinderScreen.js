@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
+  Button,
   Dimensions,
   NativeModules,
   SafeAreaView,
@@ -11,9 +12,10 @@ import {
 } from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import server from '../conf/server';
 import {ScrollView} from 'react-native-gesture-handler';
+import {Transitioning, Transition} from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Screen = Dimensions.get('window');
 
@@ -111,6 +113,18 @@ export function StoreFinderScreen(props) {
     setLoading(true); // force re-render
   };
 
+  // Experimental use of react-native-reanimated
+  this.ref = useRef();
+  const transition = (
+    <Transition.Together>
+      <Transition.Out type="scale" durationMs={500} />
+      <Transition.Out type="fade" durationMs={500} />
+      <Transition.Change type="scale" durationMs={500} />
+      <Transition.Change type="fade" durationMs={500} />
+    </Transition.Together>
+  );
+  let [showText, setShowText] = useState(true);
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -166,28 +180,40 @@ export function StoreFinderScreen(props) {
             ))}
         </MapView>
         {/* ScrollView for the store details */}
-        <View
+        <Transitioning.View
           style={{
             width: Screen.width * 0.96,
             height: Screen.height * 0.25,
             marginTop: 8,
-          }}>
-          <ScrollView horizontal={true} ref={el => (this.scrollView = el)}>
-            {stores.map((store, routeIdx) => (
-              <View key={routeIdx.toString()} style={styles.tile}>
-                <Text style={styles.text_header}>
-                  {store.vicinity.split(',')[1]}
-                </Text>
-                <Text style={[styles.text_line, {height: 16}]}>
-                  {store.vicinity.split(',')[0]}
-                </Text>
-                <Text style={styles.text_line}>
-                  Loc: ({store.lat.toFixed(4)}, {store.lng.toFixed(4)})
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-        </View>
+          }}
+          ref={ref}
+          transition={transition}>
+          {showText && (
+            <ScrollView horizontal={true} ref={el => (this.scrollView = el)}>
+              {stores.map((store, routeIdx) => (
+                <View key={routeIdx.toString()} style={styles.tile}>
+                  <Text style={styles.text_header}>
+                    {store.vicinity.split(',')[1]}
+                  </Text>
+                  <Text style={[styles.text_line, {height: 16}]}>
+                    {store.vicinity.split(',')[0]}
+                  </Text>
+                  <Text style={styles.text_line}>
+                    Loc: ({store.lat.toFixed(4)}, {store.lng.toFixed(4)})
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
+          )}
+          <Button
+            title="show or hide"
+            color="#FF5252"
+            onPress={() => {
+              ref.current.animateNextTransition();
+              setShowText(!showText);
+            }}
+          />
+        </Transitioning.View>
       </View>
     </SafeAreaView>
   );

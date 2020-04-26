@@ -12,6 +12,8 @@ import {useSelector} from 'react-redux';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
+
 import {ItemTile} from '../../components/item_tile/ItemTile.js';
 import SortFilterScreen from '../SortFilterScreen';
 import {QuickLook} from '../../components/item_page/QuickLook.js';
@@ -109,11 +111,13 @@ export function SearchBaseScreen(props) {
       )}
       {/* Show big gray search icon if no search results */}
       {data.length <= 0 && (
-        <View style={styles.search_icon_container}>
-          <Icon name={'search'} size={150} color={'#ddd'} />
-          <Text style={styles.search_icon_text}>No search results for</Text>
-          <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
-        </View>
+        <LinearGradient colors={['#fff', '#fa0', '#fff']}>
+          <View style={styles.search_icon_container}>
+            <Icon name={'search'} size={150} color={'#444'} />
+            <Text style={styles.search_icon_text}>No search results for</Text>
+            <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
+          </View>
+        </LinearGradient>
       )}
       <View style={{zIndex: 1, marginBottom: 50}}>
         <FlatList
@@ -190,6 +194,6 @@ const styles = StyleSheet.create({
   search_icon_text: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ddd',
+    color: '#444',
   },
 });
