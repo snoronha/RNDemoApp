@@ -14,9 +14,10 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 
-import {ItemTile} from '../../components/item_tile/ItemTile.js';
+import {ItemTile} from '../../components/item_tile/ItemTile';
 import SortFilterScreen from '../SortFilterScreen';
-import {QuickLook} from '../../components/item_page/QuickLook.js';
+import {QuickLook} from '../../components/item_page/QuickLook';
+import {SearchNotFoundAnimation} from './SearchNotFoundAnimation';
 import server from '../../conf/server';
 
 const SortDrawer = createDrawerNavigator();
@@ -65,6 +66,7 @@ export function SearchBaseScreen(props) {
   const navigation = props.navigation;
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const Screen = Dimensions.get('window');
 
   const searchKwds = useSelector(state => {
     return state.searchKwds;
@@ -75,7 +77,7 @@ export function SearchBaseScreen(props) {
     fetch(`${server.domain}/items/search?kwd=${searchKwds}`)
       .then(response => response.json())
       .then(json => setData(json.items))
-      .catch(error => console.error(error))
+      .catch(error => console.log(error))
       .finally(() => setLoading(false));
   }, [searchKwds]);
 
@@ -111,13 +113,22 @@ export function SearchBaseScreen(props) {
       )}
       {/* Show big gray search icon if no search results */}
       {data.length <= 0 && (
-        <LinearGradient colors={['#fff', '#fa0', '#fff']}>
-          <View style={styles.search_icon_container}>
-            <Icon name={'search'} size={150} color={'#444'} />
-            <Text style={styles.search_icon_text}>No search results for</Text>
-            <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
+        <View style={styles.search_icon_container}>
+          <View style={{flex: 1, width: Screen.width}}>
+            <SearchNotFoundAnimation searchKwds={searchKwds} />
           </View>
-        </LinearGradient>
+          {searchKwds.length > 0 && (
+            <>
+              <Text style={styles.search_icon_text}>No search results for</Text>
+              <Text style={styles.search_icon_text}>"{searchKwds}"</Text>
+            </>
+          )}
+          {searchKwds.length <= 0 && (
+            <Text style={styles.search_icon_text}>
+              Please enter a search term
+            </Text>
+          )}
+        </View>
       )}
       <View style={{zIndex: 1, marginBottom: 50}}>
         <FlatList
@@ -187,7 +198,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   search_icon_container: {
-    height: Dimensions.get('window').height * 0.8,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
