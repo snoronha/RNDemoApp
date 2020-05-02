@@ -114,7 +114,11 @@ export function SearchBaseScreen(props) {
       {/* Show big gray search icon if no search results */}
       {data.length <= 0 && (
         <View style={styles.search_icon_container}>
-          <View style={{flex: 1, width: Screen.width}}>
+          <View
+            style={{
+              height: Screen.height * 0.5,
+              width: Screen.width * 0.8,
+            }}>
             <SearchNotFoundAnimation searchKwds={searchKwds} />
           </View>
           {searchKwds.length > 0 && (
