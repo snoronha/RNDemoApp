@@ -6,10 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 import {Home} from './src/screens/home/Home';
-import {Favorites} from './src/screens/favorites/Favorites';
 import {Search} from './src/screens/search/Search';
-import {More} from './src/screens/more/More';
+import {Browse} from './src/screens/browse/Browse';
+import {Favorites} from './src/screens/favorites/Favorites';
 import {StoreFinderScreen} from './src/screens/StoreFinderScreen';
+import {More} from './src/screens/more/More';
 
 import {HeaderBackLink} from './src/components/header/HeaderBackLink';
 import {IconWithBadge} from './src/components/footer/IconWithBadge';
@@ -56,6 +57,9 @@ export default (App = () => {
                 } else if (route.name === 'Search') {
                   iconName = focused ? 'search' : 'search';
                   return <Icon name={iconName} size={size} color={color} />;
+                } else if (route.name === 'Browse') {
+                  iconName = focused ? 'th-large' : 'th-large';
+                  return <Icon name={iconName} size={size} color={color} />;
                 } else if (route.name === 'Favorites') {
                   iconName = focused ? 'heart' : 'heart-o';
                   return (
@@ -83,6 +87,7 @@ export default (App = () => {
             }}>
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Search" component={Search} />
+            <Tab.Screen name="Browse" component={Browse} />
             <Tab.Screen name="Favorites" component={Favorites} />
             <Tab.Screen name="StoreFinder" component={StoreFinder} />
             <Tab.Screen name="NEW!" component={More} />
