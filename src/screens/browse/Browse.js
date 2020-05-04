@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import ItemPageScreen from '../ItemPageScreen';
 import CartScreen from '../CartScreen';
-import BrowseScreen from './BrowseScreen';
+import {BrowseScreen} from './BrowseScreen';
+import {BrowseCardFlip} from './BrowseCardFlip';
 import {HeaderBackLink} from '../../components/header/HeaderBackLink';
 import {HeaderCartLink} from '../../components/header/HeaderCartLink';
 
@@ -36,8 +36,8 @@ export function Browse({navigation, route}) {
         }}
       />
       <BrowseStack.Screen
-        name="ItemPage"
-        component={ItemPageScreen}
+        name="CardFlip"
+        component={BrowseCardFlip}
         options={{
           headerLeft: () => {
             return <HeaderBackLink />;
@@ -46,7 +46,7 @@ export function Browse({navigation, route}) {
             return <HeaderCartLink />;
           },
           headerTitleAlign: 'center',
-          headerTitle: 'Item Page',
+          headerTitle: 'Card Flip',
         }}
       />
       <BrowseStack.Screen

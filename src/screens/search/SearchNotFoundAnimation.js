@@ -16,7 +16,7 @@ export function SearchNotFoundAnimation(props) {
   const makeExample = (name, getJson) => ({name, getJson});
   const EXAMPLES = [
     makeExample('Search', () =>
-      require('./animations/291-searchask-loop.json'),
+      require('../../assets/lottie_animations/291-searchask-loop.json'),
     ),
   ];
   const DURATION = 3000;

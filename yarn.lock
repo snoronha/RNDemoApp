@@ -5687,9 +5687,21 @@ react-is@^16.12.0, react-is@^16.13.0, react-is@^16.7.0, react-is@^16.8.1, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-"react-native-deck-swiper@https://github.com/snoronha/react-native-deck-swiper":
+react-lifecycles-compat@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-native-card-flip@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-card-flip/-/react-native-card-flip-1.0.6.tgz#fdb833f70715de37e05f56ea3678cb6e5d9028f2"
+  integrity sha512-+T+vaTi1JzPpYvacprYJ4ofFdqcYYELMkh4GwnYrDZr/yHJqPu8cfABovbYaEiCuX4MM4NYynMN9+Z6Kk7y0AA==
+  dependencies:
+    prop-types "15.5.10"
+    react-lifecycles-compat "^3.0.4"
+
+"react-native-deck-swiper@file:../react-native-deck-swiper":
   version "1.6.7"
-  resolved "https://github.com/snoronha/react-native-deck-swiper#3b048be6fb1bbee9e36afdbd694e300c5ffb5ca1"
   dependencies:
     prop-types "15.5.10"
 
