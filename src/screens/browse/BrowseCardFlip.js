@@ -10,6 +10,7 @@ import {
 import CardFlip from 'react-native-card-flip';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ScrollView} from 'react-native-gesture-handler';
+import {LottieAnimation} from '../../components/animation/LottieAnimation';
 
 const Screen = Dimensions.get('window');
 
@@ -28,10 +29,18 @@ function CardFace(props) {
             color={props.iconColor}
           />
         </View>
-        <View
-          style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
-          <Text style={styles.cardText}>{props.text}</Text>
-        </View>
+        {props.text && (
+          <View
+            style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
+            <Text style={styles.cardText}>{props.text}</Text>
+          </View>
+        )}
+        {!props.text && (
+          <View
+            style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
+            <LottieAnimation />
+          </View>
+        )}
         <View style={styles.cardIconRow}>
           <View />
           <Icon
@@ -55,12 +64,7 @@ export function BrowseCardFlip() {
         text: 'Vibhu',
         bgColor: '#eee',
       },
-      back: {
-        icon: 'fighter-jet',
-        iconColor: '#444',
-        text: 'Mittal',
-        bgColor: '#ffc',
-      },
+      back: {icon: 'fighter-jet', iconColor: '#444', bgColor: '#ffc'},
     },
     {
       front: {
@@ -69,7 +73,7 @@ export function BrowseCardFlip() {
         text: 'Ankit',
         bgColor: '#eee',
       },
-      back: {icon: 'home', iconColor: '#444', text: 'Jain', bgColor: '#fcf'},
+      back: {icon: 'home', iconColor: '#444', bgColor: '#fcf'},
     },
     {
       front: {
@@ -78,7 +82,7 @@ export function BrowseCardFlip() {
         text: 'Tarot',
         bgColor: '#eee',
       },
-      back: {icon: 'home', iconColor: '#444', text: 'Card', bgColor: '#cff'},
+      back: {icon: 'home', iconColor: '#444', bgColor: '#cff'},
     },
   ];
   return (
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     alignSelf: 'center',
     width: Screen.width * 0.45,
-    height: Screen.height * 0.35,
+    height: Screen.height * 0.45,
   },
   card: {
     flex: 1,
