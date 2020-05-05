@@ -22,16 +22,18 @@ export function LottieAnimation(props) {
     makeExample('Search', () =>
       require('../../assets/lottie_animations/291-searchask-loop.json'),
     ),
-    makeExample('Heart', () =>
-      require('../../assets/lottie_animations/TwitterHeart.json'),
+    makeExample('Orbit', () =>
+      require('../../assets/lottie_animations/4441-galaxy-orbit-animation.json'),
     ),
     makeExample('Shop', () =>
-      require('../../assets/lottie_animations/Watermelon.json'),
+      require('../../assets/lottie_animations/7431-planet.json'),
+    ),
+    makeExample('Heart', () =>
+      require('../../assets/lottie_animations/PinJump.json'),
     ),
   ];
-  const DURATION = props.duration ? props.duration : 3000;
-  // const example = EXAMPLES[Math.floor(Math.random() * EXAMPLES.length)];
-  const example = EXAMPLES[2];
+  const DURATION = props.duration ? props.duration : 4000;
+  const example = EXAMPLES[props.animationId];
 
   const manageAnimation = shouldPlay => {
     if (!progress) {
@@ -62,7 +64,7 @@ export function LottieAnimation(props) {
   useEffect(() => {
     setIsPlaying(true);
     manageAnimation(true);
-  }, [props.startAnimation]);
+  }, [props.animationId]);
 
   const onPlayPress = () => manageAnimation(!isPlaying);
 
@@ -71,7 +73,7 @@ export function LottieAnimation(props) {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'white'}}>
+    <View style={{flex: 1}}>
       <Animated.View
         style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <LottieView

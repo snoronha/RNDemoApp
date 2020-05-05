@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   SafeAreaView,
@@ -15,11 +15,15 @@ import {LottieAnimation} from '../../components/animation/LottieAnimation';
 const Screen = Dimensions.get('window');
 
 function CardFace(props) {
+  const [animationId, setAnimationId] = useState(props.animationId);
   return (
     <TouchableOpacity
       activeOpacity={1}
       style={props.style}
-      onPress={() => this[props.parentRefName].flip()}>
+      onPress={() => {
+        // setAnimationId((animationId + 1) % 3);
+        this[props.parentRefName].flip();
+      }}>
       <View style={{flex: 1, justifyContent: 'space-between'}}>
         <View style={styles.cardIconRow}>
           <Icon
@@ -38,7 +42,7 @@ function CardFace(props) {
         {!props.text && (
           <View
             style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
-            <LottieAnimation />
+            <LottieAnimation animationId={animationId} />
           </View>
         )}
         <View style={styles.cardIconRow}>
@@ -58,6 +62,7 @@ function CardFace(props) {
 export function BrowseCardFlip() {
   let cards = [
     {
+      animationId: 0,
       front: {
         icon: 'heart',
         iconColor: 'tomato',
@@ -67,6 +72,7 @@ export function BrowseCardFlip() {
       back: {icon: 'fighter-jet', iconColor: '#444', bgColor: '#ffc'},
     },
     {
+      animationId: 1,
       front: {
         icon: 'search',
         iconColor: 'tomato',
@@ -76,6 +82,7 @@ export function BrowseCardFlip() {
       back: {icon: 'home', iconColor: '#444', bgColor: '#fcf'},
     },
     {
+      animationId: 2,
       front: {
         icon: 'search',
         iconColor: '#ff0',
@@ -83,6 +90,16 @@ export function BrowseCardFlip() {
         bgColor: '#eee',
       },
       back: {icon: 'home', iconColor: '#444', bgColor: '#cff'},
+    },
+    {
+      animationId: 3,
+      front: {
+        icon: 'heart',
+        iconColor: '#ff0',
+        text: 'Tarot',
+        bgColor: '#eee',
+      },
+      back: {icon: 'search', iconColor: '#444', bgColor: '#cff'},
     },
   ];
   return (
@@ -98,6 +115,7 @@ export function BrowseCardFlip() {
               iconColor={card.front.iconColor}
               text={card.front.text}
               style={[styles.card, {backgroundColor: card.front.bgColor}]}
+              animationId={card.animationId}
               parentRefName={'card' + cardIndex}
             />
             <CardFace
@@ -105,6 +123,7 @@ export function BrowseCardFlip() {
               iconColor={card.back.iconColor}
               text={card.back.text}
               style={[styles.card, {backgroundColor: card.back.bgColor}]}
+              animationId={card.animationId}
               parentRefName={'card' + cardIndex}
             />
           </CardFlip>
@@ -123,7 +142,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     alignSelf: 'center',
-    width: Screen.width * 0.45,
+    width: Screen.width * 0.55,
     height: Screen.height * 0.45,
   },
   card: {
@@ -141,7 +160,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   cardIconRow: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
