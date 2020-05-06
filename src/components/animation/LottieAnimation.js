@@ -20,7 +20,7 @@ export function LottieAnimation(props) {
 
   const EXAMPLES = [
     makeExample('Search', () =>
-      require('../../assets/lottie_animations/291-searchask-loop.json'),
+      require('../../assets/lottie_animations/Watermelon.json'),
     ),
     makeExample('Orbit', () =>
       require('../../assets/lottie_animations/4441-galaxy-orbit-animation.json'),

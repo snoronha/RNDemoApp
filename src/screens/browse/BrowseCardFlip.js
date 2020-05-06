@@ -66,7 +66,7 @@ export function BrowseCardFlip() {
       front: {
         icon: 'heart',
         iconColor: 'tomato',
-        text: 'Vibhu',
+        text: 'Old Monk',
         bgColor: '#eee',
       },
       back: {icon: 'fighter-jet', iconColor: '#444', bgColor: '#ffc'},
@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     alignSelf: 'center',
-    width: Screen.width * 0.55,
-    height: Screen.height * 0.45,
+    width: Screen.width * 0.6,
+    height: Screen.height * 0.5,
   },
   card: {
     flex: 1,
