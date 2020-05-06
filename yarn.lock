@@ -5700,8 +5700,9 @@ react-native-card-flip@^1.0.6:
     prop-types "15.5.10"
     react-lifecycles-compat "^3.0.4"
 
-"react-native-deck-swiper@file:../react-native-deck-swiper":
+"react-native-deck-swiper@https://github.com/snoronha/react-native-deck-swiper":
   version "1.6.7"
+  resolved "https://github.com/snoronha/react-native-deck-swiper#3b048be6fb1bbee9e36afdbd694e300c5ffb5ca1"
   dependencies:
     prop-types "15.5.10"
 
