@@ -1,4 +1,5 @@
 const initialState = {
+  currentItem: {}, // <item>
   items: {}, // {id1: {<item1>}, id2: {<item2>}, ... }
   cart: [], // [{id: <id1>, qty: <qty1>}, ...]
   favorites: [], // [{id: <id1>}, {id: <id2>}, ...]
@@ -24,6 +25,7 @@ const addToCart = (state, action) => {
       newCart.push({id: itemId, qty: 1});
     }
     return {
+      currentItem: state.currentItem,
       items: state.items,
       cart: newCart,
       favorites: state.favorites,
@@ -35,6 +37,7 @@ const addToCart = (state, action) => {
     let newItems = deepCopyObject(state.items);
     newItems[itemId] = action.payload.item; // update state.items
     return {
+      currentItem: state.currentItem,
       items: newItems,
       cart: newCart,
       favorites: state.favorites,
@@ -61,6 +64,7 @@ const removeFromCart = (state, action) => {
         // delete newItems[itemId.toString()]; // toString necessary, seems shady - FIX
         newCart.splice(matchIdx, 1);
         return {
+          currentItem: state.currentItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -70,6 +74,7 @@ const removeFromCart = (state, action) => {
         // update quantity
         newCart[matchIdx].qty = action.payload.qty;
         return {
+          currentItem: state.currentItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -91,6 +96,7 @@ const removeFromCart = (state, action) => {
 // action = {qty: <qty>, item: <item>}
 const setCartQuantity = (state, action) => {
   let newCart = deepCopyObject(state.cart); // shallow copy done with Object.assign
+  let newItem = deepCopyObject(action.payload.item);
   const itemId = action.payload.item.id;
   if (state.items[itemId]) {
     var matchIdx = -1;
@@ -105,6 +111,7 @@ const setCartQuantity = (state, action) => {
         // qty <= 0, remove from cart
         newCart.splice(matchIdx, 1);
         return {
+          currentItem: newItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -114,6 +121,7 @@ const setCartQuantity = (state, action) => {
         // qty > 0, update quantity
         newCart[matchIdx].qty = action.payload.qty;
         return {
+          currentItem: newItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -125,6 +133,7 @@ const setCartQuantity = (state, action) => {
       if (action.payload.qty <= 0) {
         // qty <= 0, nothing to be done
         return {
+          currentItem: newItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -133,6 +142,7 @@ const setCartQuantity = (state, action) => {
       } else {
         newCart.push({id: itemId, qty: action.payload.qty});
         return {
+          currentItem: newItem,
           items: state.items,
           cart: newCart,
           favorites: state.favorites,
@@ -145,6 +155,7 @@ const setCartQuantity = (state, action) => {
     if (action.payload.qty <= 0) {
       // nothing to be done
       return {
+        currentItem: newItem,
         items: state.items,
         cart: newCart,
         favorites: state.favorites,
@@ -157,6 +168,7 @@ const setCartQuantity = (state, action) => {
       let newItems = deepCopyObject(state.items);
       newItems[itemId] = action.payload.item; // update state.items
       return {
+        currentItem: newItem,
         items: newItems,
         cart: newCart,
         favorites: state.favorites,
@@ -169,6 +181,7 @@ const setCartQuantity = (state, action) => {
 // assume action = {searchKwds: searchKwds}, searchKwds is a string
 const setSearchKwds = (state, action) => {
   return {
+    currentItem: state.currentItem,
     items: state.items,
     cart: state.cart,
     favorites: state.favorites,
@@ -193,6 +206,7 @@ const heartItem = (state, action) => {
       newFavorites.push({id: itemId});
     }
     return {
+      currentItem: state.currentItem,
       items: state.items,
       cart: state.cart,
       favorites: newFavorites,
@@ -204,6 +218,7 @@ const heartItem = (state, action) => {
     let newItems = deepCopyObject(state.items);
     newItems[itemId] = action.payload.item; // update state.items
     return {
+      currentItem: state.currentItem,
       items: newItems,
       cart: state.cart,
       favorites: newFavorites,
@@ -228,6 +243,7 @@ const unheartItem = (state, action) => {
       // leave item in state.items (might be in cart)
       newFavorites.splice(matchIdx, 1);
       return {
+        currentItem: state.currentItem,
         items: state.items,
         cart: state.cart,
         favorites: newFavorites,
@@ -267,6 +283,7 @@ const setFavorites = (state, action) => {
     newFavorites.push({id: item.id});
   }
   return {
+    currentItem: state.currentItem,
     items: newItems,
     cart: state.cart,
     favorites: newFavorites,
@@ -288,6 +305,7 @@ const setCart = (state, action) => {
     newCart.push({id: item.id, qty: item.quantity});
   }
   return {
+    currentItem: state.currentItem,
     items: newItems,
     cart: newCart,
     favorites: state.favorites,

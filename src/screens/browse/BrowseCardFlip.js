@@ -76,7 +76,7 @@ export function BrowseCardFlip() {
       front: {
         icon: 'search',
         iconColor: 'tomato',
-        text: 'Ankit',
+        text: 'Hayward 5000',
         bgColor: '#eee',
       },
       back: {icon: 'home', iconColor: '#444', bgColor: '#fcf'},

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,14 +19,22 @@ const getQuantity = (item, cart) => {
 export function QuantityPicker(props) {
   // Set quantity in state to props.item.quantity || 0
   var item = props.item;
-  const qty = useSelector(state => {
-    return getQuantity(item, state.cart);
-  });
+
   const [quantity, setQuantity] = useState(qty);
-  const [isQtyLoading, setQtyLoading] = useState(true); // used for change qty
+  const [expanded, setExpanded] = useState(false);
   const dispatch = useDispatch();
 
+  const qty = useSelector(state => {
+    // Side-effect set expanded for all items != currentItem
+    if (state.currentItem.id && state.currentItem.id !== item.id && expanded) {
+      // console.log(`CurrentId = ${state.currentItem.id} thisid = ${item.id}`);
+      setExpanded(false);
+    }
+    return getQuantity(item, state.cart);
+  });
+
   decrementItemCount = () => {
+    setExpanded(true);
     // POST /order_item/:order_id
     let orderId = 1;
     let decrQty = qty > 0 ? qty - 1 : 0;
@@ -34,7 +42,6 @@ export function QuantityPicker(props) {
     setQuantity(decrQty);
     dispatch({
       type: 'SET_CART_QUANTITY',
-      // type: 'REMOVE_FROM_CART',
       payload: {item: item, qty: decrQty},
     });
     // End Dispatch redux event optimistically
@@ -44,7 +51,6 @@ export function QuantityPicker(props) {
       orderId: orderId,
       quantity: decrQty,
     });
-    // setQtyLoading(true);
     fetch(url, {method: 'post', body: body})
       .then(response => response.json())
       .then(json => {
@@ -57,12 +63,12 @@ export function QuantityPicker(props) {
   };
 
   incrementItemCount = () => {
+    setExpanded(true);
     let orderId = 1;
     let addQty = qty + 1;
     // Begin Dispatch redux event optimistically
     dispatch({
       type: 'SET_CART_QUANTITY',
-      // type: 'ADD_TO_CART',
       payload: {item: item, qty: addQty},
     });
     setQuantity(addQty);
@@ -73,19 +79,34 @@ export function QuantityPicker(props) {
       orderId: orderId,
       quantity: addQty,
     });
-    // setQtyLoading(true);
     fetch(url, {method: 'post', body: body})
       .then(response => response.json())
       .then(json => {
-        // setQtyLoading(true);
         // TODO if the DB update fails, need to unwind the ATC here
       })
-      .catch(error => console.error(error)) // handle this
+      .catch(error => console.log(error)) // handle this
       .finally(() => {
         // setQtyLoading(false)
       });
   };
 
+  contractPicker = () => {
+    // console.log(`Contracting picker qty = ${qty} expanded = ${expanded}`);
+    setExpanded(false);
+  };
+
+  expandPicker = () => {
+    // console.log(`Expanding picker expanded = ${expanded} id = ${item.id}`);
+    // Dummy event to set currentItem
+    // Consider creating a separate SET_CURRENT_ITEM event
+    dispatch({
+      type: 'SET_CART_QUANTITY',
+      payload: {item: item, qty: qty},
+    });
+    setExpanded(true);
+  };
+
+  /*
   if (qty > 0) {
     return (
       <View style={{flexDirection: 'row'}}>
@@ -120,10 +141,62 @@ export function QuantityPicker(props) {
       </View>
     );
   }
+  */
+
+  return (
+    <>
+      {qty > 0 && expanded && (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.item_touchable_left}
+            hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
+            onPress={this.decrementItemCount}>
+            <Icon name={'minus'} size={14} color={'#444'} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.item_touchable_center}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
+            <Text style={styles.item_text}>{qty}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.item_touchable_right}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
+            onPress={this.incrementItemCount}>
+            <Icon name={'plus'} size={14} color={'#444'} />
+          </TouchableOpacity>
+        </View>
+      )}
+      {qty > 0 && !expanded && (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.item_touchable_center_atc_qty}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
+            onPress={this.expandPicker}>
+            <Text style={styles.item_text_white}>{qty}</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {qty <= 0 && (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.item_touchable_center_atc}
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
+            onPress={this.incrementItemCount}>
+            <Text style={styles.item_text}>Add</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
   item_text: {
+    fontSize: 16,
+  },
+  item_text_white: {
+    color: '#fff',
     fontSize: 16,
   },
   item_touchable_center_atc: {
@@ -137,6 +210,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     opacity: 1,
     shadowColor: '#aaa',
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.9,
+  },
+  item_touchable_center_atc_qty: {
+    alignItems: 'center',
+    height: 30,
+    width: 60,
+    borderColor: '#04a',
+    borderWidth: 1,
+    borderRadius: 14,
+    justifyContent: 'center',
+    backgroundColor: '#08f',
+    opacity: 1,
+    shadowColor: '#04a',
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.9,
   },
