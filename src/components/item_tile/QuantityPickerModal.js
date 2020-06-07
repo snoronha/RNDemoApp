@@ -32,8 +32,7 @@ const QuantityPickerModal = props => {
       backdropColor={props.backdropColor}
       backdropOpacity={props.backdropOpacity}
       onRequestClose={props.onRequestClose}
-      onDismiss={props.onDismiss}
-      swipeDirection={props.swipeDirection}>
+      onDismiss={props.onDismiss}>
       <View
         style={[
           styles.modal_container,
