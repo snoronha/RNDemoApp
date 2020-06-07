@@ -3,16 +3,28 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
+const Triangle = props => {
+  return <View style={[styles.triangle, props.style]} />;
+};
+
 const QuantityPickerModal = props => {
   const WIDTH = 75;
   const HEIGHT = 175;
   let pageX = 0;
   let pageY = 0;
+  let triangleStyle = {
+    position: 'absolute',
+    transform: [{rotate: '90deg'}, {translateY: -75}],
+  };
   const loc = props.componentLocation;
   if (loc.pageX > 0) {
     if (loc.pageX < WIDTH + 20) {
       // too little space on left
       pageX = loc.pageX + loc.w;
+      triangleStyle = {
+        position: 'absolute',
+        transform: [{rotate: '-90deg'}, {translateY: -40}],
+      };
     } else {
       pageX = loc.pageX - (WIDTH + 20);
     }
@@ -38,24 +50,23 @@ const QuantityPickerModal = props => {
           styles.modal_container,
           {width: WIDTH, height: HEIGHT, left: pageX, top: pageY},
         ]}>
+        <Triangle style={triangleStyle} />
         <ScrollView>
           {['Remove', 1, 2, 3, 4, 5, 6, 7, 8].map((num, numIdx) => (
             <View
               key={numIdx.toString()}
               style={{
-                flex: 1,
-                height: 30,
+                height: 36,
                 alignItems: 'center',
                 borderBottomColor: '#ccc',
                 borderBottomWidth: 1,
               }}>
               <TouchableOpacity
-                onPress={props.onDismiss}
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                }}>
+                onPress={() => {
+                  props.onSetQuantity(num);
+                }}
+                hitSlop={{left: WIDTH / 2, right: WIDTH / 2}}
+                style={{flex: 1, justifyContent: 'center'}}>
                 <Text>{num}</Text>
               </TouchableOpacity>
             </View>
@@ -71,6 +82,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     backgroundColor: '#fff',
     justifyContent: 'center',
+  },
+  triangle: {
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderLeftWidth: 20,
+    borderRightWidth: 20,
+    borderBottomWidth: 40,
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'white',
   },
 });
 

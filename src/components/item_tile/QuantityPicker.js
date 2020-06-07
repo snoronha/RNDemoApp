@@ -102,16 +102,45 @@ export function QuantityPicker(props) {
       });
   };
 
+  const onSetQuantity = newQty => {
+    // dismiss modal - this is invoked from modal
+    setModalVisible(false);
+    let orderId = 1;
+    if (newQty == 'Remove') {
+      newQty = 0;
+    }
+    // Begin Dispatch redux event optimistically
+    dispatch({
+      type: 'SET_CART_QUANTITY',
+      payload: {item: item, qty: newQty},
+    });
+    setQuantity(newQty);
+    // End Dispatch redux event optimistically
+    let url = `${server.domain}/order_item/${orderId}`;
+    let body = JSON.stringify({
+      itemId: props.item.id,
+      orderId: orderId,
+      quantity: newQty,
+    });
+    fetch(url, {method: 'post', body: body})
+      .then(response => response.json())
+      .then(json => {
+        // TODO if the DB update fails, need to unwind the ATC here
+      })
+      .catch(error => console.log(error)) // handle this
+      .finally(() => {
+        // setQtyLoading(false)
+      });
+  };
+
   showQtyScroll = () => {
     this.quantityPicker.measure((x, y, w, h, pX, pY) => {
-      console.log('w=', w, ' h=', h, ' pageX=', pX, ' pageY=', pY);
       setComponentLocation({w: w, h: h, pageX: pX, pageY: pY});
       setModalVisible(true);
     });
   };
 
   contractPicker = () => {
-    // console.log(`Contracting picker qty = ${qty} expanded = ${expanded}`);
     setExpanded(false);
   };
 
@@ -136,6 +165,7 @@ export function QuantityPicker(props) {
         onSwipeComplete={() => setModalVisible(false)}
         onRequestClose={() => setModalVisible(false)}
         onDismiss={() => setModalVisible(false)}
+        onSetQuantity={qty => onSetQuantity(qty)}
         toggleModal={toggleModal}
         componentLocation={componentLocation}
       />
