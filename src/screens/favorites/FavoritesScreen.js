@@ -64,7 +64,7 @@ const FavoritesScreen = () => {
         data={department}
         keyExtractor={item => item.id}
         renderItem={({item}) => {
-          return <ItemTile item={item} />;
+          return <ItemTile item={item} tileType={'grid'} />;
         }}
       />
     );

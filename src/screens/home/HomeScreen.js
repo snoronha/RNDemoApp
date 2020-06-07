@@ -104,7 +104,7 @@ const HomeScreen = () => {
                     return (
                       <ItemTile
                         item={item}
-                        width={itemWidth}
+                        tileType={'home'}
                         showQuickLookModal={showQuickLookModal}
                       />
                     );

@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Dimensions,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
@@ -9,25 +16,41 @@ import server from '../../conf/server';
 
 // export ItemTile as a function (not a class)
 export function ItemTile(props) {
+  const Screen = Dimensions.get('window');
+  const tileType = props.tileType; // enum: ['home', 'grid', 'list']
+  // tileType determines layout of tile
+  let itemWidth = Screen.width * 0.5; // default
+  switch (tileType) {
+    case 'home':
+      itemWidth = Screen.width * 0.4;
+      break;
+    case 'grid':
+      itemWidth = Screen.width * 0.5;
+      break;
+    case 'list':
+      itemWidth = Screen.width;
+      break;
+  }
+  const item = props.item;
   const navigation = useNavigation();
-  const [favorite, setFavorite] = useState(props.item.favorite);
+  const [favorite, setFavorite] = useState(item.favorite);
   const [imageLoaded, setImageLoaded] = useState(true);
   const [isHeartLoading, setHeartLoading] = useState(true); // used for heart-ing
   const dispatch = useDispatch();
 
   toggleHeart = () => {
     let action = favorite ? 'delete' : 'insert';
-    let url = `${server.domain}/favorites/${props.item.id}?action=${action}`;
-    let body = JSON.stringify({itemId: props.item.id, userId: 1});
+    let url = `${server.domain}/favorites/${item.id}?action=${action}`;
+    let body = JSON.stringify({itemId: item.id, userId: 1});
     setHeartLoading(true);
     fetch(url, {method: 'post', body: body})
       .then(response => response.json())
       .then(json => {
         setHeartLoading(true);
         if (action === 'delete') {
-          dispatch({type: 'UNHEART_ITEM', payload: {item: props.item}});
+          dispatch({type: 'UNHEART_ITEM', payload: {item: item}});
         } else {
-          dispatch({type: 'HEART_ITEM', payload: {item: props.item}});
+          dispatch({type: 'HEART_ITEM', payload: {item: item}});
         }
       })
       .catch(error => console.error(error)) // handle this
@@ -36,7 +59,7 @@ export function ItemTile(props) {
   };
 
   navigateToItemPage = () => {
-    navigation.navigate('ItemPage', {item: props.item});
+    navigation.navigate('ItemPage', {item: item});
   };
 
   displayFallBackImage = () => {
@@ -53,12 +76,12 @@ export function ItemTile(props) {
     ) {
       return (
         <TouchableOpacity
-          onPress={() => props.showQuickLookModal({item: props.item})}>
+          onPress={() => props.showQuickLookModal({item: item})}>
           <Image
             style={styles.item_image}
             source={
               imageLoaded
-                ? {uri: props.item.thumbnail}
+                ? {uri: item.thumbnail}
                 : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
             }
             onError={this.displayFallBackImage}
@@ -72,7 +95,7 @@ export function ItemTile(props) {
             style={styles.item_image}
             source={
               imageLoaded
-                ? {uri: props.item.thumbnail}
+                ? {uri: item.thumbnail}
                 : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
             }
             onError={this.displayFallBackImage}
@@ -83,13 +106,13 @@ export function ItemTile(props) {
   };
 
   const seeOptions = () => {
-    if (props.item && props.item.type == 'VARIANT') {
+    if (props.item && item.type == 'VARIANT') {
       if (props.showQuickLookModal) {
         // showQuickModal has been passed in
         return (
           <View style={styles.item_picker}>
             <TouchableOpacity
-              onPress={() => props.showQuickLookModal({item: props.item})}>
+              onPress={() => props.showQuickLookModal({item: item})}>
               <Text style={styles.options_text}>See Options</Text>
             </TouchableOpacity>
           </View>
@@ -108,14 +131,14 @@ export function ItemTile(props) {
       // if not VARIANT show regular Item Page
       return (
         <View style={styles.item_picker}>
-          <QuantityPicker item={props.item} />
+          <QuantityPicker item={item} />
         </View>
       );
     }
   };
 
   return (
-    <View style={[styles.item_row, {width: props.width}]}>
+    <View style={[styles.item_row, {width: itemWidth}]}>
       <View
         style={{
           width: props.item.width,
@@ -134,11 +157,11 @@ export function ItemTile(props) {
           />
         </TouchableOpacity>
       </View>
-      <View style={{flexDirection: 'row', width: props.width}}>
+      <View style={{flexDirection: 'row', width: itemWidth}}>
         <Text style={styles.item_price}>${props.item.list.toFixed(2)}</Text>
         <Text style={styles.display_unit}>${props.item.displayUnitPrice}</Text>
       </View>
-      <Text style={[styles.item_description, {width: props.width}]}>
+      <Text style={[styles.item_description, {width: itemWidth}]}>
         {props.item.name}
       </Text>
       {seeOptions()}

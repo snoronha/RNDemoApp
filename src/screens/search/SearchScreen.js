@@ -66,6 +66,7 @@ export function SearchBaseScreen(props) {
   const navigation = props.navigation;
   const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [grid, setGrid] = useState(true);
   const Screen = Dimensions.get('window');
 
   const searchKwds = useSelector(state => {
@@ -96,6 +97,10 @@ export function SearchBaseScreen(props) {
     navigation.toggleDrawer();
   };
 
+  const toggleGridDisplay = () => {
+    setGrid(!grid);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {showQuickLook && (
@@ -106,6 +111,10 @@ export function SearchBaseScreen(props) {
           <Text style={styles.bigWhiteBoldText}>
             {`${data.length} Items Loaded`}
           </Text>
+          <TouchableOpacity onPress={toggleGridDisplay}>
+            {grid && <Text>Grid</Text>}
+            {!grid && <Text>List</Text>}
+          </TouchableOpacity>
           <TouchableOpacity onPress={toggleDrawer}>
             <Text>Sort & Filter</Text>
           </TouchableOpacity>
@@ -135,17 +144,40 @@ export function SearchBaseScreen(props) {
         </View>
       )}
       <View style={{zIndex: 1, marginBottom: 50}}>
-        <FlatList
-          onEndReachedThreshold={3}
-          numColumns={2}
-          data={data}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return (
-              <ItemTile item={item} showQuickLookModal={showQuickLookModal} />
-            );
-          }}
-        />
+        {grid && (
+          <FlatList
+            onEndReachedThreshold={3}
+            numColumns={2}
+            data={data}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => {
+              return (
+                <ItemTile
+                  item={item}
+                  tileType={'grid'}
+                  showQuickLookModal={showQuickLookModal}
+                />
+              );
+            }}
+          />
+        )}
+        {!grid && (
+          <FlatList
+            onEndReachedThreshold={3}
+            numColumns={1}
+            data={data}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => {
+              return (
+                <ItemTile
+                  item={item}
+                  tileType={'list'}
+                  showQuickLookModal={showQuickLookModal}
+                />
+              );
+            }}
+          />
+        )}
       </View>
       {isLoading && (
         <ActivityIndicator

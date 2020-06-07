@@ -58,7 +58,7 @@ const QuantityPickerModal = props => {
               style={{
                 height: 36,
                 alignItems: 'center',
-                borderBottomColor: '#ccc',
+                borderBottomColor: '#eee',
                 borderBottomWidth: 1,
               }}>
               <TouchableOpacity
