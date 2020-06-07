@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import QuantityPickerModal from './QuantityPickerModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import server from '../../conf/server';
@@ -22,6 +23,17 @@ export function QuantityPicker(props) {
 
   const [quantity, setQuantity] = useState(qty);
   const [expanded, setExpanded] = useState(false);
+  // Handle QuantityPickerModal
+  const [componentLocation, setComponentLocation] = useState({
+    w: 0,
+    h: 0,
+    pageX: 0,
+    pageY: 0,
+  });
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const dispatch = useDispatch();
 
   const qty = useSelector(state => {
@@ -90,6 +102,14 @@ export function QuantityPicker(props) {
       });
   };
 
+  showQtyScroll = () => {
+    this.quantityPicker.measure((x, y, w, h, pX, pY) => {
+      console.log('w=', w, ' h=', h, ' pageX=', pX, ' pageY=', pY);
+      setComponentLocation({w: w, h: h, pageX: pX, pageY: pY});
+      setModalVisible(true);
+    });
+  };
+
   contractPicker = () => {
     // console.log(`Contracting picker qty = ${qty} expanded = ${expanded}`);
     setExpanded(false);
@@ -106,47 +126,25 @@ export function QuantityPicker(props) {
     setExpanded(true);
   };
 
-  /*
-  if (qty > 0) {
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity
-          style={styles.item_touchable_left}
-          hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
-          onPress={this.decrementItemCount}>
-          <Icon name={'minus'} size={14} color={'#444'} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.item_touchable_center}
-          hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
-          <Text style={styles.item_text}>{qty}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.item_touchable_right}
-          hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
-          onPress={this.incrementItemCount}>
-          <Icon name={'plus'} size={14} color={'#444'} />
-        </TouchableOpacity>
-      </View>
-    );
-  } else {
-    return (
-      <View style={{flexDirection: 'row'}}>
-        <TouchableOpacity
-          style={styles.item_touchable_center_atc}
-          hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
-          onPress={this.incrementItemCount}>
-          <Text style={styles.item_text}>Add</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-  */
-
   return (
     <>
+      <QuantityPickerModal
+        isVisible={isModalVisible}
+        useNativeDriver={true}
+        backdropColor="#aaa"
+        backdropOpacity={0.4}
+        onSwipeComplete={() => setModalVisible(false)}
+        onRequestClose={() => setModalVisible(false)}
+        onDismiss={() => setModalVisible(false)}
+        toggleModal={toggleModal}
+        componentLocation={componentLocation}
+      />
       {qty > 0 && expanded && (
-        <View style={{flexDirection: 'row'}}>
+        <View
+          ref={qp => {
+            this.quantityPicker = qp;
+          }}
+          style={{flexDirection: 'row'}}>
           <TouchableOpacity
             style={styles.item_touchable_left}
             hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
@@ -155,7 +153,8 @@ export function QuantityPicker(props) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.item_touchable_center}
-            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}>
+            hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
+            onPress={this.showQtyScroll}>
             <Text style={styles.item_text}>{qty}</Text>
           </TouchableOpacity>
           <TouchableOpacity
