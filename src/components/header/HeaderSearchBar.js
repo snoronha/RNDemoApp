@@ -9,7 +9,7 @@ export function HeaderSearchBar() {
   const onChangeText = text => {
     setSearchKwds(text);
   };
-  const Screen = Dimensions.get('window')
+  const Screen = Dimensions.get('window');
   const navigation = useNavigation();
   const onSubmitEditing = evt => {
     dispatch({
@@ -21,6 +21,8 @@ export function HeaderSearchBar() {
   let borderRadius = Platform.OS === 'ios' ? 10 : 0;
   return (
     <TextInput
+      accessible={true}
+      accessibilityLabel="Enter term to"
       style={{
         width: Screen.width * 0.7,
         borderColor: 'gray',
