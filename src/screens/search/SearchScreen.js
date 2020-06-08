@@ -112,8 +112,8 @@ export function SearchBaseScreen(props) {
             {`${data.length} Items Loaded`}
           </Text>
           <TouchableOpacity onPress={toggleGridDisplay}>
-            {grid && <Text>Grid</Text>}
-            {!grid && <Text>List</Text>}
+            {grid && <Icon name={'list'} size={16} color={'gray'} />}
+            {!grid && <Icon name={'th'} size={16} color={'gray'} />}
           </TouchableOpacity>
           <TouchableOpacity onPress={toggleDrawer}>
             <Text>Sort & Filter</Text>

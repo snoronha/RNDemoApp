@@ -18,6 +18,7 @@ import server from '../../conf/server';
 export function ItemTile(props) {
   const Screen = Dimensions.get('window');
   const tileType = props.tileType; // enum: ['home', 'grid', 'list']
+  const isListType = tileType == 'list';
   // tileType determines layout of tile
   let itemWidth = Screen.width * 0.5; // default
   switch (tileType) {
@@ -136,37 +137,84 @@ export function ItemTile(props) {
       );
     }
   };
+  if (isListType) {
+    return (
+      <View style={[styles.item_row, {width: itemWidth}]}>
+        <View
+          style={{
+            width: itemWidth,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          <TouchableOpacity onPress={this.navigateToItemPage}>
+            <Image
+              style={styles.list_item_image}
+              source={
+                imageLoaded
+                  ? {uri: item.thumbnail}
+                  : {uri: 'https://i.picsum.photos/id/1/100/100.jpg'}
+              }
+              onError={this.displayFallBackImage}
+            />
+          </TouchableOpacity>
+          <Text style={[styles.list_item_description]}>{props.item.name}</Text>
+          <TouchableOpacity
+            style={styles.list_heart}
+            onPress={this.toggleHeart}
+            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+            <Icon
+              name={favorite ? 'heart' : 'heart-o'}
+              color={'tomato'}
+              size={18}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', width: itemWidth}}>
+          <Text style={styles.list_item_price}>
+            ${props.item.list.toFixed(2)}
+          </Text>
+          <Text style={styles.display_unit}>
+            ${props.item.displayUnitPrice}
+          </Text>
+          <View style={{flex: 1, alignItems: 'flex-end'}}>{seeOptions()}</View>
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View style={[styles.item_row, {width: itemWidth}]}>
+        <View
+          style={{
+            width: props.item.width,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+          {modalOrScreen()}
 
-  return (
-    <View style={[styles.item_row, {width: itemWidth}]}>
-      <View
-        style={{
-          width: props.item.width,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        {modalOrScreen()}
-        <TouchableOpacity
-          style={styles.heart}
-          onPress={this.toggleHeart}
-          hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
-          <Icon
-            name={favorite ? 'heart' : 'heart-o'}
-            color={'tomato'}
-            size={18}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.heart}
+            onPress={this.toggleHeart}
+            hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+            <Icon
+              name={favorite ? 'heart' : 'heart-o'}
+              color={'tomato'}
+              size={18}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', width: itemWidth}}>
+          <Text style={styles.item_price}>${props.item.list.toFixed(2)}</Text>
+          <Text style={styles.display_unit}>
+            ${props.item.displayUnitPrice}
+          </Text>
+        </View>
+        <Text style={[styles.item_description, {width: itemWidth}]}>
+          {props.item.name}
+        </Text>
+        {seeOptions()}
       </View>
-      <View style={{flexDirection: 'row', width: itemWidth}}>
-        <Text style={styles.item_price}>${props.item.list.toFixed(2)}</Text>
-        <Text style={styles.display_unit}>${props.item.displayUnitPrice}</Text>
-      </View>
-      <Text style={[styles.item_description, {width: itemWidth}]}>
-        {props.item.name}
-      </Text>
-      {seeOptions()}
-    </View>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -188,14 +236,31 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: 'center',
   },
+  list_item_image: {
+    width: 72,
+    height: 72,
+    marginTop: 8,
+    marginHorizontal: 8,
+    justifyContent: 'center',
+  },
   heart: {
     alignSelf: 'flex-start',
     marginTop: 16,
+  },
+  list_heart: {
+    alignSelf: 'flex-start',
+    margin: 12,
   },
   item_price: {
     fontSize: 14,
     fontWeight: 'bold',
     marginHorizontal: 8,
+    marginVertical: 4,
+  },
+  list_item_price: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginHorizontal: 12,
     marginVertical: 4,
   },
   display_unit: {
@@ -209,6 +274,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginHorizontal: 8,
     marginVertical: 8,
+    justifyContent: 'center',
+  },
+  list_item_description: {
+    flex: 1,
+    fontSize: 12,
+    marginHorizontal: 8,
+    marginTop: 20,
     justifyContent: 'center',
   },
   item_picker: {
