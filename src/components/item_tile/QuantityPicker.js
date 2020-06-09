@@ -176,18 +176,30 @@ export function QuantityPicker(props) {
           }}
           style={{flexDirection: 'row'}}>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={', decrease quantity'}
+            accessibilityHint={'Decrease quantity by 1'}
+            accessibilityRole={'button'}
             style={styles.item_touchable_left}
             hitSlop={{top: 10, left: 10, bottom: 10, right: 0}}
             onPress={this.decrementItemCount}>
             <Icon name={'minus'} size={14} color={'#444'} />
           </TouchableOpacity>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel={`quantity is ${qty}, change quantity`}
+            accessibilityHint={'Change quantity'}
+            accessibilityRole={'button'}
             style={styles.item_touchable_center}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={this.showQtyScroll}>
             <Text style={styles.item_text}>{qty}</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel=", increase quantity"
+            accessibilityHint={', increase quantity by one'}
+            accessibilityRole={'button'}
             style={styles.item_touchable_right}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
             onPress={this.incrementItemCount}>
@@ -209,6 +221,10 @@ export function QuantityPicker(props) {
       {qty <= 0 && (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Add to Cart"
+            accessibilityHint={', Add this item to cart'}
+            accessibilityRole={'button'}
             style={styles.item_touchable_center_atc}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={this.incrementItemCount}>
