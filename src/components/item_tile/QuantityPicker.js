@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import QuantityPickerModal from './QuantityPickerModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -23,6 +23,7 @@ export function QuantityPicker(props) {
 
   const [quantity, setQuantity] = useState(qty);
   const [expanded, setExpanded] = useState(false);
+  const expandVal = useRef(new Animated.Value(0)).current;
   // Handle QuantityPickerModal
   const [componentLocation, setComponentLocation] = useState({
     w: 0,
@@ -100,6 +101,15 @@ export function QuantityPicker(props) {
       .finally(() => {
         // setQtyLoading(false)
       });
+    if (addQty === 1) {
+      Animated.timing(expandVal, {
+        toValue: expandVal === 1 ? 0 : 1,
+        duration: 250,
+        useNativeDriver: true,
+      }).start(() => {
+        // console.log('Finished animation');
+      });
+    }
   };
 
   const onSetQuantity = newQty => {
@@ -153,6 +163,13 @@ export function QuantityPicker(props) {
       payload: {item: item, qty: qty},
     });
     setExpanded(true);
+    Animated.timing(expandVal, {
+      toValue: expandVal === 1 ? 0 : 1,
+      duration: 250,
+      useNativeDriver: true,
+    }).start(() => {
+      // console.log('Finished animation');
+    });
   };
 
   return (
@@ -190,7 +207,19 @@ export function QuantityPicker(props) {
             accessibilityLabel={`quantity is ${qty}, change quantity`}
             accessibilityHint={'Change quantity'}
             accessibilityRole={'button'}
-            style={styles.item_touchable_center}
+            style={[
+              styles.item_touchable_center,
+              {
+                transform: [
+                  {
+                    translateX: expandVal.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 15],
+                    }),
+                  },
+                ],
+              },
+            ]}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={this.showQtyScroll}>
             <Text style={styles.item_text}>{qty}</Text>
@@ -200,7 +229,19 @@ export function QuantityPicker(props) {
             accessibilityLabel=", increase quantity"
             accessibilityHint={', increase quantity by one'}
             accessibilityRole={'button'}
-            style={styles.item_touchable_right}
+            style={[
+              styles.item_touchable_right,
+              {
+                transform: [
+                  {
+                    translateX: expandVal.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 30],
+                    }),
+                  },
+                ],
+              },
+            ]}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 10}}
             onPress={this.incrementItemCount}>
             <Icon name={'plus'} size={14} color={'#444'} />
@@ -273,6 +314,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
   },
   item_touchable_center: {
+    position: 'absolute',
+    left: 15,
     alignItems: 'center',
     height: 30,
     width: 60,
@@ -303,6 +346,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
   },
   item_touchable_right: {
+    position: 'absolute',
+    left: 60,
     alignItems: 'center',
     height: 30,
     width: 30,
