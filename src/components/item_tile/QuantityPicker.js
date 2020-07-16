@@ -86,7 +86,7 @@ export function QuantityPicker(props) {
       if (Platform.OS === 'ios') {
         Animated.timing(expandVal, {
           toValue: 0,
-          duration: 250,
+          duration: 300,
           useNativeDriver: true,
         }).start(() => {
           // console.log('Finished animation');
@@ -137,7 +137,7 @@ export function QuantityPicker(props) {
       if (Platform.OS === 'ios') {
         Animated.timing(expandVal, {
           toValue: expandVal === 1 ? 0 : 1,
-          duration: 250,
+          duration: 300,
           useNativeDriver: true,
         }).start(() => {
           // console.log('Finished animation');
@@ -196,7 +196,7 @@ export function QuantityPicker(props) {
     if (Platform.OS === 'ios') {
       Animated.timing(expandVal, {
         toValue: expandVal === 1 ? 0 : 1,
-        duration: 250,
+        duration: 300,
         useNativeDriver: true,
       }).start(() => {
         // console.log('Finished animation');
@@ -332,9 +332,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     opacity: 1,
-    shadowColor: '#aaa',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.9,
   },
   item_touchable_center_atc_qty: {
     alignItems: 'center',
@@ -346,9 +343,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#08f',
     opacity: 1,
-    shadowColor: '#04a',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.9,
   },
   item_touchable_center: {
     alignItems: 'center',
@@ -361,9 +355,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     opacity: 1,
-    shadowColor: '#aaa',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.7,
+    zIndex: 1,
     ...Platform.select({
       ios: {
         position: 'absolute',
@@ -383,9 +375,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     opacity: 1,
-    shadowColor: '#aaa',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.9,
+    zIndex: 2,
   },
   item_touchable_right: {
     alignItems: 'center',
@@ -398,9 +388,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#fff',
     opacity: 1,
-    shadowColor: '#aaa',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.9,
+    // shadowColor: '#aaa',
+    // shadowOffset: {width: 1, height: 1},
+    // shadowOpacity: 0.9,
+    zIndex: 2,
     ...Platform.select({
       ios: {
         position: 'absolute',
