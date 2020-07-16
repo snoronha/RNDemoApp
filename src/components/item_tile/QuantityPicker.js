@@ -75,7 +75,6 @@ export function QuantityPicker(props) {
       .finally(() => {
         // setQtyLoading(false)
       });
-    console.log('decrQty = ', decrQty);
     if (decrQty === 0) {
       Animated.timing(expandVal, {
         toValue: 0,
