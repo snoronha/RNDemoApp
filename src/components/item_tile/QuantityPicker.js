@@ -251,6 +251,8 @@ export function QuantityPicker(props) {
       {qty > 0 && !expanded && (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Add to cart"
             style={styles.item_touchable_center_atc_qty}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={this.expandPicker}>
@@ -260,7 +262,10 @@ export function QuantityPicker(props) {
       )}
 
       {qty <= 0 && (
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{flexDirection: 'row'}}
+          accessible={true}
+          accessibilityLabel="Add to cart">
           <TouchableOpacity
             accessible={true}
             accessibilityLabel="Add to Cart"

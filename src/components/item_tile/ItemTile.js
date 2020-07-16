@@ -146,7 +146,10 @@ export function ItemTile(props) {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          <TouchableOpacity onPress={this.navigateToItemPage}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="Boogie bear"
+            onPress={this.navigateToItemPage}>
             <Image
               style={styles.list_item_image}
               source={
