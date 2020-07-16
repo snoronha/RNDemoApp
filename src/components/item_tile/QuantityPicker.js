@@ -52,11 +52,13 @@ export function QuantityPicker(props) {
     let orderId = 1;
     let decrQty = qty > 0 ? qty - 1 : 0;
     // Begin Dispatch redux event optimistically
-    setQuantity(decrQty);
-    dispatch({
-      type: 'SET_CART_QUANTITY',
-      payload: {item: item, qty: decrQty},
-    });
+    if (decrQty !== 0) {
+      setQuantity(decrQty);
+      dispatch({
+        type: 'SET_CART_QUANTITY',
+        payload: {item: item, qty: decrQty},
+      });
+    }
     // End Dispatch redux event optimistically
     let url = `${server.domain}/order_item/${orderId}`;
     let body = JSON.stringify({
@@ -73,6 +75,22 @@ export function QuantityPicker(props) {
       .finally(() => {
         // setQtyLoading(false)
       });
+    console.log('decrQty = ', decrQty);
+    if (decrQty === 0) {
+      Animated.timing(expandVal, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      }).start(() => {
+        // console.log('Finished animation');
+        // Decrement quantity *after* animation completes
+        setQuantity(decrQty);
+        dispatch({
+          type: 'SET_CART_QUANTITY',
+          payload: {item: item, qty: decrQty},
+        });
+      });
+    }
   };
 
   incrementItemCount = () => {
@@ -143,18 +161,14 @@ export function QuantityPicker(props) {
       });
   };
 
-  showQtyScroll = () => {
+  const showQtyScroll = () => {
     this.quantityPicker.measure((x, y, w, h, pX, pY) => {
       setComponentLocation({w: w, h: h, pageX: pX, pageY: pY});
       setModalVisible(true);
     });
   };
 
-  contractPicker = () => {
-    setExpanded(false);
-  };
-
-  expandPicker = () => {
+  const expandPicker = () => {
     // console.log(`Expanding picker expanded = ${expanded} id = ${item.id}`);
     // Dummy event to set currentItem
     // Consider creating a separate SET_CURRENT_ITEM event
@@ -214,14 +228,14 @@ export function QuantityPicker(props) {
                   {
                     translateX: expandVal.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, 15],
+                      outputRange: [0, 25],
                     }),
                   },
                 ],
               },
             ]}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
-            onPress={this.showQtyScroll}>
+            onPress={showQtyScroll}>
             <Text style={styles.item_text}>{qty}</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -236,7 +250,7 @@ export function QuantityPicker(props) {
                   {
                     translateX: expandVal.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, 30],
+                      outputRange: [0, 60],
                     }),
                   },
                 ],
@@ -255,7 +269,7 @@ export function QuantityPicker(props) {
             accessibilityLabel="Add to cart"
             style={styles.item_touchable_center_atc_qty}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
-            onPress={this.expandPicker}>
+            onPress={expandPicker}>
             <Text style={styles.item_text_white}>{qty}</Text>
           </TouchableOpacity>
         </View>
@@ -320,7 +334,7 @@ const styles = StyleSheet.create({
   },
   item_touchable_center: {
     position: 'absolute',
-    left: 15,
+    left: 5,
     alignItems: 'center',
     height: 30,
     width: 60,
@@ -352,7 +366,7 @@ const styles = StyleSheet.create({
   },
   item_touchable_right: {
     position: 'absolute',
-    left: 60,
+    left: 30,
     alignItems: 'center',
     height: 30,
     width: 30,
