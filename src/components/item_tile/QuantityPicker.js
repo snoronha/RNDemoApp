@@ -1,5 +1,12 @@
 import React, {useState, useRef} from 'react';
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import QuantityPickerModal from './QuantityPickerModal';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -76,19 +83,27 @@ export function QuantityPicker(props) {
         // setQtyLoading(false)
       });
     if (decrQty === 0) {
-      Animated.timing(expandVal, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: true,
-      }).start(() => {
-        // console.log('Finished animation');
-        // Decrement quantity *after* animation completes
+      if (Platform.OS === 'ios') {
+        Animated.timing(expandVal, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: true,
+        }).start(() => {
+          // console.log('Finished animation');
+          // Decrement quantity *after* animation completes
+          setQuantity(decrQty);
+          dispatch({
+            type: 'SET_CART_QUANTITY',
+            payload: {item: item, qty: decrQty},
+          });
+        });
+      } else {
         setQuantity(decrQty);
         dispatch({
           type: 'SET_CART_QUANTITY',
           payload: {item: item, qty: decrQty},
         });
-      });
+      }
     }
   };
 
@@ -119,13 +134,15 @@ export function QuantityPicker(props) {
         // setQtyLoading(false)
       });
     if (addQty === 1) {
-      Animated.timing(expandVal, {
-        toValue: expandVal === 1 ? 0 : 1,
-        duration: 250,
-        useNativeDriver: true,
-      }).start(() => {
-        // console.log('Finished animation');
-      });
+      if (Platform.OS === 'ios') {
+        Animated.timing(expandVal, {
+          toValue: expandVal === 1 ? 0 : 1,
+          duration: 250,
+          useNativeDriver: true,
+        }).start(() => {
+          // console.log('Finished animation');
+        });
+      }
     }
   };
 
@@ -176,13 +193,15 @@ export function QuantityPicker(props) {
       payload: {item: item, qty: qty},
     });
     setExpanded(true);
-    Animated.timing(expandVal, {
-      toValue: expandVal === 1 ? 0 : 1,
-      duration: 250,
-      useNativeDriver: true,
-    }).start(() => {
-      // console.log('Finished animation');
-    });
+    if (Platform.OS === 'ios') {
+      Animated.timing(expandVal, {
+        toValue: expandVal === 1 ? 0 : 1,
+        duration: 250,
+        useNativeDriver: true,
+      }).start(() => {
+        // console.log('Finished animation');
+      });
+    }
   };
 
   return (
@@ -332,8 +351,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
   },
   item_touchable_center: {
-    position: 'absolute',
-    left: 5,
     alignItems: 'center',
     height: 30,
     width: 60,
@@ -347,6 +364,13 @@ const styles = StyleSheet.create({
     shadowColor: '#aaa',
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.7,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        left: 5,
+      },
+      android: {},
+    }),
   },
   item_touchable_left: {
     alignItems: 'center',
@@ -364,8 +388,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.9,
   },
   item_touchable_right: {
-    position: 'absolute',
-    left: 30,
     alignItems: 'center',
     height: 30,
     width: 30,
@@ -379,5 +401,12 @@ const styles = StyleSheet.create({
     shadowColor: '#aaa',
     shadowOffset: {width: 1, height: 1},
     shadowOpacity: 0.9,
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        left: 30,
+      },
+      android: {},
+    }),
   },
 });
