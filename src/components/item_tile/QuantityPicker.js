@@ -246,7 +246,13 @@ export function QuantityPicker(props) {
                   {
                     translateX: expandVal.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, 25],
+                      outputRange: [0, 15],
+                    }),
+                  },
+                  {
+                    scaleX: expandVal.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0.4, 1],
                     }),
                   },
                 ],
@@ -359,7 +365,7 @@ const styles = StyleSheet.create({
     ...Platform.select({
       ios: {
         position: 'absolute',
-        left: 5,
+        left: 15,
       },
       android: {},
     }),
