@@ -19,7 +19,7 @@ export function Search({navigation, route}) {
   if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
-  navigation.setOptions({tabBarVisible: tabBarVisible});
+  // navigation.setOptions({tabBarVisible: tabBarVisible});
   return (
     <SearchStack.Navigator>
       <SearchStack.Screen

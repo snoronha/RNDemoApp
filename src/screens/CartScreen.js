@@ -127,7 +127,8 @@ const CartItemTile = itemHash => {
   );
 };
 
-const CartScreen = () => {
+const CartScreen = ({navigation}) => {
+  // navigation.setOptions({tabBarVisible: false});
   const cart = useSelector(state => {
     return getCart(state.items, state.cart);
   });

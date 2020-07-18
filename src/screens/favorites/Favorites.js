@@ -18,7 +18,7 @@ export function Favorites({navigation, route}) {
   if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
-  navigation.setOptions({tabBarVisible: tabBarVisible});
+  // navigation.setOptions({tabBarVisible: tabBarVisible});
   return (
     <FavoritesStack.Navigator>
       <FavoritesStack.Screen

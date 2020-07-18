@@ -80,9 +80,9 @@ function HomeContent({navigation, route}) {
   if (lastRoute == 'Cart' || lastRoute == 'ItemPage') {
     tabBarVisible = false;
   }
-  let parent = navigation.dangerouslyGetParent();
+  // let parent = navigation.dangerouslyGetParent();
   // navigation.setOptions({tabBarVisible: tabBarVisible});
-  parent.setOptions({tabBarVisible: tabBarVisible});
+  // parent.setOptions({tabBarVisible: tabBarVisible});
   const openLeftNav = () => {
     navigation.openDrawer();
   };
