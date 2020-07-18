@@ -20,7 +20,7 @@ const ItemPageScreen = ({navigation, route}) => {
   const [isLoading, setLoading] = useState(false);
   const [favorite, setFavorite] = useState(item.favorite);
   const [data, setData] = useState({});
-  navigation.setOptions({tabBarVisible: false});
+  // navigation.setOptions({tabBarVisible: false});
 
   // fetch /item_detail/:item_id data
   useEffect(() => {
