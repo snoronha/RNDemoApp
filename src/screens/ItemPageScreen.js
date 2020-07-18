@@ -15,11 +15,12 @@ import server from '../conf/server';
 
 const Screen = Dimensions.get('window');
 
-const ItemPageScreen = ({route}) => {
+const ItemPageScreen = ({navigation, route}) => {
   const item = route.params.item;
   const [isLoading, setLoading] = useState(false);
   const [favorite, setFavorite] = useState(item.favorite);
   const [data, setData] = useState({});
+  navigation.setOptions({tabBarVisible: false});
 
   // fetch /item_detail/:item_id data
   useEffect(() => {

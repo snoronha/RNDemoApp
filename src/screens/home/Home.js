@@ -71,7 +71,6 @@ function HomeContent({navigation, route}) {
   if (Platform.OS === 'ios') {
     Geolocation.requestAuthorization();
   }
-
   let tabBarVisible = true;
   let lastRoute =
     route.state && route.state.index > 0

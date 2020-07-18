@@ -204,6 +204,44 @@ export function QuantityPicker(props) {
     }
   };
 
+  const get_touchable_center_style = () => {
+    if (Platform.OS === 'ios') {
+      return [
+        styles.item_touchable_center,
+        {
+          transform: [
+            {
+              translateX: expandVal.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 20],
+              }),
+            },
+            {
+              scaleX: expandVal.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.3, 1],
+              }),
+            },
+          ],
+        },
+      ];
+    } else {
+      return [
+        styles.item_touchable_center,
+        {
+          transform: [
+            {
+              translateX: expandVal.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 20],
+              }),
+            },
+          ],
+        },
+      ];
+    }
+  };
+
   return (
     <>
       <QuantityPickerModal
@@ -239,25 +277,7 @@ export function QuantityPicker(props) {
             accessibilityLabel={`quantity is ${qty}, change quantity`}
             accessibilityHint={'Change quantity'}
             accessibilityRole={'button'}
-            style={[
-              styles.item_touchable_center,
-              {
-                transform: [
-                  {
-                    translateX: expandVal.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0, 20],
-                    }),
-                  },
-                  {
-                    scaleX: expandVal.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [0.3, 1],
-                    }),
-                  },
-                ],
-              },
-            ]}
+            style={get_touchable_center_style()}
             hitSlop={{top: 10, left: 0, bottom: 10, right: 0}}
             onPress={showQtyScroll}>
             <Text style={styles.item_text}>{qty}</Text>
